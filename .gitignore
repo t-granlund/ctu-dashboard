@@ -1,4 +1,29 @@
 node_modules/
 dist/
 .vite/
+
+# Audit reports contain sensitive tenant data
+reports/
+
+# KQL queries may be generated locally
+monitoring/kql/
+
+# Certificate files
+*.cer
+*.pfx
+*.pem
+*.key
+
+# PowerShell module cache
+*.psmodule
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
 .DS_Store
+Thumbs.db
