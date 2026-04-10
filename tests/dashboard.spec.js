@@ -7,8 +7,17 @@ async function login(page) {
   await page.goto('/');
   await page.getByPlaceholder('Enter passphrase to continue').fill(PASSWORD);
   await page.getByRole('button', { name: /enter dashboard/i }).click();
-  // Wait for dashboard to load (sidebar visible)
+  // Wait for dashboard to load
   await page.waitForSelector('nav', { timeout: 5000 });
+}
+
+// ── Helper: open sidebar on tablet (hamburger menu) ─────────
+async function openSidebar(page) {
+  const vw = page.viewportSize()?.width ?? 1440;
+  if (vw < 1024) {
+    await page.getByLabel('Toggle menu').click();
+    await page.waitForTimeout(300);
+  }
 }
 
 // ════════════════════════════════════════════════════════════
@@ -51,7 +60,10 @@ test.describe('Password Gate', () => {
 // ════════════════════════════════════════════════════════════
 
 test.describe('Sidebar Navigation', () => {
-  test.beforeEach(async ({ page }) => { await login(page); });
+  test.beforeEach(async ({ page }) => {
+    await login(page);
+    await openSidebar(page);
+  });
 
   test('all sidebar items are visible', async ({ page }) => {
     const expected = [
@@ -83,6 +95,7 @@ test.describe('Sidebar Navigation', () => {
 test.describe('MSP Portal — Call Recap', () => {
   test.beforeEach(async ({ page }) => {
     await login(page);
+    await openSidebar(page);
     await page.locator('nav').getByText('MSP Portal').click();
     await page.waitForTimeout(500);
   });
@@ -110,6 +123,7 @@ test.describe('MSP Portal — Call Recap', () => {
 test.describe('MSP Portal — Confirmed Context', () => {
   test.beforeEach(async ({ page }) => {
     await login(page);
+    await openSidebar(page);
     await page.locator('nav').getByText('MSP Portal').click();
     await page.waitForTimeout(500);
   });
@@ -146,6 +160,7 @@ test.describe('MSP Portal — Confirmed Context', () => {
 test.describe('MSP Portal — Questions Form', () => {
   test.beforeEach(async ({ page }) => {
     await login(page);
+    await openSidebar(page);
     await page.locator('nav').getByText('MSP Portal').click();
     await page.waitForTimeout(500);
   });
@@ -198,6 +213,7 @@ test.describe('MSP Portal — Questions Form', () => {
 test.describe('Reference Material', () => {
   test.beforeEach(async ({ page }) => {
     await login(page);
+    await openSidebar(page);
     await page.locator('nav').getByText('MSP Portal').click();
     await page.waitForTimeout(500);
   });
@@ -233,8 +249,6 @@ test.describe('Visual Sanity', () => {
   test.beforeEach(async ({ page }) => { await login(page); });
 
   test('no horizontal scrollbar on main content', async ({ page }) => {
-    const vw = page.viewportSize()?.width ?? 1440;
-    if (vw < 1024) test.skip(true, 'Tablet responsive not yet implemented');
     const hasHScroll = await page.evaluate(() => {
       // Allow up to 2px tolerance for subpixel rendering
       return document.documentElement.scrollWidth > document.documentElement.clientWidth + 2;
@@ -267,8 +281,7 @@ test.describe('Visual Sanity', () => {
   });
 
   test('text does not overflow containers in MSP section', async ({ page }) => {
-    const vw = page.viewportSize()?.width ?? 1440;
-    if (vw < 1024) test.skip(true, 'Tablet responsive not yet implemented');
+    await openSidebar(page);
     await page.locator('nav').getByText('MSP Portal').click();
     await page.waitForTimeout(500);
     // Check that no text element extends beyond viewport

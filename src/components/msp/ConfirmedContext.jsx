@@ -3,7 +3,6 @@ import { confirmedContext } from '../../data/msp-data';
 export default function ConfirmedContext() {
   const { suiGeneris, bishops, billingMess, lifecycleVision, deviceManagement, riversideDeadline } = confirmedContext;
 
-  // Group services into categories for readability
   const serviceGroups = [
     {
       label: 'Licensing & Provisioning',
@@ -30,6 +29,10 @@ export default function ConfirmedContext() {
       ),
     },
   ];
+
+  // Break the relationship string into cleaner pieces
+  const relParts = suiGeneris.relationship.split('.');
+  const relSentences = relParts.map(s => s.trim()).filter(Boolean);
 
   return (
     <div id="section-context" className="scroll-mt-24">
@@ -75,10 +78,14 @@ export default function ConfirmedContext() {
           ))}
         </div>
 
-        {/* Relationship — as a quiet note */}
-        <p className="text-sm leading-relaxed text-slate-500">
-          {suiGeneris.relationship}
-        </p>
+        {/* Relationship — broken into structured lines */}
+        <div className="space-y-1">
+          {relSentences.map((sentence, i) => (
+            <p key={i} className="text-sm leading-relaxed text-slate-500">
+              {sentence}.
+            </p>
+          ))}
+        </div>
       </section>
 
       {/* ── Device Management ────────────────────── */}
@@ -90,11 +97,11 @@ export default function ConfirmedContext() {
             { label: 'Delta Crown', value: deviceManagement.deltaCrown },
             { label: 'API Integration', value: deviceManagement.apiAccess },
           ].map((item) => (
-            <div key={item.label} className="rounded-xl bg-slate-800/30 p-4">
-              <p className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-600">
+            <div key={item.label} className="flex flex-col rounded-xl bg-slate-800/30 p-4">
+              <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-600">
                 {item.label}
               </p>
-              <p className="text-sm leading-relaxed text-slate-300">{item.value}</p>
+              <p className="flex-1 text-sm leading-relaxed text-slate-300">{item.value}</p>
             </div>
           ))}
         </div>
@@ -106,9 +113,9 @@ export default function ConfirmedContext() {
         <div className="space-y-4">
           {[
             { label: 'BCC Billing', text: bishops.billingStatus },
-            { label: 'BCC License Migration', text: bishops.action },
-            { label: 'BCC MFA Rollout', text: bishops.mfaStatus },
-            { label: 'Overall Licensing', text: billingMess },
+            { label: 'BCC Migration', text: bishops.action },
+            { label: 'BCC MFA', text: bishops.mfaStatus },
+            { label: 'Licensing', text: billingMess },
           ].map((item) => (
             <div key={item.label} className="flex items-start gap-4">
               <span className="mt-0.5 shrink-0 rounded bg-yellow-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase text-yellow-500/70">
@@ -123,7 +130,7 @@ export default function ConfirmedContext() {
       {/* ── Where We're Headed ────────────────────── */}
       <section>
         <h4 className="mb-2 text-base font-semibold text-white">Where We're Headed</h4>
-        <p className="text-sm leading-relaxed text-slate-400">{lifecycleVision}</p>
+        <p className="max-w-3xl text-sm leading-relaxed text-slate-400">{lifecycleVision}</p>
       </section>
     </div>
   );
