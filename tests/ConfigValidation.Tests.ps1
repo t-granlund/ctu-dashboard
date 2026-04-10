@@ -56,6 +56,57 @@ Describe "Config File Validation" {
         }
     }
     
+    Context "Config Schema Cross-Reference Validation" {
+        BeforeAll {
+            $ConfigPath = Join-Path $PSScriptRoot ".." "config" "tenants.json"
+            $script:Config = Get-Content $ConfigPath -Raw | ConvertFrom-Json
+            
+            # Scan all audit module files for config property references
+            $ModulesDir = Join-Path $PSScriptRoot ".." "modules"
+            $script:ModuleFiles = Get-ChildItem $ModulesDir -Filter "*.psm1" -Recurse
+        }
+
+        It "No modules reference deprecated Config.tenants property" {
+            $violations = @()
+            foreach ($file in $ModuleFiles) {
+                $content = Get-Content $file.FullName -Raw
+                if ($content -match '\$Config\.tenants\b') {
+                    $violations += $file.Name
+                }
+            }
+            $violations | Should -BeNullOrEmpty -Because "modules should use `$Config.hub + `$Config.spokes or `$Config.allTenantIds (not the deprecated `$Config.tenants pattern)"
+        }
+
+        It "allTenantIds matches hub.tenantId + all spoke tenantIds" {
+            $expected = @($Config.hub.tenantId) + ($Config.spokes | ForEach-Object { $_.tenantId })
+            $expected.Count | Should -Be 5
+            foreach ($tid in $expected) {
+                $Config.allTenantIds | Should -Contain $tid
+            }
+            foreach ($tid in $Config.allTenantIds) {
+                $expected | Should -Contain $tid
+            }
+        }
+
+        It "No module references Config properties that don't exist in tenants.json" {
+            $validTopLevelProps = @($Config.PSObject.Properties.Name)
+            $violations = @()
+            foreach ($file in $ModuleFiles) {
+                $content = Get-Content $file.FullName -Raw
+                # Find all $Config.XXXX references
+                $matches = [regex]::Matches($content, '\$Config\.(\w+)')
+                foreach ($m in $matches) {
+                    $propName = $m.Groups[1].Value
+                    # Skip PSObject (meta), and known nested props
+                    if ($propName -notin $validTopLevelProps -and $propName -notin @('PSObject')) {
+                        $violations += "$($file.Name): `$Config.$propName"
+                    }
+                }
+            }
+            $violations | Should -BeNullOrEmpty -Because "all `$Config.X references should match actual top-level properties in tenants.json"
+        }
+    }
+    
     Context "baseline.json" {
         BeforeAll {
             $BaselinePath = Join-Path $PSScriptRoot ".." "config" "baseline.json"

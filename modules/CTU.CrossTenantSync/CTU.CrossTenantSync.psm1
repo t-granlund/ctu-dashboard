@@ -43,13 +43,14 @@ function Invoke-CTUCrossTenantSyncAudit {
     try {
         $partners = Invoke-CTUGraphRequest -Uri "https://graph.microsoft.com/v1.0/policies/crossTenantAccessPolicy/partners" -AllPages
         $auditData.PartnerConfigs = $partners
-        $knownTenantIds = ($Config.tenants.PSObject.Properties.Value | ForEach-Object { $_.tenantId })
+        $allTenants = @($Config.hub) + @($Config.spokes)
+        $knownTenantIds = $Config.allTenantIds
 
         foreach ($partner in $partners) {
             $partnerTenantId = $partner.tenantId
             $isKnown = $partnerTenantId -in $knownTenantIds
             $partnerLabel = if ($isKnown) {
-                ($Config.tenants.PSObject.Properties.Value | Where-Object { $_.tenantId -eq $partnerTenantId }).displayName
+                ($allTenants | Where-Object { $_.tenantId -eq $partnerTenantId }).displayName
             } else { "UNKNOWN ($partnerTenantId)" }
 
             if (-not $isKnown) {

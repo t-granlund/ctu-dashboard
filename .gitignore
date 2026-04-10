@@ -1,6 +1,7 @@
-node_modules/
-dist/
-.vite/
+# Environment files (secrets!)
+.env
+.env.*
+!.env.example
 
 # Audit reports contain sensitive tenant data
 reports/
@@ -23,6 +24,11 @@ monitoring/kql/
 *.swp
 *.swo
 *~
+
+# Node.js
+node_modules/
+dist/
+.vite/
 
 # OS files
 .DS_Store

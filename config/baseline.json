@@ -11,6 +11,7 @@
 
   "crossTenantPartnerOverrides": {
     "_comment": "Applied per MTO partner tenant",
+    "_scoping_note": "AllUsers/AllApplications targets are interim configuration. Once brand security groups are created (CTU-060), scope inbound users to brand group object IDs and applications to specific IDs from scopedApplicationIds instead of AllApplications.",
     "b2bCollaborationInbound": { "usersAndGroups": { "accessType": "allowed", "targets": [{"target":"AllUsers","targetType":"user"}] }, "applications": { "accessType": "allowed", "targets": [{"target":"AllApplications","targetType":"application"}] } },
     "b2bCollaborationOutbound": { "usersAndGroups": { "accessType": "allowed", "targets": [{"target":"AllUsers","targetType":"user"}] }, "applications": { "accessType": "allowed", "targets": [{"target":"AllApplications","targetType":"application"}] } },
     "b2bDirectConnectInbound": { "usersAndGroups": { "accessType": "allowed", "targets": [{"target":"AllUsers","targetType":"user"}] }, "applications": { "accessType": "allowed", "targets": [{"target":"Office365","targetType":"application"}] } },
@@ -18,6 +19,15 @@
     "inboundTrust": { "isMfaAccepted": true, "isCompliantDeviceAccepted": true, "isHybridAzureADJoinedDeviceAccepted": true },
     "automaticUserConsentSettings": { "inboundAllowed": true, "outboundAllowed": true },
     "identitySynchronization": { "userSyncInbound": { "isSyncAllowed": true } }
+  },
+
+  "scopedApplicationIds": {
+    "_comment": "Well-known application IDs for scoped partner policy overrides (ARCH-03). Use these instead of AllApplications.",
+    "SharePointOnline": "00000003-0000-0ff1-ce00-000000000000",
+    "PowerBIService": "00000009-0000-0000-c000-000000000000",
+    "Office365": "00000003-0000-0000-c000-000000000000",
+    "MicrosoftTeams": "cc15fd57-2c6c-4117-a88c-83b1d56b4bbe",
+    "ExchangeOnline": "00000002-0000-0ff1-ce00-000000000000"
   },
 
   "authorizationPolicy": {

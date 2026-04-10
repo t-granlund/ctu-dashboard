@@ -93,7 +93,7 @@ function Connect-CTUTenant {
         [Parameter()][ValidateSet('Interactive','AppOnly')][string]$AuthMode = 'Interactive',
         [Parameter()][string]$ClientId,
         [Parameter()][string]$CertificateThumbprint,
-        [Parameter()][string]$ClientSecret,
+        [Parameter()][SecureString]$ClientSecret,
         [Parameter()][PSCustomObject]$Config
     )
     if (-not $Config) { $Config = Get-CTUConfig }
@@ -119,8 +119,8 @@ function Connect-CTUTenant {
             if ($CertificateThumbprint) {
                 Connect-MgGraph -ClientId $ClientId -TenantId $tenant.tenantId -CertificateThumbprint $CertificateThumbprint -NoWelcome
             } elseif ($ClientSecret) {
-                $secSecret = ConvertTo-SecureString $ClientSecret -AsPlainText -Force
-                $credential = [System.Management.Automation.PSCredential]::new($ClientId, $secSecret)
+                Write-Warning "[CTU] ClientSecret auth is deprecated for production. Use -CertificateThumbprint for app-only authentication."
+                $credential = [System.Management.Automation.PSCredential]::new($ClientId, $ClientSecret)
                 Connect-MgGraph -TenantId $tenant.tenantId -ClientSecretCredential $credential -NoWelcome
             } else {
                 throw "Either CertificateThumbprint or ClientSecret is required for AppOnly auth."

@@ -2,7 +2,9 @@
 
 Describe "Module Import Tests" {
     Context "All CTU modules load successfully" {
-        $ModulePath = Join-Path $PSScriptRoot ".." "modules"
+        BeforeAll {
+            $ModulePath = Join-Path $PSScriptRoot ".." "modules"
+        }
         
         It "CTU.Core loads" {
             { Import-Module (Join-Path $ModulePath "CTU.Core" "CTU.Core.psm1") -Force } | Should -Not -Throw

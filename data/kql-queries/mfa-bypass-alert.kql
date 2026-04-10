@@ -1,0 +1,104 @@
+// ============================================================================
+// CTU Phase 5 — MFA Bypass Detection Alert
+// ============================================================================
+// Purpose:     Detect successful sign-ins by external/guest users where MFA
+//              was NOT satisfied. CTU baseline requires MFA for ALL external
+//              users across ALL cloud apps — any sign-in without MFA is a
+//              Conditional Access gap or a policy bypass that needs fixing.
+//
+// Schedule:    Hourly
+// Severity:    High (P1); Critical (P0) if the app is SharePoint or Teams
+//
+// Action:      1. Email Tyler (tyler.granlund-admin@httbrands.com)
+//              2. Investigate which CA policy should have applied
+//              3. Check for legacy auth protocols (POP3, IMAP, SMTP)
+//              4. If legacy auth: block immediately
+//              5. If CA gap: update policy to close the hole
+//
+// Targets:     All 5 tenants (HTT, BCC, FN, TLL, DCE)
+// Requirement: CTU baseline.json — Conditional Access: MFA coverage for all
+//              external users, all cloud apps; legacy auth blocked for guests
+// Graph Ref:   SigninLogs (AuthenticationDetails, ConditionalAccessPolicies)
+// ============================================================================
+
+// Known legacy auth client protocols that must be blocked for guests.
+let LegacyAuthProtocols = dynamic([
+    "Exchange ActiveSync",
+    "IMAP4",
+    "MAPI Over HTTP",
+    "Offline Address Book",
+    "Other clients",
+    "Outlook Anywhere",
+    "POP3",
+    "Reporting Web Services",
+    "SMTP",
+    "Authenticated SMTP",
+    "Exchange Web Services"
+]);
+SigninLogs
+| where TimeGenerated > ago(1h)
+// Only external / guest users — home users are governed by separate CA policies.
+| where UserType == "Guest"
+     or HomeTenantId != ResourceTenantId
+// Only successful sign-ins — failed attempts don't represent actual access.
+| where ResultType == 0
+// Determine if MFA was satisfied by inspecting AuthenticationRequirement
+// and the AuthenticationDetails array.
+| extend MFARequired = tostring(AuthenticationRequirement)
+| extend MFASatisfied = (MFARequired == "multiFactorAuthentication")
+// Parse authentication methods used. If none of them are MFA, that's a bypass.
+| mv-expand AuthDetail = parse_json(AuthenticationDetails)
+| extend AuthMethod = tostring(AuthDetail.authenticationMethod)
+| extend AuthSucceeded = tobool(AuthDetail.succeeded)
+| summarize
+    AuthMethods = make_set(AuthMethod),
+    AnyMFAMethod = countif(
+        AuthMethod in ("PhoneAppNotification", "PhoneAppOTP", "OneWaySMS",
+                        "TwoWaySMS", "TwoWayVoiceMobile", "TwoWayVoiceOffice",
+                        "FIDO2", "WindowsHelloForBusiness", "X509Certificate",
+                        "MicrosoftAuthenticator", "SoftwareOtp", "Passkey")
+        and AuthSucceeded == true
+    )
+    by
+        TimeGenerated,
+        UserPrincipalName,
+        UserDisplayName,
+        UserType,
+        HomeTenantId,
+        AppDisplayName,
+        IPAddress,
+        ClientAppUsed,
+        MFARequired,
+        ResultType,
+        CorrelationId
+// Flag sign-ins where NO MFA method was used.
+| where AnyMFAMethod == 0
+// Classify the bypass type.
+| extend IsLegacyAuth = ClientAppUsed in (LegacyAuthProtocols)
+| extend AlertSeverity = case(
+    IsLegacyAuth,                                              "CRITICAL — Legacy auth bypass",
+    AppDisplayName has_any ("SharePoint", "Teams", "OneDrive"), "CRITICAL — MFA bypass on sensitive app",
+    MFARequired != "multiFactorAuthentication",                "HIGH — MFA not required by CA policy",
+    true,                                                      "HIGH — MFA required but not completed"
+)
+| extend BypassReason = case(
+    IsLegacyAuth,                                   "Legacy auth protocol — should be blocked by CA",
+    MFARequired == "singleFactorAuthentication",    "CA policy only requires single-factor — gap",
+    MFARequired == "multiFactorAuthentication",     "MFA required but no MFA method recorded — investigate",
+    strcat("Unexpected MFA state: ", MFARequired)
+)
+| project
+    TimeGenerated,
+    AlertSeverity,
+    GuestUPN             = UserPrincipalName,
+    GuestDisplayName     = UserDisplayName,
+    HomeTenantId,
+    AppName              = AppDisplayName,
+    ClientApp            = ClientAppUsed,
+    IsLegacyAuth,
+    MFARequired,
+    AuthMethodsUsed      = tostring(AuthMethods),
+    BypassReason,
+    ClientIP             = IPAddress,
+    CorrelationId
+| sort by AlertSeverity asc, TimeGenerated desc

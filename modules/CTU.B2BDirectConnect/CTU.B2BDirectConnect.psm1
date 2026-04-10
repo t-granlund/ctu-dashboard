@@ -62,12 +62,13 @@ function Invoke-CTUB2BDirectConnectAudit {
     # Partner-specific direct connect
     try {
         $partners = Invoke-CTUGraphRequest -Uri "https://graph.microsoft.com/v1.0/policies/crossTenantAccessPolicy/partners" -AllPages
-        $knownTenantIds = ($Config.tenants.PSObject.Properties.Value | ForEach-Object { $_.tenantId })
+        $allTenants = @($Config.hub) + @($Config.spokes)
+        $knownTenantIds = $Config.allTenantIds
 
         foreach ($partner in $partners) {
             $isKnown = $partner.tenantId -in $knownTenantIds
             $label = if ($isKnown) {
-                ($Config.tenants.PSObject.Properties.Value | Where-Object { $_.tenantId -eq $partner.tenantId }).displayName
+                ($allTenants | Where-Object { $_.tenantId -eq $partner.tenantId }).displayName
             } else { $partner.tenantId }
 
             $dcInfo = [PSCustomObject]@{

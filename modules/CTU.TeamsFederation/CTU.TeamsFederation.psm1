@@ -48,9 +48,24 @@ function Invoke-CTUTeamsFederationAudit {
                 -Description "AllowFederatedUsers is false. No external domains can chat or call into this tenant via Teams."
         }
         else {
-            # Check AllowedDomains type
+            # Check AllowedDomains — MicrosoftTeams v7+ REST-based module
+            # no longer loads the legacy .NET type AllowAllKnownDomains,
+            # so we detect open federation via type name string or empty object.
             $allowedDomains = $fedConfig.AllowedDomains
-            if ($allowedDomains -is [Microsoft.Rtc.Management.WritableConfig.Settings.Edge.AllowAllKnownDomains]) {
+            $isOpenFederation = $false
+            if ($null -eq $allowedDomains) {
+                $isOpenFederation = $true
+            } else {
+                $typeName = $allowedDomains.GetType().Name
+                if ($typeName -match 'AllowAllKnownDomains') {
+                    $isOpenFederation = $true
+                } elseif (-not ($allowedDomains | Get-Member -Name 'AllowedDomain' -ErrorAction SilentlyContinue)) {
+                    # Empty object with no AllowedDomain property = open federation
+                    $isOpenFederation = $true
+                }
+            }
+
+            if ($isOpenFederation) {
                 $auditData.FederationModel = "OpenFederation"
                 Add-CTUFinding -ReportContext $ReportContext -Domain $domain -TenantKey $TenantKey `
                     -Severity 'High' -Title "Teams uses OPEN federation (AllowAllKnownDomains)" `

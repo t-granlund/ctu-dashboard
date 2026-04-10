@@ -57,7 +57,7 @@ param(
     [string]$CertificateThumbprint,
 
     [Parameter()]
-    [string]$ClientSecret,
+    [SecureString]$ClientSecret,
 
     [Parameter()]
     [switch]$SkipTeams,
@@ -131,7 +131,10 @@ $report = New-CTUAuditReport -AuditName $auditName -Config $config
 $authParams = @{ AuthMode = $AuthMode; Config = $config }
 if ($ClientId) { $authParams['ClientId'] = $ClientId }
 if ($CertificateThumbprint) { $authParams['CertificateThumbprint'] = $CertificateThumbprint }
-if ($ClientSecret) { $authParams['ClientSecret'] = $ClientSecret }
+if ($ClientSecret) {
+    Write-Warning "[CTU] ClientSecret auth is deprecated for production. Use -CertificateThumbprint for app-only authentication."
+    $authParams['ClientSecret'] = $ClientSecret
+}
 
 # --- Audit Loop ---
 # Graph-based domains (use Connect-MgGraph)

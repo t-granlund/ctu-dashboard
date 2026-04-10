@@ -59,8 +59,16 @@ function Invoke-CTUGuestInventoryAudit {
             }
             $auditData.GuestsByDomain[$sourceDomain]++
 
-            # Build summary record
-            $lastSignIn = $guest.signInActivity.lastSuccessfulSignInDateTime
+            # Build summary record — resolve best-available sign-in timestamp.
+            # signInActivity or any of its DateTime properties can be null
+            # (user never signed in, or Graph didn't return the property).
+            $lastSignIn = $null
+            $signInActivity = $guest.signInActivity
+            if ($signInActivity) {
+                $lastSignIn = $signInActivity.lastSuccessfulSignInDateTime
+                if (-not $lastSignIn) { $lastSignIn = $signInActivity.lastSignInDateTime }
+                if (-not $lastSignIn) { $lastSignIn = $signInActivity.lastNonInteractiveSignInDateTime }
+            }
             $summary = [PSCustomObject]@{
                 Id              = $guest.id
                 DisplayName     = $guest.displayName
@@ -79,12 +87,14 @@ function Invoke-CTUGuestInventoryAudit {
                 CompanyName     = $guest.companyName
             }
 
-            # Stale detection
+            # Stale detection — guard every [datetime] cast against nulls.
             if ($null -eq $lastSignIn) {
-                if ([datetime]$guest.createdDateTime -lt $thresholdDate) {
+                $createdDate = $guest.createdDateTime
+                if ($createdDate -and ([datetime]$createdDate -lt $thresholdDate)) {
                     $summary.IsStale = $true
-                    $auditData.NeverSignedIn += $summary
                 }
+                # Always bucket as NeverSignedIn regardless of staleness
+                $auditData.NeverSignedIn += $summary
             }
             elseif ([datetime]$lastSignIn -lt $thresholdDate) {
                 $summary.IsStale = $true
@@ -126,9 +136,10 @@ function Invoke-CTUGuestInventoryAudit {
         }
 
         if ($auditData.NeverSignedIn.Count -gt 0) {
+            $staleNeverSignedInCount = ($auditData.NeverSignedIn | Where-Object { $_.IsStale }).Count
             Add-CTUFinding -ReportContext $ReportContext -Domain $domain -TenantKey $TenantKey `
-                -Severity 'Medium' -Title "$($auditData.NeverSignedIn.Count) guests never signed in (created >$staleThreshold days ago)" `
-                -Description "These guests were invited but never completed sign-in. The invitations may be abandoned." `
+                -Severity 'Medium' -Title "$($auditData.NeverSignedIn.Count) guests never signed in ($staleNeverSignedInCount stale >$staleThreshold days)" `
+                -Description "These guests were invited but never completed sign-in. $staleNeverSignedInCount were created over $staleThreshold days ago and are likely abandoned." `
                 -Recommendation "Remove unused guest accounts. Consider setting invitation expiration policies." `
                 -RemediationPhase "Phase 2"
         }

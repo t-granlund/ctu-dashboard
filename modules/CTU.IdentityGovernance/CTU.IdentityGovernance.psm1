@@ -117,7 +117,8 @@ function Invoke-CTUIdentityGovernanceAudit {
         $auditData.ConnectedOrgs = $connOrgs
 
         if ($connOrgs.Count -gt 0) {
-            $knownTenantIds = ($Config.tenants.PSObject.Properties.Value | ForEach-Object { $_.tenantId })
+            $allTenants = @($Config.hub) + @($Config.spokes)
+            $knownTenantIds = $Config.allTenantIds
             $unknownOrgs = $connOrgs | Where-Object {
                 $orgTenantId = $_.identitySources | ForEach-Object { $_.tenantId }
                 $orgTenantId -and ($orgTenantId | Where-Object { $_ -notin $knownTenantIds })

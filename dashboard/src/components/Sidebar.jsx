@@ -1,0 +1,53 @@
+const NAV_ITEMS = [
+  { id: 'overview',    label: 'Executive Overview',  icon: '📊' },
+  { id: 'findings',    label: 'Findings Explorer',   icon: '🔍' },
+  { id: 'tenants',     label: 'Tenant Deep Dives',   icon: '🏢' },
+  { id: 'guests',      label: 'Guest Inventory',     icon: '👥' },
+  { id: 'unknown',     label: 'Unknown Tenants',     icon: '⚠️' },
+  { id: 'compliance',  label: 'Compliance Matrix',   icon: '✅' },
+  { id: 'roadmap',     label: 'Roadmap & Gates',     icon: '🗺️' },
+  { id: 'positive',    label: "What's Working",      icon: '🌟' },
+];
+
+export default function Sidebar({ active, onNavigate }) {
+  return (
+    <aside className="fixed left-0 top-0 z-40 flex h-screen w-60 flex-col border-r border-slate-800 bg-slate-950/95 backdrop-blur-md">
+      {/* Brand */}
+      <div className="flex h-16 items-center gap-2 border-b border-slate-800 px-5">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-htt text-xs font-black text-white">
+          H
+        </div>
+        <div>
+          <p className="text-sm font-bold tracking-wide text-white">HTT BRANDS</p>
+          <p className="text-[10px] font-medium uppercase tracking-widest text-slate-500">
+            CTU Dashboard
+          </p>
+        </div>
+      </div>
+
+      {/* Nav */}
+      <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
+        {NAV_ITEMS.map((item) => (
+          <button
+            key={item.id}
+            onClick={() => onNavigate(item.id)}
+            className={`nav-link w-full text-left ${active === item.id ? 'active' : ''}`}
+          >
+            <span className="text-base">{item.icon}</span>
+            <span>{item.label}</span>
+          </button>
+        ))}
+      </nav>
+
+      {/* Footer */}
+      <div className="border-t border-slate-800 px-5 py-4">
+        <p className="text-[10px] uppercase tracking-widest text-slate-600">
+          Phase 1 Audit · v1.0
+        </p>
+        <p className="mt-0.5 text-[10px] text-slate-700">
+          Gate G1 Review Pending
+        </p>
+      </div>
+    </aside>
+  );
+}

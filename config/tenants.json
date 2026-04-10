@@ -18,6 +18,7 @@
     "onmicrosoftDomain": "httbrands.onmicrosoft.com",
     "adminUpn": "tyler.granlund-admin@httbrands.com",
     "adminObjectId": "e1dfb17f-b695-4dad-92c0-20e26ce069ab",
+    "adminAccountType": "native",
     "role": "MTO Owner"
   },
 
@@ -30,6 +31,7 @@
       "onmicrosoftDomain": "bishopsbs.onmicrosoft.com",
       "adminUpn": "tyler.granlund-Admin@bishopsbs.onmicrosoft.com",
       "adminObjectId": "e70f966a-ec25-4c2b-a881-c8df07b6dd1c",
+      "adminAccountType": "native",
       "role": "MTO Member",
       "locationCount": 40,
       "crmPlatform": "Zenoti"
@@ -42,6 +44,7 @@
       "onmicrosoftDomain": "ftgfrenchiesoutlook.onmicrosoft.com",
       "adminUpn": "tyler.granlund-Admin@ftgfrenchiesoutlook.onmicrosoft.com",
       "adminObjectId": "d9236548-e979-4c8c-8493-0cac0c121749",
+      "adminAccountType": "native",
       "role": "MTO Member",
       "locationCount": 20,
       "crmPlatform": "Zenoti"
@@ -54,6 +57,7 @@
       "onmicrosoftDomain": "LashLoungeFranchise.onmicrosoft.com",
       "adminUpn": "tyler.granlund-Admin@LashLoungeFranchise.onmicrosoft.com",
       "adminObjectId": "1cb8490d-2157-418f-b485-d374a9defe28",
+      "adminAccountType": "native",
       "role": "MTO Member",
       "locationCount": 140,
       "crmPlatform": "Mindbody"
@@ -66,6 +70,7 @@
       "onmicrosoftDomain": "deltacrown.onmicrosoft.com",
       "adminUpn": "tyler.granlund-admin_httbrands.com#EXT#@deltacrown.onmicrosoft.com",
       "adminObjectId": "13023522-0166-4e0d-b588-b89fa092aaca",
+      "adminAccountType": "guest",
       "role": "MTO Member",
       "locationCount": 0,
       "crmPlatform": "TBD",
