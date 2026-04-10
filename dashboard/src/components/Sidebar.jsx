@@ -1,6 +1,6 @@
 const NAV_ITEMS = [
   { id: 'overview',    label: 'Executive Overview',  icon: '📊' },
-  { id: 'msp-review',  label: 'MSP Review',           icon: '🔧' },
+  { id: 'msp-review',  label: 'MSP Portal',           icon: '🤝' },
   { id: 'findings',    label: 'Findings Explorer',   icon: '🔍' },
   { id: 'tenants',     label: 'Tenant Deep Dives',   icon: '🏢' },
   { id: 'guests',      label: 'Guest Inventory',     icon: '👥' },
@@ -14,16 +14,12 @@ export default function Sidebar({ active, onNavigate }) {
   return (
     <aside className="fixed left-0 top-0 z-40 flex h-screen w-60 flex-col border-r border-slate-800 bg-slate-950/95 backdrop-blur-md">
       {/* Brand */}
-      <div className="flex h-16 items-center gap-2 border-b border-slate-800 px-5">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-htt text-xs font-black text-white">
-          H
-        </div>
-        <div>
-          <p className="text-sm font-bold tracking-wide text-white">HTT BRANDS</p>
-          <p className="text-[10px] font-medium uppercase tracking-widest text-slate-500">
-            CTU Dashboard
-          </p>
-        </div>
+      <div className="flex h-16 items-center border-b border-slate-800 px-4">
+        <img
+          src="/ctu-dashboard/htt-logo-white.png"
+          alt="HTT Brands"
+          className="h-7 w-auto opacity-90"
+        />
       </div>
 
       {/* Nav */}
@@ -43,10 +39,10 @@ export default function Sidebar({ active, onNavigate }) {
       {/* Footer */}
       <div className="border-t border-slate-800 px-5 py-4">
         <p className="text-[10px] uppercase tracking-widest text-slate-600">
-          Phase 1 Audit · v1.0
+          Phase 1 Audit · v1.1
         </p>
         <p className="mt-0.5 text-[10px] text-slate-700">
-          Gate G1 Review Pending
+          Post-Call · MSP Portal Live
         </p>
       </div>
     </aside>

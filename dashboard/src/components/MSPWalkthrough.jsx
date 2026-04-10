@@ -1,87 +1,92 @@
-import useMspState from './msp/useMspState';
-import CallAgenda from './msp/CallAgenda';
+import { useState } from 'react';
+import PostCallSummary from './msp/PostCallSummary';
 import ConfirmedContext from './msp/ConfirmedContext';
-import CriticalDiscovery from './msp/CriticalDiscovery';
-import MeganProfile from './msp/MeganProfile';
+import MeganResponseForm from './msp/MeganResponseForm';
 import AppRiverDeepDive from './msp/AppRiverDeepDive';
 import TenantFootprint from './msp/TenantFootprint';
-import VendorReview from './msp/VendorReview';
 import BillingLandscape from './msp/BillingLandscape';
 import InsuranceGaps from './msp/InsuranceGaps';
-import BlindSpots from './msp/BlindSpots';
-import RoadmapImpact from './msp/RoadmapImpact';
-import ActionItems from './msp/ActionItems';
+import MeganProfile from './msp/MeganProfile';
+import exportMarkdown from './msp/exportMarkdown';
+
+function CollapsibleReference({ title, icon, children }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="rounded-2xl border border-slate-700/30 bg-slate-900/40 overflow-hidden">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex w-full items-center gap-3 px-6 py-4 text-left hover:bg-slate-800/30 transition-colors"
+      >
+        <span className="text-lg">{icon}</span>
+        <span className="flex-1 text-sm font-bold text-slate-300">{title}</span>
+        <span className="text-[10px] uppercase tracking-wider text-slate-600">
+          {open ? 'Collapse' : 'Expand'}
+        </span>
+        <svg
+          className={`h-4 w-4 text-slate-500 transition-transform ${open ? 'rotate-180' : ''}`}
+          fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {open && <div className="border-t border-slate-800/50 px-6 py-6">{children}</div>}
+    </div>
+  );
+}
 
 export default function MSPWalkthrough() {
-  const {
-    state,
-    setVendorStatus,
-    setVendorNote,
-    toggleAskedQuestion,
-    setQuestionAnswer,
-    toggleVendorQuestion,
-    exportNotes,
-  } = useMspState();
-
   return (
     <section id="msp-review" className="scroll-mt-8">
-      {/* Section header */}
+      {/* Section header — Megan-facing */}
       <div className="mb-8 border-l-4 border-cyan-500 pl-4">
         <h2 className="section-title" style={{ color: '#06b6d4' }}>
-          🔧 MSP Relationship Review — Call Deck
+          🤝 MSP Partnership Portal
         </h2>
         <p className="text-sm text-slate-400">
-          Conversation guide for Megan Myrand (Sui Generis) · 45 min ·
-          All notes persist to localStorage.
+          Hi Megan — this is the shared view of our cross-tenant governance project.
+          Below you'll find what we confirmed on our call, plus a few remaining questions
+          that will help Tyler finalize the Phase 3 security policies.
+        </p>
+        <p className="mt-1 text-xs text-slate-500">
+          Your answers auto-save in this browser. When you're done, hit "Export as Markdown" to download a file you can send back.
         </p>
       </div>
 
-      {/* Sticky call agenda nav */}
-      <CallAgenda />
-
       <div className="space-y-16">
-        {/* ── 1. Set the Stage ──────────────────────────── */}
+        {/* ── 1. Call Recap & Action Items ──────────────── */}
+        <PostCallSummary />
+
+        {/* ── 2. Confirmed Context ─────────────────────── */}
         <ConfirmedContext />
-        <CriticalDiscovery />
-        <MeganProfile />
 
-        {/* ── 2. AppRiver Cleanup ──────────────────────── */}
-        <AppRiverDeepDive />
+        {/* ── 3. Megan's Questions (the main event) ────── */}
+        <MeganResponseForm onExport={exportMarkdown} />
 
-        {/* ── 3. Tenant Footprint ──────────────────────── */}
-        <div id="section-tenants" className="scroll-mt-24">
-          <TenantFootprint />
-          <div className="mt-8">
-            <VendorReview
-              state={state}
-              setVendorStatus={setVendorStatus}
-              setVendorNote={setVendorNote}
-              toggleVendorQuestion={toggleVendorQuestion}
-            />
+        {/* ── 4. Reference Material (collapsed) ────────── */}
+        <div>
+          <h3 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">
+            <span>📚</span> Reference Material
+          </h3>
+          <p className="mb-4 text-xs text-slate-500">
+            Supporting detail from the Phase 1 audit — expand any section if you need context for your answers.
+          </p>
+          <div className="space-y-3">
+            <CollapsibleReference title="Megan's Guest Account Details" icon="👤">
+              <MeganProfile />
+            </CollapsibleReference>
+            <CollapsibleReference title="AppRiver Service Principals (Confirmed Remove)" icon="🔴">
+              <AppRiverDeepDive />
+            </CollapsibleReference>
+            <CollapsibleReference title="Tenant Footprint — Service Principals & Partner Policies" icon="🏢">
+              <TenantFootprint />
+            </CollapsibleReference>
+            <CollapsibleReference title="Licensing & Billing Landscape" icon="💳">
+              <BillingLandscape />
+            </CollapsibleReference>
+            <CollapsibleReference title="Cyber Insurance Gap Assessment" icon="🛡️">
+              <InsuranceGaps />
+            </CollapsibleReference>
           </div>
-        </div>
-
-        {/* ── 4. Licensing & Billing ───────────────────── */}
-        <BillingLandscape />
-
-        {/* ── 5. Cyber Insurance Gaps ──────────────────── */}
-        <div id="section-insurance-wrapper">
-          <InsuranceGaps />
-          <div className="mt-8">
-            <BlindSpots
-              state={state}
-              toggleAskedQuestion={toggleAskedQuestion}
-              setQuestionAnswer={setQuestionAnswer}
-            />
-          </div>
-        </div>
-
-        {/* ── 6. Roadmap & Lifecycle ───────────────────── */}
-        <RoadmapImpact />
-
-        {/* ── 7. Action Items ──────────────────────────── */}
-        <div id="section-actions" className="scroll-mt-24">
-          <ActionItems state={state} exportNotes={exportNotes} />
         </div>
       </div>
     </section>
