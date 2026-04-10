@@ -1,87 +1,130 @@
 import { confirmedContext } from '../../data/msp-data';
 
-function InfoRow({ label, children }) {
-  return (
-    <div className="flex items-start gap-4 py-2">
-      <span className="w-32 shrink-0 text-xs font-semibold uppercase tracking-wider text-slate-500">
-        {label}
-      </span>
-      <div className="flex-1 text-sm text-slate-300">{children}</div>
-    </div>
-  );
-}
-
 export default function ConfirmedContext() {
   const { suiGeneris, bishops, billingMess, lifecycleVision, deviceManagement, riversideDeadline } = confirmedContext;
 
+  // Group services into categories for readability
+  const serviceGroups = [
+    {
+      label: 'Licensing & Provisioning',
+      items: suiGeneris.services.filter(s =>
+        s.toLowerCase().includes('license') || s.toLowerCase().includes('provisioning') || s.toLowerCase().includes('migration')
+      ),
+    },
+    {
+      label: 'Hardware & Devices',
+      items: suiGeneris.services.filter(s =>
+        s.toLowerCase().includes('hardware') || s.toLowerCase().includes('device') || s.toLowerCase().includes('mac') || s.toLowerCase().includes('delta crown')
+      ),
+    },
+    {
+      label: 'Security & Access',
+      items: suiGeneris.services.filter(s =>
+        s.toLowerCase().includes('conditional') || s.toLowerCase().includes('mfa')
+      ),
+    },
+    {
+      label: 'Other',
+      items: suiGeneris.services.filter(s =>
+        s.toLowerCase().includes('call dashboard')
+      ),
+    },
+  ];
+
   return (
     <div id="section-context" className="scroll-mt-24">
-      <h3 className="mb-2 text-xl font-bold text-white">
-        What We Confirmed
-      </h3>
+      <h3 className="mb-2 text-xl font-bold text-white">What We Confirmed</h3>
       <p className="mb-8 text-sm text-slate-500">
         Shared understanding from our April 10 call. If anything looks off, let Tyler know.
       </p>
 
-      {/* Deadline — simple, not alarming */}
-      <div className="mb-8 rounded-xl border border-slate-700/30 bg-slate-800/30 px-5 py-3">
-        <p className="text-sm text-slate-400">
-          <span className="mr-2 font-semibold text-slate-200">⏰ Key Deadline:</span>
+      {/* Deadline */}
+      <div className="mb-10 rounded-xl bg-slate-800/30 px-5 py-4">
+        <p className="text-sm text-slate-300">
+          <span className="font-semibold text-white">⏰ Key Deadline</span>
+          <span className="mx-2 text-slate-700">—</span>
           {riversideDeadline}
         </p>
       </div>
 
-      {/* Sui Generis — clean list */}
-      <div className="mb-10">
-        <h4 className="mb-1 text-base font-semibold text-white">Sui Generis — Your Role</h4>
-        <p className="mb-4 text-xs text-slate-500">{suiGeneris.keyPerson}</p>
+      {/* ── Sui Generis ──────────────────────────── */}
+      <section className="mb-12">
+        <h4 className="text-base font-semibold text-white">Sui Generis — Your Role</h4>
+        <p className="mt-1 mb-6 text-sm text-slate-500">{suiGeneris.keyPerson}</p>
 
-        <div className="divide-y divide-slate-800/60">
-          <InfoRow label="What You Do">
-            {suiGeneris.role}
-          </InfoRow>
-          <InfoRow label="Services">
-            <ul className="space-y-1">
-              {suiGeneris.services.map((s, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-600" />
-                  <span>{s}</span>
-                </li>
-              ))}
-            </ul>
-          </InfoRow>
-          <InfoRow label="Relationship">
-            {suiGeneris.relationship}
-          </InfoRow>
+        <p className="mb-6 text-sm leading-relaxed text-slate-400">
+          {suiGeneris.role}
+        </p>
+
+        {/* Services — grouped */}
+        <div className="mb-6 grid gap-6 sm:grid-cols-2">
+          {serviceGroups.filter(g => g.items.length > 0).map((group) => (
+            <div key={group.label}>
+              <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-slate-600">
+                {group.label}
+              </p>
+              <ul className="space-y-2">
+                {group.items.map((s, i) => (
+                  <li key={i} className="flex items-start gap-2.5 text-sm leading-relaxed text-slate-400">
+                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-slate-600" />
+                    <span>{s}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-      </div>
 
-      {/* Device Management */}
-      <div className="mb-10">
+        {/* Relationship — as a quiet note */}
+        <p className="text-sm leading-relaxed text-slate-500">
+          {suiGeneris.relationship}
+        </p>
+      </section>
+
+      {/* ── Device Management ────────────────────── */}
+      <section className="mb-12">
         <h4 className="mb-4 text-base font-semibold text-white">Device Management</h4>
-        <div className="divide-y divide-slate-800/60">
-          <InfoRow label="RMM Tool">{deviceManagement.tool}</InfoRow>
-          <InfoRow label="Delta Crown">{deviceManagement.deltaCrown}</InfoRow>
-          <InfoRow label="API Access">{deviceManagement.apiAccess}</InfoRow>
+        <div className="grid gap-4 sm:grid-cols-3">
+          {[
+            { label: 'RMM Tool', value: deviceManagement.tool },
+            { label: 'Delta Crown', value: deviceManagement.deltaCrown },
+            { label: 'API Integration', value: deviceManagement.apiAccess },
+          ].map((item) => (
+            <div key={item.label} className="rounded-xl bg-slate-800/30 p-4">
+              <p className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-600">
+                {item.label}
+              </p>
+              <p className="text-sm leading-relaxed text-slate-300">{item.value}</p>
+            </div>
+          ))}
         </div>
-      </div>
+      </section>
 
-      {/* In Progress — compact */}
-      <div className="mb-10">
+      {/* ── In Progress ──────────────────────────── */}
+      <section className="mb-12">
         <h4 className="mb-4 text-base font-semibold text-white">In Progress</h4>
-        <div className="divide-y divide-slate-800/60">
-          <InfoRow label="BCC Billing">{bishops.billingStatus}</InfoRow>
-          <InfoRow label="BCC Migration">{bishops.action}</InfoRow>
-          <InfoRow label="BCC MFA">{bishops.mfaStatus}</InfoRow>
-          <InfoRow label="Licensing">{billingMess}</InfoRow>
+        <div className="space-y-4">
+          {[
+            { label: 'BCC Billing', text: bishops.billingStatus },
+            { label: 'BCC License Migration', text: bishops.action },
+            { label: 'BCC MFA Rollout', text: bishops.mfaStatus },
+            { label: 'Overall Licensing', text: billingMess },
+          ].map((item) => (
+            <div key={item.label} className="flex items-start gap-4">
+              <span className="mt-0.5 shrink-0 rounded bg-yellow-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase text-yellow-500/70">
+                {item.label}
+              </span>
+              <p className="text-sm leading-relaxed text-slate-400">{item.text}</p>
+            </div>
+          ))}
         </div>
-      </div>
+      </section>
 
-      {/* Vision — single paragraph */}
-      <div>
+      {/* ── Where We're Headed ────────────────────── */}
+      <section>
         <h4 className="mb-2 text-base font-semibold text-white">Where We're Headed</h4>
         <p className="text-sm leading-relaxed text-slate-400">{lifecycleVision}</p>
-      </div>
+      </section>
     </div>
   );
 }
