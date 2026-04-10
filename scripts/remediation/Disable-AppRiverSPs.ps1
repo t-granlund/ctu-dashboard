@@ -157,7 +157,8 @@ if (-not $isWhatIf -and -not $Force) {
 # ── Main Loop ────────────────────────────────────────────────────────────────
 
 foreach ($tenantKey in $TenantKeys) {
-    $tenantId = $config.Tenants[$tenantKey].TenantId
+    $tenantInfo = Get-CTUTenantList -TenantKey $tenantKey -Config $config
+    $tenantId = $tenantInfo.tenantId
     Write-Host "  ── $tenantKey ($tenantId) ──" -ForegroundColor Cyan
 
     try {
