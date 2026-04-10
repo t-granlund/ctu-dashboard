@@ -719,10 +719,10 @@ export const callAgenda = [
 ];
 
 export const callActionItems = [
-  { owner: "Tyler", action: "Disable 3 AppRiver SPs in HTT, FN, TLL", priority: "immediate", status: "ready", note: "Script built — run Disable-AppRiverSPs.ps1 -Execute" },
+  { owner: "Tyler", action: "Disable 3 AppRiver SPs in HTT, FN, TLL", priority: "immediate", status: "ready", note: "✅ Done — all 9 SPs disabled across HTT, FN, TLL" },
   { owner: "Tyler", action: "Cancel duplicate P2 licenses on BCC and FN (Eric Canfield purchases)", priority: "this-week", status: "ready" },
-  { owner: "Tyler", action: "Re-run CA/MFA audit on DCE and FN (stale data — Megan already deployed)", priority: "this-week", status: "ready", note: "Script built — run Reaudit-ConditionalAccess.ps1" },
-  { owner: "Tyler", action: "Send Megan link to hosted MSP review dashboard for her to fill in answers", priority: "this-week", status: "ready", note: "✅ Email sent" },
+  { owner: "Tyler", action: "Re-run CA/MFA audit on DCE and FN (stale data — Megan already deployed)", priority: "this-week", status: "ready", note: "✅ Done — DCE has 3 CA policies, FN has 2. FN still missing external MFA." },
+  { owner: "Tyler", action: "Send Megan link to hosted MSP review dashboard for her to fill in answers", priority: "this-week", status: "ready", note: "✅ Done — email sent with link + passphrase" },
   { owner: "Tyler", action: "Present Delta Crown SharePoint hub-and-spoke layout to Megan + Kristen", priority: "next-week", status: "pending" },
   { owner: "Tyler", action: "Look up DUNS number for Delta Crown (Apple Business Manager setup)", priority: "next-week", status: "pending" },
   { owner: "Tyler", action: "Research Apple's new free enterprise MDM tool", priority: "next-week", status: "pending" },
