@@ -54,6 +54,12 @@ if (-not (Test-Path $GuestCsvPath)) {
 
 $guests = Import-Csv -Path $GuestCsvPath
 $totalGuests = $guests.Count
+
+if ($totalGuests -eq 0) {
+    Write-Warning "CSV contains no guest records — nothing to analyze. Verify the file: $GuestCsvPath"
+    return
+}
+
 Write-Host "  Loaded $totalGuests guest records from:" -ForegroundColor Green
 Write-Host "  $GuestCsvPath`n" -ForegroundColor DarkGray
 
@@ -76,6 +82,23 @@ function Get-YearQuarter {
     param([datetime]$Date)
     $q = [math]::Ceiling($Date.Month / 3)
     return "$($Date.Year)-Q$q"
+}
+
+function New-CleanupCandidate {
+    <# Builds a uniform cleanup-candidate object — DRY across all cleanup rules. #>
+    param([PSCustomObject]$Guest, [string]$Reason)
+    [PSCustomObject]@{
+        Id              = $Guest.Id
+        DisplayName     = $Guest.DisplayName
+        Mail            = $Guest.Mail
+        SourceDomain    = $Guest.SourceDomain
+        CreatedDateTime = $Guest.CreatedDateTime
+        InvitationState = $Guest.InvitationState
+        LastSignIn      = $Guest.LastSignIn
+        DaysSinceSignIn = $Guest.DaysSinceSignIn
+        NeverSignedIn   = $Guest.NeverSignedIn
+        CleanupReason   = $Reason
+    }
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -121,7 +144,7 @@ $timelineData = foreach ($g in $guests) {
             $created = [datetime]::Parse($g.CreatedDateTime)
             [PSCustomObject]@{ YearQuarter = Get-YearQuarter -Date $created }
         } catch {
-            # Skip unparseable dates silently
+            Write-Verbose "Skipping unparseable CreatedDateTime: '$($g.CreatedDateTime)' for guest $($g.DisplayName)"
         }
     }
 }
@@ -216,7 +239,7 @@ $pendingDetails = foreach ($pg in $pendingGuests) {
 
             [PSCustomObject]@{ Guest = $pg; AgeDays = $ageDays }
         } catch {
-            # Unparseable date — skip
+            Write-Verbose "Skipping unparseable CreatedDateTime: '$($pg.CreatedDateTime)' for guest $($pg.DisplayName)"
         }
     }
 }
@@ -235,18 +258,7 @@ Write-CTUSection "Cleanup Candidates"
 
 # Rule 1: Stale + never signed in
 $cleanupStaleNever = foreach ($g in $staleAndNever) {
-    [PSCustomObject]@{
-        Id              = $g.Id
-        DisplayName     = $g.DisplayName
-        Mail            = $g.Mail
-        SourceDomain    = $g.SourceDomain
-        CreatedDateTime = $g.CreatedDateTime
-        InvitationState = $g.InvitationState
-        LastSignIn      = $g.LastSignIn
-        DaysSinceSignIn = $g.DaysSinceSignIn
-        NeverSignedIn   = $g.NeverSignedIn
-        CleanupReason   = "Stale + NeverSignedIn"
-    }
+    New-CleanupCandidate -Guest $g -Reason "Stale + NeverSignedIn"
 }
 
 # Rule 2: Pending invitation > 90 days
@@ -255,18 +267,7 @@ $cleanupPendingOld = foreach ($pd in $pendingOver90) {
     $g = $pd.Guest
     # Avoid duplicates — skip if already captured by rule 1
     if ((ConvertTo-BoolSafe $g.IsStale) -and (ConvertTo-BoolSafe $g.NeverSignedIn)) { continue }
-    [PSCustomObject]@{
-        Id              = $g.Id
-        DisplayName     = $g.DisplayName
-        Mail            = $g.Mail
-        SourceDomain    = $g.SourceDomain
-        CreatedDateTime = $g.CreatedDateTime
-        InvitationState = $g.InvitationState
-        LastSignIn      = $g.LastSignIn
-        DaysSinceSignIn = $g.DaysSinceSignIn
-        NeverSignedIn   = $g.NeverSignedIn
-        CleanupReason   = "PendingAcceptance > 90 days"
-    }
+    New-CleanupCandidate -Guest $g -Reason "PendingAcceptance > 90 days"
 }
 
 $cleanupCandidates = @($cleanupStaleNever) + @($cleanupPendingOld)
