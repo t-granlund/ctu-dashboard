@@ -144,10 +144,10 @@ export const gdapFindings = {
 // ── Critical discovery ──────────────────────────────────────
 
 export const criticalDiscovery = {
-  title: "The 'Pax8' Service Principal is Owned by Sui Generis — NOT by PAX8 US",
-  detail: "The service principal named 'Pax8' (appId: 96b1dd76) in HTT, FN, and TLL is owned by tenant daee2992 = Sui Generis Incorporated (suigenerisinc.com). This is the SAME tenant that Megan Myrand belongs to. This strongly suggests Sui Generis is a PAX8 sub-partner, reseller, or the actual MSP entity operating under the PAX8 marketplace. Megan Myrand is likely an engineer at Sui Generis who manages HTT's tenant through PAX8's platform.",
+  title: "Confirmed: Sui Generis (Megan's company) Owns the 'Pax8' Service Principal",
+  detail: "The service principal named 'Pax8' (appId: 96b1dd76) in HTT, FN, and TLL is owned by tenant daee2992 = Sui Generis Incorporated (suigenerisinc.com). Sui Generis is the MSP providing IT support and license management for HTT Brands, operating under the PAX8 marketplace. Megan Myrand is an IT Systems Engineer at Sui Generis and the primary contact for HTT's account.",
   tenants: ["HTT", "FN", "TLL"],
-  question: "Ask MSP: Is Sui Generis your operating entity? Is Megan Myrand one of your engineers?",
+  question: "Confirm with Megan: Sui Generis is the MSP operating entity, and she is the IT Systems Engineer assigned to HTT Brands.",
 };
 
 // ── Vendor walkthrough items ────────────────────────────────
@@ -199,7 +199,7 @@ export const vendors = [
     ],
     whatWeNeedToKnow: [
       "Is Sui Generis the actual MSP operating entity that manages HTT under PAX8's marketplace?",
-      "Is Megan Myrand an assigned engineer for HTT Brands?",
+      "Megan is the IT Systems Engineer assigned to HTT — who else at Sui Generis has access to our tenants?",
       "Why does Sui Generis own the 'Pax8' SP instead of PAX8 US owning it?",
       "Should we keep Megan's guest accounts or should she access via GDAP only?",
     ],
@@ -441,7 +441,7 @@ export const confirmedContext = {
       "Device management (corporate — need to confirm provider/tool)",
       "Migration: moving all tenants from AppRiver → PAX8 for API capabilities",
     ],
-    relationship: "Sui Generis operates under PAX8 marketplace. Megan Myrand is the primary contact.",
+    relationship: "Sui Generis operates under PAX8 marketplace. Megan Myrand (IT Systems Engineer) is the primary contact for HTT Brands.",
   },
   bishops: {
     billingStatus: "MOSA / Direct Bill — NOT on PAX8 yet",
