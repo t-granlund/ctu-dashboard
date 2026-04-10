@@ -14,16 +14,12 @@ export default function Sidebar({ active, onNavigate }) {
   return (
     <aside className="fixed left-0 top-0 z-40 flex h-screen w-60 flex-col border-r border-slate-800 bg-slate-950/95 backdrop-blur-md">
       {/* Brand */}
-      <div className="flex h-16 items-center gap-2 border-b border-slate-800 px-5">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-htt text-xs font-black text-white">
-          H
-        </div>
-        <div>
-          <p className="text-sm font-bold tracking-wide text-white">HTT BRANDS</p>
-          <p className="text-[10px] font-medium uppercase tracking-widest text-slate-500">
-            CTU Dashboard
-          </p>
-        </div>
+      <div className="flex h-16 items-center border-b border-slate-800 px-4">
+        <img
+          src="/ctu-dashboard/htt-logo-white.png"
+          alt="HTT Brands"
+          className="h-7 w-auto opacity-90"
+        />
       </div>
 
       {/* Nav */}
