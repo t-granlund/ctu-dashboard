@@ -1,0 +1,90 @@
+{
+  "_comment": "HTT Brands Multi-Tenant Organization - Hub-and-Spoke Configuration",
+  "_warning": "DO NOT commit credentials or secrets. Use Azure Key Vault or env vars.",
+
+  "organization": {
+    "name": "Head to Toe Brands",
+    "shortName": "HTT",
+    "mtoEnabled": true,
+    "architecture": "hub-and-spoke"
+  },
+
+  "hub": {
+    "alias": "HTT",
+    "displayName": "Head to Toe Brands (Corporate)",
+    "tenantId": "0c0e35dc-188a-4eb3-b8ba-61752154b407",
+    "primaryDomain": "httbrands.com",
+    "onmicrosoftDomain": "httbrands.onmicrosoft.com",
+    "adminUpn": "tyler.granlund-admin@httbrands.com",
+    "adminObjectId": "e1dfb17f-b695-4dad-92c0-20e26ce069ab",
+    "role": "MTO Owner"
+  },
+
+  "spokes": [
+    {
+      "alias": "BCC",
+      "displayName": "Bishops Cuts/Color",
+      "tenantId": "b5380912-79ec-452d-a6ca-6d897b19b294",
+      "primaryDomain": "bishopsbs.com",
+      "onmicrosoftDomain": "bishopsbs.onmicrosoft.com",
+      "adminUpn": "tyler.granlund-Admin@bishopsbs.onmicrosoft.com",
+      "adminObjectId": "e70f966a-ec25-4c2b-a881-c8df07b6dd1c",
+      "role": "MTO Member",
+      "locationCount": 40,
+      "crmPlatform": "Zenoti"
+    },
+    {
+      "alias": "FN",
+      "displayName": "Frenchies Modern Nail Care",
+      "tenantId": "98723287-044b-4bbb-9294-19857d4128a0",
+      "primaryDomain": "frenchiesnails.com",
+      "onmicrosoftDomain": "ftgfrenchiesoutlook.onmicrosoft.com",
+      "adminUpn": "tyler.granlund-Admin@ftgfrenchiesoutlook.onmicrosoft.com",
+      "adminObjectId": "d9236548-e979-4c8c-8493-0cac0c121749",
+      "role": "MTO Member",
+      "locationCount": 20,
+      "crmPlatform": "Zenoti"
+    },
+    {
+      "alias": "TLL",
+      "displayName": "The Lash Lounge",
+      "tenantId": "3c7d2bf3-b597-4766-b5cb-2b489c2904d6",
+      "primaryDomain": "thelashlounge.com",
+      "onmicrosoftDomain": "LashLoungeFranchise.onmicrosoft.com",
+      "adminUpn": "tyler.granlund-Admin@LashLoungeFranchise.onmicrosoft.com",
+      "adminObjectId": "1cb8490d-2157-418f-b485-d374a9defe28",
+      "role": "MTO Member",
+      "locationCount": 140,
+      "crmPlatform": "Mindbody"
+    },
+    {
+      "alias": "DCE",
+      "displayName": "Delta Crown Extensions",
+      "tenantId": "ce62e17d-2feb-4e67-a115-8ea4af68da30",
+      "primaryDomain": "deltacrown.com",
+      "onmicrosoftDomain": "deltacrown.onmicrosoft.com",
+      "adminUpn": "tyler.granlund-admin_httbrands.com#EXT#@deltacrown.onmicrosoft.com",
+      "adminObjectId": "13023522-0166-4e0d-b588-b89fa092aaca",
+      "role": "MTO Member",
+      "locationCount": 0,
+      "crmPlatform": "TBD",
+      "_note": "Pre-launch brand - admin is external guest from HTT"
+    }
+  ],
+
+  "allTenantIds": [
+    "0c0e35dc-188a-4eb3-b8ba-61752154b407",
+    "b5380912-79ec-452d-a6ca-6d897b19b294",
+    "98723287-044b-4bbb-9294-19857d4128a0",
+    "3c7d2bf3-b597-4766-b5cb-2b489c2904d6",
+    "ce62e17d-2feb-4e67-a115-8ea4af68da30"
+  ],
+
+  "domainAllowlist": [
+    "httbrands.com",
+    "bishopsbs.com",
+    "thelashlounge.com",
+    "frenchiesnails.com",
+    "deltacrown.com"
+  ]
+}

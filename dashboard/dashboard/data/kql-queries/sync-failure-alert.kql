@@ -1,0 +1,106 @@
+// ============================================================================
+// CTU Phase 5 — Cross-Tenant Sync Failure / Quarantine Alert
+// ============================================================================
+// Purpose:     Immediately detect when a cross-tenant B2B sync job enters
+//              quarantine, fails, or reports provisioning errors. Sync health
+//              is foundational — if sync breaks, brand identities stop flowing
+//              to HTT hub and access silently degrades.
+//
+// Schedule:    Immediate (real-time alert, evaluate every 5 minutes)
+// Severity:    Critical (P0) for quarantine; High (P1) for individual failures
+//
+// Action:      1. Slack alert to #it-ops-alerts (page on-call)
+//              2. Email Dustin (dustin.boyd-admin@httbrands.com)
+//              3. Escalate to Tyler if not resolved within 1 hour
+//              4. Reference runbook: docs/runbooks/sync-failure-investigation.md
+//
+// Targets:     HTT hub tenant (sync jobs pull from BCC, TLL; FN/DCE planned)
+// Requirement: CTU baseline.json — Cross-Tenant Sync — sync errors must be 0,
+//              last successful sync must be <24h
+// Graph Ref:   AuditLogs (category: ProvisioningManagement), ProvisioningLogs
+// ============================================================================
+
+// --- Part A: Sync Job Quarantine / Failure Events ---
+// These are the big scary ones — the entire sync job is broken.
+let SyncJobAlerts = AuditLogs
+    | where TimeGenerated > ago(15m)
+    | where Category == "ProvisioningManagement"
+    | where OperationName in (
+        "Synchronization rule action",
+        "Export",
+        "Import",
+        "Quarantine",
+        "Provisioning job quarantined",
+        "Synchronization job failed"
+    )
+    | where Result == "failure"
+         or OperationName has "quarantine"
+         or OperationName has "failed"
+    | extend JobId = tostring(TargetResources[0].id)
+    | extend JobDisplayName = tostring(TargetResources[0].displayName)
+    | extend FailureReason = tostring(ResultDescription)
+    | extend InitiatedByApp = tostring(InitiatedBy.app.displayName)
+    | extend AlertLevel = iff(
+        OperationName has "quarantine", "CRITICAL — Job Quarantined",
+        "HIGH — Sync Failure"
+    )
+    | project
+        TimeGenerated,
+        AlertLevel,
+        EventType           = "SyncJobFailure",
+        OperationName,
+        JobId,
+        JobDisplayName,
+        FailureReason,
+        InitiatedByApp,
+        CorrelationId
+    ;
+// --- Part B: Individual Provisioning Errors ---
+// These are per-user sync failures — less catastrophic but still need tracking.
+// A spike in provisioning errors often precedes a full quarantine.
+let ProvisioningErrors = ProvisioningLogs
+    | where TimeGenerated > ago(1h)
+    | where ResultType == "Failure"
+    | where Action in ("Create", "Update", "Delete", "Other")
+    | extend TargetUPN = tostring(TargetIdentity)
+    | extend TargetSystem = tostring(TargetSystem.displayName)
+    | extend SourceSystem = tostring(SourceSystem.displayName)
+    | extend ErrorCode = tostring(ResultSignature)
+    | extend ErrorMessage = tostring(ResultDescription)
+    | extend JobId = tostring(ProvisioningJobId)
+    | project
+        TimeGenerated,
+        AlertLevel           = "HIGH — Provisioning Error",
+        EventType            = "ProvisioningError",
+        OperationName        = Action,
+        JobId,
+        JobDisplayName       = strcat(SourceSystem, " → ", TargetSystem),
+        FailureReason        = strcat(ErrorCode, ": ", ErrorMessage),
+        InitiatedByApp       = SourceSystem,
+        CorrelationId        = tostring(Id)
+    ;
+// --- Part C: Error Spike Detection ---
+// If more than 5 provisioning errors occur within 1 hour, that's a pattern
+// worth flagging even if no quarantine has fired yet.
+let ErrorSpike = ProvisioningLogs
+    | where TimeGenerated > ago(1h)
+    | where ResultType == "Failure"
+    | summarize ErrorCount = count(), FirstError = min(TimeGenerated) by
+        ProvisioningJobId
+    | where ErrorCount > 5
+    | project
+        TimeGenerated        = FirstError,
+        AlertLevel           = "HIGH — Error Spike Detected",
+        EventType            = "ErrorSpike",
+        OperationName        = "Multiple provisioning failures",
+        JobId                = tostring(ProvisioningJobId),
+        JobDisplayName       = "See ProvisioningLogs for details",
+        FailureReason        = strcat(ErrorCount, " failures in last 1 hour"),
+        InitiatedByApp       = "N/A",
+        CorrelationId        = ""
+    ;
+// Union all three signal types into a single alert stream.
+SyncJobAlerts
+| union ProvisioningErrors
+| union ErrorSpike
+| sort by TimeGenerated desc

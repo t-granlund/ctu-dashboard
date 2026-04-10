@@ -1,0 +1,353 @@
+Hey, what's up? Hey. Howdy. Okay. I know we've all been busy. I know that I've just been really the last week and a half I've been working on just random projects, but more so having to kind of like keep our BI infrastructure alive as we're migrating it from a virtual machine to an Azure SQL database. So it's just kind of taken up a bunch of time, but I was able to in the last couple A couple days, go through and try to get like a kind of a level set of where things are on all the tenants. And then, you know, more specifically today, make sure we're aligned on licensing, kind of just where that's all at and what things I know need to still happen. And then I will kind of talk to you or I'll show you a lot of the stuff that we have going for the roadmap for our projects.
+
+kind of fixing the Uh, multi-tenant organization infrastructure and then all that kind of identity governance stuff that I have to do for the Riverside folks.
+
+Let me just share my screen real quick. Okay. I'll bump this up a little bit. So basically what this is, is every single like incident is, you know, it could be a lower high severity. And so this, the total of 106 things that need to be looked at and guest accounts, you know, this is the type of thing that's going to be helpful for us for full cleanup because I want to be able to utilize guest accounts in a clear way, but I would like to have every single guest account that's in each tenant to be understood like who they are. And like, we have like a, a gate that says like, okay, yeah, this person's allowed because they are like more recently a vendor for the convention that they're participating in.
+
+And so they are going to need a link to, um, access the custom SharePoint site that we built that is simulating an app environment, but we need to get people from all brands and all tenants and external folks. So this is the most recent example because things are kind of a little messy with configurations. There was a lot of chicken and egg chasing on my end to get that convention site rolled out, which I know Sujanri is a part of.
+
+And you might have already even seen that convention site or maybe had issues initially, but I ran into issues getting that type of thing configured because of all these directory, cross-tenant sync, B2B collaboration, settings. There's so many things that I now know and want to be aware of to get dialed in with the cross-tenant stuff because It enables so many great things that we can take advantage of. So anyways, that's why you'll see the guest accounts throw it up on the top is because if we have 491 that have never signed in and 132 that are stale, meaning like they don't see any activity, then we can start to look at like, you know, who those people are and their quick wins.
+
+And then we can start to dial in, you know, who we let in. Yeah. So anyways, this is just high level. So does this make sense at a high level before I go into some of the MSP stuff? Yeah. Okay. So this is more geared towards what I wanted to talk about. So more importantly, I understand that you guys are license management provisioning, hardware ordering for corporate new hires, you know, when we don't have inventory available, hardware ordering for franchisees that...
+
+I believe is still dependent on, like it's all of Lash Lounge, but then for the other brands, as I understand it, you are the de facto source and the only one that's not like basically the only thing you inherited was the Frenchies kind of stuff, right? And the bishops stuff. Like their hardware, their stuff.
+
+So any new... Any new ones going in are 100% me. Some of the old ones that already have an infrastructure in place, I've been actually working to get them a little updated. I've already sent out new equipment to a few bishops that I've never been into yesterday. I did a new one in Clifton Heights. I wasn't there, but I actually sent her the equipment and I walked her through basically installing it all and upgrading some of her network components.
+
+So my goal, and especially when I'm at, are y'all going to be at convention? No. you Okay, so my goal, especially when I'm at convention, is to be able to get in front of some of these Frenchies and bishops and say, "Hey, this is how we need to formalize you. This is how we need to get you guys." And so I've had a little problem with some of the bishops initially, but I've had really good luck with a couple of the ones that Kristen said have been kind of the, you know, the sore thumb, essentially. Yeah, they can be passionate. Yeah, they're super passionate. And they, I don't like to, I don't know why I don't use that word, passionate.
+
+No, I always say that just because, like, you know, they're frustrated, you know, rightly so, or have their opinions because of, you know, whatever they're directly around. But the franchising's taught me, the number one rule is, like, if a franchisee's mad at you, There's no way they could possibly be mad at you as a person. They're just mad of a process or, you know, yeah.
+
+Yeah. So I've, and some of the ones, and I've actually built a pretty good rapport with some of those that Kristen said have been the harder ones, which is good. Great, yeah.
+
+I've noticed that since I've done that, I've actually now just with what I did yesterday, got two bishops that reached out to me and said, hey, I'd like to upgrade this.
+
+I'd like to purchase this. So it's going to take me a minute, but my goal is to get those 40 aligned in at least some sort of normal. infrastructure. Frenchies, I haven't really had any other than the Lakeway one, which was a purchase buyout. I haven't had any of the Frenchies reach out to me. And I think a lot of that is still because they're still under contract with FTG. And so they need to wait until that contract is near end before reaching out to me because that contract is pretty tight and it's pretty vicious.
+
+For which one again?
+
+FTG where the franchisees are renting their 10-year-old equipment at $2,000 a month. Crazy. It's insane to me.
+
+Yeah, it's unreal. Well, you know, get them slowly but surely into a new structure, which will be good. Okay, so that makes sense. That kind of keeps us where we're at, where you have the hard-working for franchisees, corporate new hires, device management, corporate. Got the name of the tool again that you use. I just want to have that notated.
+
+Atera.
+
+Atera, okay. So Atera is used for that. Migration, basically, you had informed me that you're doing all AppRiver to Pax8 for the API capabilities. So I didn't know if... So based on that, I'll have a conversation about what I see set up with AppRiver and some of the tenants, and I want to talk about getting that removed. But the biggest things that I'm noticing just for the immediate needs are I know that I'll need with you on getting us out of the current direct bill structure. And so I know that we started that with the one subscription that you had flagged and I reached out to market support, got that canceled.
+
+And so you had purchased the new one. So that effectively kind of started the migration for them, correct? Yeah. Correct.
+
+And the other licenses, a lot of them end this summer or August. So there's only a few months left once I purchase those additional licenses, whether it's the basic or license. I remember they're somewhere around July or August, I think. Once those terminate and I purchase new license, PacState gives me the ability to align subscriptions. So I will align the new subscription with the standard license.
+
+that we just purchased so that we're not, hey, this is up at this time, this is up at this time. I'd like everything kind of formalized in one date, kind of like with the lash lounge where everything ends at the end of January where we're not going, oh, some end here and some end there.
+
+I don't want to do all that.
+
+I'd like everything to align so that we're just looking at one tenant, one set of license or multiple licenses. one at a time, not one this month, one three months down the road, one three months down the road. I don't have time for that.
+
+Nobody has time for that. Yeah, yeah. No, this is good. So this will kind of help us as we're getting that done. I'm gonna make sure that I have those, I'll make sure that that's incorporated into the kind of current state. And so we obviously know that that one, like 66 licenses for business standard or whatever, we canceled, got the, I have the refund in process. They just closed that out this morning, It was yesterday or this morning I got that finalized. And then you're going to continue to have those subscriptions transferred over. So I'll double check and I should be able to– I know that I can take a look and I'll take note of those subscription end dates as well so I can make sure that I proactively reach out to Microsoft and we don't have it expire. Okay.
+
+So the billing situation is the one that– we won't be able to spend a ton of time on it today, but just– In general, because of all of this, the billing is fragmented. And so we'll need to, you know, once we, once we complete out the Pax 8. That's going to get us into a good spot when it comes to all the licenses between corporate and the brands. But I did note, I think it's the Lash Lounge that does have a ton of billing accounts from potentially like self-service for purchasing licenses, which is like enabled or it might still be enabled, but I did notice that. And so those will be things that we'll just want to audit and understand. I don't know. So when you look at last launch, if you look at all the billing accounts, there's a ton listed.
+
+And I don't know if that's, I haven't looked and done an audit to see if those billing accounts are tied to any active subscriptions. But like worst case, if it's just legacy and those are just there from, Previously being allowed to sign up for things. Regardless, that's the type of thing that if we can clean it up, it's going to be really helpful and completely close out all the billing nuances. that we have going on. So it's a work in progress.
+
+I only seeI'm looking at the, I only see two billing accounts.
+
+That are active with subscriptions? 'Cause there was a huge, there's a list you could scroll through when I was looking at all of them, but I didn't look to see which ones had active subscriptions.
+
+Yeah, there's only two active. I don't see any other. Okay, great. Awesome. Unless you're talking about the partner relationships in which, partner relationships you'll probably see like in your micro, Pax8, TweetGenre, and TD Cynics.
+
+We can't remove those.
+
+I tried to remove the TD Cynics Once it's under, like I removed them from the granular delegated admin privileges, which means they can't really touch the tenant. But once they're there, there's no way to remove them. I was actually looking at that earlier because I found some hiccups in the head-to-toe tenant. that I had been working on with, on Meg's, account which yeah what was going on with her accountWell, so I got Meg a new computer because she's been having issues with the computer that logically got her.
+
+And I went to Activate Office and it said I didn't have a subscription and I went to Meg's account and Meg had an E5 license attached, a premium license attached.
+
+The E5 license shouldn't have been active on her account. Right.
+
+So I removed it and still wasn't able to install Office or activate Office 365.
+
+Was it a Windows Pro? Office Pro? I'm sorry, Windows 11 Pro or a Home?
+
+It's an 11 Pro.
+
+Okay. I don't distribute Home. I know. I just asked because a number of people on Head to Toe had and some still do have Home and aren't on Pro. Yeah.
+
+Yeah, no. I mean, I bought the computer with home, but I always buy the upgrade. I don't ever– I'm never going to send out a Windows machine with home unless it's like– because it causes too many issues, especially with a Microsoft account.
+
+Well, I'm curious about Meg's computer because that's actually a computer that when she told me her computer wasn't working, I mean, that computer– was the one that I told her, I mean, from what I understood spec wise, it was rock solid and it was a Windows Pro. So I don't know what happened or where that fell off because that computer was stacked. I mean, it was like almost 3K. So I don't know what happened with that, but I know that she made it very evident she didn't like it. And I'm glad that she was able to move on to hopefully something she likes.
+
+Yeah. Yeah, I'm going to have her send me that computer. It is stacked. It does have really great specs. And I'm just going to do a wipe and a reinstall of the operating system. I don't know.
+
+Logically, initially set it up. She said it randomly just shuts down and restarts. There's like all sorts of little bugs. And so logically did walk her through an onboarding when she got it. That's correct. So they did touch it in that capacity. Right.
+
+In addition, what they did was they tied her personal Microsoft account to the computer. And so what happens is, and one of the things that I tell people, I'm like, when you tie your personal Microsoft account and then you try to put your business Microsoft account on the computer.
+
+It's impossible.
+
+they constantly fight, I said, and you're constantly going to run into issues. So we, the computer that I prepped for her before, she opened that. She's been using that this week. And then I'm going to have her send me the ASUS computer. It does, again, but also it's on Windows 10 and it won't upgrade anything. It was on 10? Yes.
+
+What? Oh, my God.
+
+The computer. Yeah, and it's not on Windows 11. And it didn't upgrade naturally. So I'm going to have to do that. And I said, look, I tell her you can do two things. You can bring it to me at convention and I can upgrade it and try to fix it there. But know that I'll be on whatever hotel Wi-Fi trying to do this.
+
+Yeah.
+
+Or we can get you a new computer. So I got her a new computer. And there were some little bugs, like how the status symbol wasn't showing up. And for OneDrive, I was able to correct those and fix those. And so I'm actually looking at it now. And I'm going to make sure that it gets out today with a quick overnight, or not overnight, but like a two-day shipping. So she'll have it by Monday.
+
+All right, right on.
+
+So yeah, so we're all fixed there.
+
+So I will have another set of things that we'll talk about regarding the device management and just kind of tracking that because I do want to be able to connect to that platform you guys are using purely to be able to feed into our support desk so that if Dustin gets a ticket and we have all of our identity stuff set up, which in our ticket system, FreshJest, that means that we use single sign-on and we carry over those user properties.
+
+like who they are, what role they are, if we have it, their reporting manager, etc., etc. And then if we have corporate users with computers that we're currently, we know what model they are, year, all that stuff, and anything we can pull on it regarding the software it's running, that's just going to help us be informed for any of the issues that Dustin might be troubleshooting that are software related.
+
+Since he's not going to be covering the hardware, obviously there'd be no downside to you also having, like when we have the, you know, we use Freshdesk now, but we have the people support hub fully launched, which is the thing that we'll, you know, hopefully be using for all of our ticketing, which is really just like a fancier or a better UI laid on top of Freshdesk that we built. And it would do that same thing for you.
+
+But again, I know you guys have your own internal systems and stuff. So anyways, that's just something that I know that.
+
+I've been keeping a spreadsheet of model serial number brands. Anything that I have laid hands on.
+
+Well, if you have the device management app software and that software has APIs that you can read the data for our company and our devices, that's the thing that I would be interested in hooking up to so that we can actually keep tabs on stuff. And this is something I ran by Kristen and she said that more than anything, when I ran support desk at School of Rock, can do is help make sure we're not wasting anyone's time with that hardware and software they have being a potential variable. Because I would always be like, hey, you're trying to do this, but you're running an extremely old version of macOS and it's not going to get the latest security updates.
+
+So your Chrome isn't going to work right and all this stuff. So that's the type of thing that I think can really empower us if we already have it set up. And so I'll just be curious on your thoughts on that.
+
+I don't... I'll have to look and see if there's an API that we can create between you and Atera, but just for specific customers? Because obviously all of our customer base is on Atera, so I'm not sure if Atera has the capability.
+
+I can't imagine they don't have a way for you to separate it out using some sort of tagging structure and stuff. So I'll look and see. But yeah, from a security standpoint, obviously I'm not going to force that unless we have an actual platform But that's just, I want to give you a little bit of the inside of the why. So just real quick, real quick. So I did see that we do still have an app reverse service principle.
+
+uh, And so it... It basically is tied to, I don't know which tenant it's saying it's in, because it's saying that all three AppRiver service principles have org-wide delegated permissions, consent type, all principles. These are broad and include right access to control. So what I'm trying to understand is if we are fully migrated over from AppRiver into PAX 8, I can go in and disable these service principles so they're no longer able to, read this information.
+
+Yes, go ahead. We are 100% migrated over. I don't have anything that we don't have any account with AppRiver any longer.
+
+And so for comparison, PAX 8, if you look at all the things that it could do on this one versus all this, even running PowerShell tools for delegated admin, it's pretty invasive. So right now you guys are set up with directory read-all, user read-all, and then org. So that's what I would expect a... like pack state as the person. Yeah, so anyway, so that's all good. And I'll actually, Make sure this is hosted so I can share this with you so you can kind of see the things that I'm looking at.
+
+But this is what I see for head to toe. So these are the service principles. Now, some of these I have... 'cause like I set up this one, but these are all the other ones like you were saying with TD Cinex Stellar. It shows you when we created it. So if I don't need any of these ones, then that's obviously what I just said I'm going to disable. And then this one I don't believe will need either, the TDCNX Stream 1 integration.
+
+We don't need TD Cinex. We definitely don't need AppRiver, but we do need there, and we've added ours, and it's for billing, is that you'll see our partner relationship between us and Microsoft as well. So we need that as well. Okay. So if you look at the tenant and you'll see.
+
+Huh? Is it partner policies?
+
+What do you mean? Like if you're going to look at, if you want to look at it? No. Or you just go to partner relations?
+
+No, I was just saying, you said there was something else that you were needing to see. I didn't know if it related to the partner policies because like for PAX 8. No. Okay. Yeah, okay. So you're talking about something related to when I go to look at the...
+
+Partner relations. Partner relations. Yeah, we have to be tied in there.
+
+Yes, perfect. I've seen that.
+
+We can't remove that. Yeah. So you'll see us and then PAC State almost in every, actually in every tenant.
+
+Perfect. Yeah, I did see that and that makes sense. Yeah. And basically across all the licensing and stuff, I'm really not at a place just yet to talk about this, but like I told you, this is for, yeah, head to toe. I told you that basically we're at a point where, yeah. I'm going to have to start to understand what I am. what I need for licensing, like what we have and should have for all of corporate and, you know, some of the licenses that I might need, like this Entra IDP2 for some of the different auditing mechanisms that we're putting in place for like, you know, signing activity. And like, basically you need an Entra license to be able to do some of these auditing mechanisms. Conditional access.
+
+Yeah. And I need it for conditional access. So it should be on every tenant. I have already purchased it for every tenant. Setting conditional accesses, yep.
+
+So you can purchase it at like a tenant-wide thing because when I'm running some of the audits that I'm doing, I'm having to make sure that the... the service, like basically the custom app that I'm using to manage all of the, the permissions that it can like, uh, permissions, the things that it can read and see or, or write to or update for like some of my auditing that I'm doing across the tenants.
+
+Um, You have to have basically an admin delegated permission set up with an admin account that has those permissions. But what I don't know is from a service provider standpoint, is there like a way to blanket it with that? So it's just tied to the tenant itself? Yeah.
+
+So when you purchase the P2 license, it opens up all of the world of possibilities. So you don't actually have to sign it to anyone or any one user. It just has to be on the tenant. And so like, for instance, when I was doing the conditional access policies on the Frenchies domain, I had to have that license or you can't get to certain areas of Intra.
+
+Yes, yes, yes. Access and you can see it, but it always says, hey, this needs a P2 license. You don't have to attach it to anyone. It's just a blanket.
+
+It's just a blanket license.
+
+That's good to know.
+
+I noticed there is... I noticed that there is one of the tenants that has two And I don't think we need that second one. The one is purchased through us on every single tenant. So there was one.
+
+And Bishop's has... 5 with 3 allocated. So I'll be looking into that.
+
+Yeah, we don't need those. And that means the four that you purchased.
+
+Same thing with Frenchies shows two, three, four.
+
+So the four that you purchased, you can cancel those on your billing side.
+
+Yeah, that would have been a previous... That would have been the previous person. Is Eric Canfield? No, he's not. Yeah, that's who would have purchased them. Yeah.
+
+Okay, yeah, because I noticed, yeah, when we first onboarded with him, he was like, oh, I need this, I need that, I need this, and I really didn't question his... what he was, you know, asking for. I knew... I didn't question really because logically took over at the time. So it really wasn't my responsibility. So I was just like, okay, whatever you need.
+
+For like Delta Crown, I'm noticing like they're the ones that are, you know, there's only the one license assigned, like you said, and then like I can see the license, you know, the 404 consumed. So, yeah. Yeah, so basically...
+
+Wait, what do you mean on Delta Crown? Because Delta Crown, there should be none unless you purchase them. It should only be the one because I set up the conditional access.
+
+Yeah, just the one. Yep, yep. That's what I was saying. It's just the one unassigned, like you were saying. So this is like the best case scenario is this is set up. Yeah. That way. So, um, And then, yeah, so basically this here is going to be a way for, like if you want to go through, when I actually can get you like the full details of this hosted, which I should have hopefully, worst case, top of next week.
+
+But the biggest thing is like, What are the questions it asks? There's a couple of different spots. And these can all get collapsed so you can Nazi crazy amount of stuff. It talks about the Azure subscriptions, billing accounts found, which obviously this is what we're going to clean up. There's some licenses that are still direct billed to me for head to toe that I'll be working with you on to make sure that those are also migrated over.
+
+And that's for some of the Power BI ones that I had mentioned, subscriptions that actually, and you had already started that because Power BI and the Teams premium for head to toe those ones just got just got done so that's again in progress which is good Okay. So we know... Yeah, this was a call-out from... Go ahead.
+
+From my understanding, users no longer need the individual Power BI licenses, correct, on any of the tenants because of what you're doing?
+
+Yep, I inherited...
+
+I just wanted to make sure.
+
+Yep, yep, yeah, basically they'll get auto-assigned once they become a... a connected user, Um... If I have an owner or somebody that needs to get access that isn't already in the original, there's some sort of Power BI group in the Lash Lounge that if they're added into that group, then within the 30, 40 minutes, the cross-tenant sync will initiate any changes and then it brings them over. Thank you. And then when they get brought over, they get automatically put into a group that assigns that license that they need, which is just a fabric-free license. And then that will give them access to it. So it's all done on head-to-toes tenant.
+
+Okay. I'm trying to make sure there's any, so this, this cyber insurance gap, this was the thing that just related to the thing that I got given to me, like in the middle of the day by Joe to complete. And Kristen was like, what the heck? We already answered some of these questions. The MFA for all users. I just, when we had mentioned, we know that head to toe is, is done. The bishops is, is not every single person. French is obviously not everyone.
+
+You had, putting in some policies for this. And I know that I'm totally down with you helping on implementing MFA because it's kind of nice to have it come from, I mean, no offense, but like having our, you know, our, you know, Sujan Rhee come in and say, yeah, we're helping you out to be more secure because this is an industry best practice thing. Here's what we're going to need to do. Are you planning on phasing it or what? Have you talked to Kristen about MFA rollout or where are we at?
+
+No, she, Kristen, no. Like, I don't really need to talk to her about that. I know it needs to be done. It's just something that I do. I don't really have to roll on her. Like, I don't really have to reach out to her for anything like that.
+
+I didn't think so, but I just want to make sure she's... Because I know she knows that it needs to happen as well. And so I know that you can... do conditional access policies and have rolled it out before. So just wanted to see what your thoughts were on that.
+
+Just so you know, Delta Crown, I don't know why they're saying it's failed.
+
+It's 100% already active on the entire tenant. This might have been pulled before you. When did you add that conditional access policy? Um...
+
+Sometimes... Late last month, and I say that because I was asked to create four new franchisees that had just signed on. And before I created them, I set the conditional access policies on the entire tenant. So it's set the way it needs to go. Perfect.
+
+Yeah, I'll rerun that one.
+
+So it should be... It should be 100% in terms of... Frenchies, I just completed and I may have done it last week, but I actually Let me see if I can share it with you. I need to schedule this with you guys. And I'm terrified to do it before convention because what I don't want to leave is my team with a bunch of these like, hey, you know, I mean, I'm sure Dustin can take care of that. He's not on this call to...
+
+to go over with, but we do need to enable this. And I'd like to do it in such a way that we do it like the last launch where it's not the salons. It's just the user accounts. So my reasoning for this is because Um, If we did it before convention or anything like that, and then what happens is these users go in and they try to set up the two-factor authentication.
+
+Yeah, it'll be a support nightmare during convention. Yeah.
+
+Yeah. And so what I don't want is that I've actually created, hold on, let me pull it up and go to... Oh my God, I have so many customers. Oh my gosh. Jesus, ABCDEF, I'm here to see. Sorry. Um... That's equipment. Set of documents, okay. So I have created... I've created this document. Where'd you go? Let's see. I could probably upload it to chat. I've created this Not gonna let me upload a document.
+
+It usually can get finicky with, um,You've been seen as an external user on the Teams call, but we can--So let me just open it and I'll share my screen real quick with you.
+
+Sounds good. Okay, so I just created this document. It is... Can you see it? I'm sure.
+
+Yeah, yeah, yeah.
+
+So it is a step-by-step. document for users to set up. There, Frenchies. Um, email, arrows, everything, like, Basically, it's what I like to call a document for dummies. I make it as simple as possible so that I don't really get any questions. I made one very similar for the Lash Lounge when we enabled MFA, and I may have had five calls.
+
+We could put this on our support desk for Frenchies that we have too. So if you're able to send this to me, I could just make sure that that's there because as we start to support the support desk more and more for Frenchies, just having that there for new users could be helpful.
+
+you Yeah, I want to create what I want to create is a everyone at or a owner like users at district group. I'd like to put everyone in it except for the salons.
+
+For what?
+
+for Frenchies for the district group. And then what I would like to do is create the conditional access policy, add that same group into into that. Like if you notice under Lash Lounge, I have a MFA security group, which every new user that I create, I add to that MFA security group.
+
+Yeah, makes sense.
+
+And And then outside of the salons. And I don't have the salons.
+
+Typically, once I sign into a salon, I'm I'm the users the end users at the desk they don't sign into that email so it's usually set up on outlook they don't have to enter the password they don't know the password most of the time which prevents a lot of this well you know that like to figure out well that whole process like i told you i i know how we can mitigate not having to do that specifically because like for delta for example like we We can't have salon emails be, or whatever they're going to be called, be kind of the path forward because I know that with the user, like technically the salon emails are still, and we've talked about this before and I'm not going to try and, because I'm, you know, obviously you can tell I'm very particular about this because I've just gotten burned so many times.
+
+But user accounts have to be tied to an individual. And so if they're not tied to an individual, then it's immediately, it doesn't meet the compliance. So even though it's a salon email, it's not technically, it's still a provisioned user that if you look at like how Microsoft works, like it needs to be tied to a user or person. And they have other features and functionality for accommodating how a salon email could be used. And then that even goes beyond to if you wanted to use... I'm talking about all groups, like security groups. There's dynamic security groups, there's dynamic M365 groups, there's basically...
+
+The way that I want Delta to be right off the jump is setting the, and it won't be, you know, we won't be able to have the full onboarding and offboarding lifecycle, but like what will happen is we'll be able to set the standard for, hey, when someone comes onboard as like a Delta Crown based off of what their role is, you know, if they're corporate, you know, head to toe, or if they're Delta Crown because they're a new franchisee owner, et cetera.
+
+I want to have an easy way for us to onboard them with that right information that gets tied to their Microsoft account, like in all the relevant user properties, that we might need to track, like the IDs of the salon studio, anything from Zenoti, like things that we need to, things we need to know about them as a person and have that just be a part of the onboarding so that then as we're building that out, that then empowers every part of the other pieces of Microsoft that we can take advantage of.
+
+So I can dynamically add someone to a group that gives security permissions to this thing or dynamically add someone to a group that then adds them to that conditional access policy because it's about, for me, it's about getting ahead of it up front and saying, hey, you know, like I'm doing very basic architecture to start. Like, hey, your first name, last name, phone number, obviously we have your email, your location, role.
+
+And then just based off of that alone, we can start to, you know, do like a, just a better experience. Like SharePoint will be started out great with having a dedicated like hub and spoke, so that people can get to stuff. And I'm doing it very simple to start. So I know that there's like, there's a lot of stuff that I'm, looking at, but the overwhelming thing that head to toe as a corporate team has not fully been able to consume because it's not Kristen's expertise. It's not the thing that she is good at. None of our executive team is technically savvy and that's fine. They have their stuff, but we've never had a pillar of IT ever sitting and saying, hey, Riverside's saying we need to do this.
+
+And I, being in the IT department, I'm going to be scored on whether or not we are meeting these benchmarks by these dates. in six months. Well, no, now July, I have to have certain things signed off on that our infrastructure complies with. And basically what this entire thing that I built, like this guide or whatever, it's taking everything that they kind of marked as things that we need to get done.
+
+And the real official dashboard that I'll be launching, which the one I just showed you today was about just like cross-tenant situation and specifically like our managed service provider relationships. I have been... I'll be able to know at any given time exactly where we're at with all of our security and whatnot. uh very uh much not as available to talk to you as uh about things as i've wanted to be so i just want to apologize for that because i i know you're so busy um but you're very good at your kind of task management of going through and i've just noticed that you have a very consistent um way of working.
+
+And that's been my biggest challenge in this role because I have been given all of these random things thrown at me at any given time that last year was very intense, but this year it's been about me really lining up with what Kristen knows that I'm being asked. We review that together and we make sure I'm working on the things I should be because a lot of folks are, And again, it kind of ties back to not having an internal IT system. People are going back to their old ways of doing stuff. And some of that's okay and some of it's not.
+
+And so for example, I don't want you to have to worry about getting asked questions about Power BI and how it works and how to give access. But that's all Hannah knows. And she's not really in the zeitgeist. She's super busy and I know why she asked you. But then you're going to do your due diligence to ask them, like, hey, I'm not sure, and clarify. for a team, um, should know about those types of things and be informed. And so that to me was a great opportunity that I saw that we could, I know IT could do better at making sure that that's clear so that for these key escalations, like an owner getting access to the reporting are handled in the right spot.
+
+So I just had Kristen send an email that you might've been copied on earlier this week that says, hey, like any corporate team member, if you need help with IT in any capacity, message Tyler or Dustin and do not send them an email if you want it to get looked at because I was getting so inundated between all the different, like I literally had teams, obviously Monday, Freshdesk, email, you know because you live this world, but then it goes to the resourcing.
+
+If VPs in marketing are wanting me to do this, anyway, this back half is purely venting, so thank you for letting me vent. I'm really passionate about what we have going on and what we can do. You guys have a lot of benefit to some of the systems that building, but I've had a lot of setbacks with just kind of doing a lot of maintaining and managing the current stuff. So I'm just excited to finally get this BI migration done.
+
+I did the migration from Franworth to us, and then I took the legacy you know, It just hasn't been updated and looked at in a while, but it means a ton of work. And I'm taking that and migrating it to cloud. And then I can kind of wash my hands and be done. But my biggest thing that I like working on is this infrastructure stuff. So your licensing expertise and knowledge with Microsoft and different things will be helpful.
+
+But I just want to apologize again for not being as available as I should be and for any delays you got with any of my responses, my pace and tasks.
+
+You're fine. I don't know that I was copied on that email. Did she, would she tell them to reach out to me?
+
+No, no, no, no. She said like for anything, this was like purely for, you know, she's assuming corporate team knows we generate for hardware, all that. Cause I know they've been doing pretty good with that, but it was purely for like every day I was being hit up on, you know, teams and a couple of different chats about like report issues and like report stuff. I was specifically changed roles at the top of this year to not deal with that, but because it is such an important part of the business, I'm not gonna not do it.
+
+So I've told Chris, I'm like, "Hey, I'm gonna get it fixed for you." we just need to keep this thing alive for what it is and then I'll get it migrated.
+
+Who deals with all of that? Me.
+
+No, but she told him not to reach out to you.
+
+So I'm confused. Well, no, no. So she's basically saying like on that front, we're not doing any more maintenance or improvements to that system. So she's saying like, leave it be because Tyler's in the process of migrating it over. So once it's migrated, I told her like, it's gonna be like wash, man's clean of like, here's everything and here's all the documentation for it. If you wanna hire a contractor to manage it, great.
+
+Like she has Phillip doing the dart stuff. So it'll be good to be able to give that off because that the last two weeks has been taking up my time. But then when it comes to our alignment on licensing, when I'm having conversations with finance and there's still confusion around cost licensing, I know you've been working with Kristen on stuff. I'm just so excited at the potential of finally getting this shit just clean.
+
+And we know like what we have and why we have it and what we're paying for. Because to go back to my initial point, I just don't think, and I know that Kristen and Meg and all them didn't know just how much of an infrastructure beast they were inheriting. And that's okay. And me and Kristen told each other, like, none of us knew and we're learning. We're going to try to fail fast and, you know, work with folks like yourself who are actually helpful and responsive and will help us, you know, not be illogically.
+
+Well, that's what I'm trying to do. I see all this stuff and I'm like, we've got to cancel.
+
+We've got to get all this stuff out. So thank you for staying on top of that too.
+
+We've got to, I'm trying. It's a lot. And speaking of, I don't know if I get this from you or if you have a couple of things. One, I wanted to, Colton is working on something right now. He's one of my associates. He's working on an analytics page that is pulling, he's created this analytics page for our call dashboard. So it looks really cool. We're going to be updating that soon. He's going to need access to the Lash Lounge and head-to-toe DNS records to update because I don't want users signing in with just username and passwords.
+
+I want them to authenticate with Microsoft and I want them to authenticate with Microsoft because when I get an off-board request, I don't want to have to check a second password structure. You know what I mean? And then the call dashboard as it stands is like, the call dashboard as it stands right now authenticates with Office 365. So when I terminate a user, they also lose access to the call dashboard.
+
+But we were, we're creating a new dashboard and it has a lot of analytics that shows, you know, missed calls, time of day, things like that, that some of the FBCs have reached out and said, hey, we'd like to see this. So...
+
+And this is just, Something new. Authenticate to your guys' custom app using our Entra. So you're just saying you're going to need the ability to... Yeah, so if it's anything DNS related, I'm more than happy to update or change any records in Cloudflare. Probably...
+
+Probably just The Lash Lounge, I think, because I think we're going to do... We were going to do analytics at thelashlounge.com, but I...
+
+Oh, so you just need to add a CNAME record for the redirect.
+
+Yeah, we'll just do something like that. But if you want to look, it's kind of like, let me see if I can pull it up. Let me... Let me show you. Let's go to.
+
+So this is we just kind of did like a test. but we've created a whole new dashboard that...
+
+Which calls are these? Oh, the calls for the slums.
+
+This is all... the calls for the salons. We've created this new dashboard. And it shows the salons. Obviously, you don't see any recordings and download options here because they're being recorded somewhere else right now.
+
+Okay.
+
+essentially, you'll see the play button and the download option here once we actually move the call recordings because the call recordings are currently on... a dashboard that the owner of my company created. And let me show you what it looks like. And it doesn't like... Let me show you. This is the current dashboard. It's like super plain Jane and it shows the call history and you can play and download.
+
+Okay, right on, right on. Hey, you know, it does the job. I like it.
+
+It does the job. It's super basic. But one of the things that we wanted to see, FPCs wanted to see, owners wanted to see, was the, like, see, this shit's broken most of the time. So we've been working to rebuild that, not on our site, because what happens is the way we've got Twilio routing is to our server, and then it routes here, and then it goes back to Twilio, The problem is if our server goes down for any reasons, then all calls stop.
+
+with the Lash Lounge. So in an effort to mitigate that, we're taking our server completely out of the loop. And then we've created a program that pulls all of this information directly from Twilio. This is obviously... Yeah. And so it doesn't even go through our servers. This is just basically a dashboard that we've created with all of that information. And at first, initially, we were going to use Airtable, but Airtable had some issues in terms of some of the requests that the FPCs were making with me that Airtable just couldn't accommodate. And the storage was way more expensive.
+
+So we didn't want to accommodate those and then also raise the prices because we only charge $5 a month for call recording to each salon. So in order to accommodate some of the requests that we're making and to stay in Airtable, that would have roughly looked like a $40 a month request. So we didn't want to do that. We didn't want to raise prices because, you know, everything else is raise prices. And that's one of the things that we're trying not to do. Sorry, let me didn't realize I was in a server here.
+
+Very good. And so this is kind of like what we're trying.
+
+Yeah, makes sense. Just trying to do. That's great. No, that's good stuff. And I think that as far as like everything else for me going forward, the biggest things are gonna be, I'm setting up the Delta Crown tenant just when it comes to the SharePoint, Basically the SharePoint information architecture and the initial different department channels and emails and all that stuff. So I'm going to have a basic layout of that done and then I'm going to put it in front of you and Kristen likely initially and just be like, hey, does this make sense?
+
+Because I told her the basic kind of way that I wanted to start Deltacron off so that it could be the example of like, hey, this is when you first get access here is how you can get access to all your different resources if you're an owner or if you're a manager. Trying to make that clear because like the... like head to toe, it's kind of a mess. Like SharePoint's a mess and it's really, really, really frustrating to support.
+
+Like if someone needs access to SharePoint, And folders inside of the single document library that it exists on, all the permission inheritances have been broken in every layer of the folders, and you don't know who has access to what. So I literally wrote an agent that is going to go through and look through every single piece of data that's inside of those folders to understand what's there in terms of like the metadata, the document contents, all that stuff. And then help me get all of that sorted because there's tons of security risks going on, like a very, very large amount of them. So anyways.
+
+We definitely don't want to do that with Crown. I kind of look at Crown as... It's going to be my baby for new things. Yes.
+
+So I'll show you what I build and we'll, again, it's just going to be kind of a simple hub and spoke structure to start and nothing more than just kind of having like those dedicated areas. And then, and again, the initial concept or the initial, you know, setup of it, I'll show to you and Kristen, then I'll, I can dumb it down or add to it, but I'm trying to like not... Over complicated, but with all the things I've learned the last year with all the cross tenant syncing and, you know, different policies and configurations you can do, I think we can get this one right and get away from anything that doesn't need to be manual for like provisioning.
+
+Okay.
+
+And if there's anything that I can do, if there's a list of, hey, Megan, when you create a new user, if you could add them to this, this, this, and this group, or please let me know.
+
+I'm going to send you a link to this site. That would be super helpful. For sure. I'm going to send you a link to this kind of overview that I was sharing today, and it'll have some spots for you to fill out your answers to whatever you know or can provide. And that's going to kind of close out all of the remaining things that I would need to know. And then, so as we go into next week, it's really about making sure we get, you know, Delta spun up and ready to go with, you know, getting, you know, they're going to be, I don't know how fast they're going to be adding more users, but we have the users that are there. We'll make sure they have access to what they need to and the structure makes sense.
+
+And everything else we can start to just chip away on the billing and everything. just the transition timeline and everything. So, but I... Organization.
+
+Hey, any chance you have a DUNS number for Delta Crown?
+
+A what number?
+
+a DUNS number. I think I need the DUNS number. I don't think I'm going to set up a business manager. For Delta Crown and I'm also and I need to have the Apple business Did you see the new one they just released that offers free device management?
+
+Apple just released a new... Yeah, it's crazy. Anyways, but no, I will look for that.
+
+I think it's a good question. I did not see that. I will look into it.
+
+They're like, yeah.
+
+Apple, and it's an MDM?
+
+Yeah, it's like an enterprise management tool that they're going to offer for free and shake up the industry. I was like, what?
+
+Well, good to know because I need the DUNS number to set up Apple Business Manager so that I can tie to an MDM. As I've noticed that now I'm creating more Delta Crown, that I have a little less time to get this done than I thought. So I would like to get that in place and ready because I'm not giving Crown a choice. They will use all Mac products. We will not have any Windows. I'm choosing everything that we can manage remotely with a click of a button.
+
+There will be no, Hey, let me run into your front desk computer. I want to be able to do everything. And so I didn't have that obviously with the other three brands. We did have that with the Lash Lounge, but the Lash Lounge was eight years ago. Eight years ago, technology wasn't where it was or 10 years ago. And so we had Sonic Walls in the old salons and we, manage it remotely and so when i had to make changes i had to remote into the front desk computer and be on the local network and it was just like a huge thing now i can see everything through unify i can have my portals i want an mdm i want to make this where it's so much easier and i could do a click of a button and update and everything and nobody even knows i'm you know like um doing taking care of these things at night i can select all update all you know yep and if i need to push out an app i can do it the board and not just let me call this salon and walk them through this because it's kills me on these little things you know no i i agree and the support yeah the support stuff we're gonna yeah we're gonna rein in but uh but no this is great um i'm gonna take the notes that i have from today uh and we'll uh just keep marching forward and um and yeah if you need anything just just don't hesitate to reach out Okay.
+
+Awesome. That's all I got for now. Okay, perfect. Awesome. Have a good weekend and I'll talk soon. Yep, bye.
