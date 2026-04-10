@@ -1,0 +1,16 @@
+{
+  "_comment": "Required Microsoft Graph API permissions per audit module",
+  "minimumReadOnly": [
+    "Policy.Read.All", "User.Read.All", "Directory.Read.All", "AuditLog.Read.All",
+    "Synchronization.Read.All", "GroupMember.Read.All", "AccessReview.Read.All",
+    "EntitlementManagement.Read.All", "RoleManagement.Read.Directory", "LifecycleWorkflows.Read.All"
+  ],
+  "powershellModules": {
+    "required": [
+      "Microsoft.Graph.Authentication", "Microsoft.Graph.Identity.SignIns",
+      "Microsoft.Graph.Identity.Governance", "Microsoft.Graph.Users",
+      "Microsoft.Graph.Applications", "Microsoft.Graph.Reports", "Microsoft.Graph.Groups"
+    ],
+    "optional": ["MicrosoftTeams", "Microsoft.Graph.Beta.Identity.SignIns"]
+  }
+}

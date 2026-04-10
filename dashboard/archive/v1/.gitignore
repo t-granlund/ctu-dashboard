@@ -1,0 +1,24 @@
+# Reports (generated audit data)
+reports/*.json
+reports/*.csv
+reports/*.md
+!reports/.gitkeep
+
+# KQL exports
+monitoring/kql/*.kql
+!monitoring/kql/.gitkeep
+
+# Secrets
+*.pfx
+*.pem
+*.key
+.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

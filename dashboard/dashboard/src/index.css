@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0f172a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+  }
+}
+
+/* Print-friendly styles for MSP walkthrough */
+@media print {
+  body { background: white !important; color: black !important; }
+  .print\:hidden { display: none !important; }
+  aside { display: none !important; }
+  main { margin-left: 0 !important; }
+  [class*="bg-slate"] { background: white !important; border-color: #ccc !important; }
+  [class*="text-slate"], [class*="text-white"], [class*="text-cyan"] { color: #333 !important; }
+  [class*="text-red"] { color: #c00 !important; }
+  [class*="text-green"] { color: #060 !important; }
+  textarea, select { border: 1px solid #999 !important; background: #f9f9f9 !important; color: #333 !important; }
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-slate-700/50 bg-slate-800/60 p-5 backdrop-blur-sm;
+  }
+  .card-header {
+    @apply mb-4 text-sm font-semibold uppercase tracking-wider text-slate-400;
+  }
+  .stat-big {
+    @apply text-4xl font-extrabold tracking-tight;
+  }
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold;
+  }
+  .nav-link {
+    @apply flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
+           text-slate-400 transition-all duration-150
+           hover:bg-slate-800 hover:text-white;
+  }
+  .nav-link.active {
+    @apply bg-slate-800 text-white shadow-sm shadow-slate-900/50;
+  }
+  .section-title {
+    @apply mb-6 text-2xl font-bold tracking-tight text-white;
+  }
+}

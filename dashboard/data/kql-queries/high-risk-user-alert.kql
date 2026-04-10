@@ -1,0 +1,167 @@
+// ============================================================================
+// CTU Phase 5 — High-Risk External User Alert
+// ============================================================================
+// Purpose:     Detect when an external or guest user is flagged as high-risk
+//              by Entra ID Protection. Risk signals include leaked credentials,
+//              impossible travel, malware-linked IPs, anonymous proxies, etc.
+//              External users with elevated risk require immediate action —
+//              they operate outside our direct credential management.
+//
+// Schedule:    Hourly
+// Severity:    Critical (P0) for high-risk; High (P1) for medium-risk
+//
+// Action:      1. Email Tyler (tyler.granlund-admin@httbrands.com)
+//              2. High-risk: block sign-in + revoke sessions immediately
+//              3. Medium-risk: force MFA re-registration + monitor
+//              4. Coordinate with partner tenant admin if credential compromise
+//              5. Log incident for quarterly governance review
+//
+// Targets:     All 5 tenants (HTT, BCC, FN, TLL, DCE)
+// Requirement: CTU baseline.json — Conditional Access: high-risk user flow
+//              must prompt MFA or block; Identity Governance: lifecycle
+//              auto-disable for flagged users
+// Graph Ref:   AADUserRiskEvents, AADRiskyUsers, SigninLogs
+// ============================================================================
+
+// Risk levels we care about for external users. Even medium-risk on a guest
+// is more concerning than medium-risk on an employee we can directly manage.
+let AlertableRiskLevels = dynamic(["high", "medium"]);
+// Approved tenant IDs — for identifying which partner is affected.
+let ApprovedTenantIds = dynamic([
+    "0c0e35dc-188a-4eb3-b8ba-61752154b407",  // HTT
+    "b5380912-79ec-452d-a6ca-6d897b19b294",  // BCC
+    "98723287-044b-4bbb-9294-19857d4128a0",  // FN
+    "3c7d2bf3-b597-4766-b5cb-2b489c2904d6",  // TLL
+    "ce62e17d-2feb-4e67-a115-8ea4af68da30"   // DCE
+]);
+// --- Part A: Real-time Risk Detections ---
+// Catches risk events as they fire — leaked creds, impossible travel, etc.
+let RiskDetections = AADUserRiskEvents
+    | where TimeGenerated > ago(1h)
+    | where RiskLevel in (AlertableRiskLevels)
+    // Filter to guest / external users.
+    | where UserType == "guest"
+         or UserPrincipalName has "#EXT#"
+    | extend AlertSeverity = case(
+        RiskLevel == "high",   "CRITICAL — High-risk guest detected",
+        RiskLevel == "medium", "HIGH — Medium-risk guest detected",
+        "INFO"
+    )
+    // Map the risk event to a partner tenant for escalation routing.
+    | extend PartnerTenant = case(
+        UserPrincipalName has "bishops.co",        "BCC (Bishops)",
+        UserPrincipalName has "frenchiesnails.com", "FN (Frenchies)",
+        UserPrincipalName has "thelashlounge.com",  "TLL (The Lash Lounge)",
+        UserPrincipalName has "deltacrown.com",     "DCE (Delta Crown)",
+        UserPrincipalName has "httbrands.com",      "HTT (Hub — internal guest?)",
+        "Unknown / External"
+    )
+    | project
+        TimeGenerated,
+        AlertSeverity,
+        EventType            = "RiskDetection",
+        UserPrincipalName,
+        UserDisplayName,
+        UserType,
+        PartnerTenant,
+        RiskLevel,
+        RiskState,
+        RiskDetail,
+        RiskEventType,
+        DetectionTimingType,
+        IPAddress            = IpAddress,
+        Location,
+        Source,
+        CorrelationId        = tostring(CorrelationId)
+    ;
+// --- Part B: Risky User State Changes ---
+// Catches when a user's aggregate risk state changes to "atRisk" or "confirmedCompromised".
+let RiskyUserStateChanges = AADRiskyUsers
+    | where TimeGenerated > ago(1h)
+    | where RiskLevel in (AlertableRiskLevels)
+    | where RiskState in ("atRisk", "confirmedCompromised")
+    // Filter to guest / external users.
+    | where UserType == "guest"
+         or UserPrincipalName has "#EXT#"
+    | extend AlertSeverity = case(
+        RiskState == "confirmedCompromised", "CRITICAL — Guest confirmed compromised",
+        RiskLevel == "high",                "CRITICAL — High-risk guest (aggregate)",
+        "HIGH — Medium-risk guest (aggregate)"
+    )
+    | extend PartnerTenant = case(
+        UserPrincipalName has "bishops.co",        "BCC (Bishops)",
+        UserPrincipalName has "frenchiesnails.com", "FN (Frenchies)",
+        UserPrincipalName has "thelashlounge.com",  "TLL (The Lash Lounge)",
+        UserPrincipalName has "deltacrown.com",     "DCE (Delta Crown)",
+        UserPrincipalName has "httbrands.com",      "HTT (Hub)",
+        "Unknown / External"
+    )
+    | project
+        TimeGenerated,
+        AlertSeverity,
+        EventType            = "RiskyUserState",
+        UserPrincipalName,
+        UserDisplayName,
+        UserType,
+        PartnerTenant,
+        RiskLevel,
+        RiskState,
+        RiskDetail,
+        RiskEventType        = "",
+        DetectionTimingType  = "",
+        IPAddress            = "",
+        Location             = "",
+        Source                = "",
+        CorrelationId        = ""
+    ;
+// --- Part C: Risky Sign-Ins by Guests ---
+// Cross-reference with SigninLogs to catch risk-flagged sign-in attempts.
+let RiskyGuestSignIns = SigninLogs
+    | where TimeGenerated > ago(1h)
+    | where UserType == "Guest"
+         or HomeTenantId != ResourceTenantId
+    | where RiskLevelDuringSignIn in (AlertableRiskLevels)
+         or RiskLevelAggregated in (AlertableRiskLevels)
+    | extend EffectiveRisk = iff(
+        RiskLevelDuringSignIn == "high" or RiskLevelAggregated == "high",
+        "high",
+        "medium"
+    )
+    | extend AlertSeverity = case(
+        EffectiveRisk == "high" and ResultType == 0, "CRITICAL — High-risk guest signed in successfully",
+        EffectiveRisk == "high",                     "HIGH — High-risk guest sign-in (blocked/failed)",
+        ResultType == 0,                             "HIGH — Medium-risk guest signed in successfully",
+        "MEDIUM — Medium-risk guest sign-in (blocked)"
+    )
+    | extend PartnerTenant = case(
+        HomeTenantId == "b5380912-79ec-452d-a6ca-6d897b19b294", "BCC (Bishops)",
+        HomeTenantId == "98723287-044b-4bbb-9294-19857d4128a0", "FN (Frenchies)",
+        HomeTenantId == "3c7d2bf3-b597-4766-b5cb-2b489c2904d6", "TLL (The Lash Lounge)",
+        HomeTenantId == "ce62e17d-2feb-4e67-a115-8ea4af68da30", "DCE (Delta Crown)",
+        HomeTenantId == "0c0e35dc-188a-4eb3-b8ba-61752154b407", "HTT (Hub)",
+        HomeTenantId !in (ApprovedTenantIds),                   strcat("UNAPPROVED (", HomeTenantId, ")"),
+        "Unknown"
+    )
+    | project
+        TimeGenerated,
+        AlertSeverity,
+        EventType            = "RiskySignIn",
+        UserPrincipalName,
+        UserDisplayName,
+        UserType,
+        PartnerTenant,
+        RiskLevel            = EffectiveRisk,
+        RiskState            = RiskState,
+        RiskDetail           = tostring(RiskDetail),
+        RiskEventType        = "",
+        DetectionTimingType  = "",
+        IPAddress,
+        Location             = tostring(LocationDetails),
+        Source                = AppDisplayName,
+        CorrelationId        = tostring(CorrelationId)
+    ;
+// Union all three risk signal types into a single alert stream.
+RiskDetections
+| union RiskyUserStateChanges
+| union RiskyGuestSignIns
+| sort by AlertSeverity asc, TimeGenerated desc
