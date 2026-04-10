@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import PasswordGate from './components/PasswordGate';
 import Sidebar from './components/Sidebar';
 import ExecutiveOverview from './components/ExecutiveOverview';
 import FindingsExplorer from './components/FindingsExplorer';
@@ -45,6 +46,7 @@ export default function App() {
   }, []);
 
   return (
+    <PasswordGate>
     <div className="flex min-h-screen">
       <Sidebar active={active} onNavigate={handleNavigate} />
 
@@ -84,5 +86,6 @@ export default function App() {
         </footer>
       </main>
     </div>
+    </PasswordGate>
   );
 }
