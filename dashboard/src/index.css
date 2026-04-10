@@ -19,6 +19,19 @@
   }
 }
 
+/* Print-friendly styles for MSP walkthrough */
+@media print {
+  body { background: white !important; color: black !important; }
+  .print\:hidden { display: none !important; }
+  aside { display: none !important; }
+  main { margin-left: 0 !important; }
+  [class*="bg-slate"] { background: white !important; border-color: #ccc !important; }
+  [class*="text-slate"], [class*="text-white"], [class*="text-cyan"] { color: #333 !important; }
+  [class*="text-red"] { color: #c00 !important; }
+  [class*="text-green"] { color: #060 !important; }
+  textarea, select { border: 1px solid #999 !important; background: #f9f9f9 !important; color: #333 !important; }
+}
+
 @layer components {
   .card {
     @apply rounded-xl border border-slate-700/50 bg-slate-800/60 p-5 backdrop-blur-sm;

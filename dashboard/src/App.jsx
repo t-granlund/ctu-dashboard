@@ -8,9 +8,10 @@ import UnknownTenants from './components/UnknownTenants';
 import ComplianceMatrix from './components/ComplianceMatrix';
 import RoadmapGates from './components/RoadmapGates';
 import PositiveFindings from './components/PositiveFindings';
+import MSPWalkthrough from './components/MSPWalkthrough';
 
 const SECTIONS = [
-  'overview', 'findings', 'tenants', 'guests',
+  'overview', 'msp-review', 'findings', 'tenants', 'guests',
   'unknown', 'compliance', 'roadmap', 'positive',
 ];
 
@@ -64,6 +65,7 @@ export default function App() {
         {/* Sections */}
         <div className="space-y-20">
           <ExecutiveOverview />
+          <MSPWalkthrough />
           <FindingsExplorer />
           <TenantDeepDive />
           <GuestInventory />

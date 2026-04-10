@@ -1,5 +1,6 @@
 const NAV_ITEMS = [
   { id: 'overview',    label: 'Executive Overview',  icon: '📊' },
+  { id: 'msp-review',  label: 'MSP Review',           icon: '🔧' },
   { id: 'findings',    label: 'Findings Explorer',   icon: '🔍' },
   { id: 'tenants',     label: 'Tenant Deep Dives',   icon: '🏢' },
   { id: 'guests',      label: 'Guest Inventory',     icon: '👥' },
