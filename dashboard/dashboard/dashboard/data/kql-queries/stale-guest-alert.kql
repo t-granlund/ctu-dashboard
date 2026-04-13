@@ -1,0 +1,79 @@
+// ============================================================================
+// CTU Phase 5 — Stale Guest Account Alert
+// ============================================================================
+// Purpose:     Detect guest accounts with no sign-in activity for >90 days.
+//              Stale guests are a governance risk — unused accounts expand the
+//              attack surface and violate HTT Brands' 90-day lifecycle policy.
+//
+// Schedule:    Weekly (every Monday 06:00 UTC)
+// Severity:    High (P1)
+// Threshold:   90 days since last sign-in (configurable via StaleThresholdDays)
+//
+// Action:      1. Email Tyler (tyler.granlund-admin@httbrands.com) with guest list
+//              2. Guests >120 days: auto-disable + email notification
+//              3. Reference runbook: docs/runbooks/stale-guest-response.md
+//
+// Targets:     All 5 tenants (HTT, BCC, FN, TLL, DCE)
+// Requirement: CTU baseline.json — Guest Lifecycle — stale threshold 90 days
+// Graph Ref:   SigninLogs, AADNonInteractiveUserSignInLogs
+// ============================================================================
+
+let StaleThresholdDays = 90;
+let AutoDisableThresholdDays = 120;
+let LookbackPeriod = ago(180d);
+let Now = now();
+// Step 1: Collect the most recent sign-in per guest from both interactive
+//         and non-interactive logs. We union both tables because many guests
+//         only show up in non-interactive flows (token refreshes, API calls).
+let LastSignIns = union SigninLogs, AADNonInteractiveUserSignInLogs
+    | where TimeGenerated > LookbackPeriod
+    | where UserType == "Guest"
+    | where ResultType == 0  // successful sign-ins only
+    | summarize LastSignIn = max(TimeGenerated) by
+        UserId,
+        UserPrincipalName,
+        UserDisplayName,
+        HomeTenantId
+    ;
+// Step 2: Pull all guest accounts from directory via AuditLogs user creation
+//         events. This catches guests who were invited but NEVER signed in.
+//         (They won't appear in SigninLogs at all.)
+let GuestAccounts = AuditLogs
+    | where TimeGenerated > ago(365d)
+    | where OperationName == "Invite external user"
+           or OperationName == "Add user"
+    | extend TargetUser = tostring(TargetResources[0].userPrincipalName)
+    | extend TargetUserId = tostring(TargetResources[0].id)
+    | extend TargetDisplayName = tostring(TargetResources[0].displayName)
+    | where TargetUser has "#EXT#" or TargetUser has "_"
+    | summarize InvitedDate = min(TimeGenerated) by
+        TargetUserId,
+        TargetUser,
+        TargetDisplayName
+    ;
+// Step 3: Left outer join — guests with sign-ins get LastSignIn populated,
+//         guests who never signed in get LastSignIn = null (worst case).
+GuestAccounts
+| join kind=leftouter LastSignIns on $left.TargetUserId == $right.UserId
+| extend DaysSinceSignIn = iff(
+    isnotempty(LastSignIn),
+    datetime_diff('day', Now, LastSignIn),
+    datetime_diff('day', Now, InvitedDate)  // never signed in — use invite date
+)
+| extend NeverSignedIn = isempty(LastSignIn)
+| where DaysSinceSignIn > StaleThresholdDays
+| extend StaleSeverity = case(
+    DaysSinceSignIn > AutoDisableThresholdDays, "CRITICAL — Auto-disable candidate",
+    DaysSinceSignIn > StaleThresholdDays,       "HIGH — Review and warn",
+    "OK"
+)
+| project
+    GuestUPN             = coalesce(UserPrincipalName, TargetUser),
+    DisplayName          = coalesce(UserDisplayName, TargetDisplayName),
+    HomeTenantId         = coalesce(HomeTenantId, "Unknown"),
+    InvitedDate,
+    LastSignIn,
+    NeverSignedIn,
+    DaysSinceSignIn,
+    StaleSeverity
+| sort by DaysSinceSignIn desc

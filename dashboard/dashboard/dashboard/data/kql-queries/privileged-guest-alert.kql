@@ -1,0 +1,86 @@
+// ============================================================================
+// CTU Phase 5 — Privileged Guest Role Assignment Alert
+// ============================================================================
+// Purpose:     Immediately detect when a guest account is added to any
+//              privileged Entra ID directory role. Guests in admin roles are
+//              a critical security finding — CTU baseline requires zero guests
+//              in privileged roles at all times.
+//
+// Schedule:    Immediate (real-time alert, evaluate every 5 minutes)
+// Severity:    Critical (P0)
+//
+// Action:      1. Immediately email Tyler (tyler.granlund-admin@httbrands.com)
+//              2. Auto-disable the guest account (ask forgiveness, not permission)
+//              3. Open incident in #it-ops-alerts
+//              4. Reference runbook: docs/runbooks/pim-elevation-emergency.md
+//
+// Targets:     All 5 tenants (HTT, BCC, FN, TLL, DCE)
+// Requirement: CTU baseline.json — Guest Inventory — Critical: guests in
+//              privileged roles = immediate remediation
+// Graph Ref:   AuditLogs (category: RoleManagement)
+// ============================================================================
+
+// Privileged role template IDs (Entra ID built-in roles).
+// These are the roles where a guest assignment = critical finding.
+let PrivilegedRoleTemplateIds = dynamic([
+    "62e90394-69f5-4237-9190-012177145e10",  // Global Administrator
+    "e8611ab8-c189-46e8-94e1-60213ab1f814",  // Privileged Role Administrator
+    "194ae4cb-b126-40b2-bd5b-6091b380977d",  // Security Administrator
+    "f28a1f50-f6e7-4571-818b-6a12f2af6b6c",  // SharePoint Administrator
+    "29232cdf-9323-42fd-ade2-1d097af3e4de",  // Exchange Administrator
+    "fe930be7-5e62-47db-91af-98c3a49a38b1",  // User Administrator
+    "b0f54661-2d74-4c50-afa3-1ec803f12efe",  // Billing Administrator
+    "9b895d92-2cd3-44c7-9d02-a6ac2d5ea5c3"   // Application Administrator
+]);
+// Detect role assignment operations in AuditLogs targeting guest users.
+AuditLogs
+| where TimeGenerated > ago(15m)  // tight window for near-real-time alerting
+| where Category == "RoleManagement"
+| where OperationName in (
+    "Add member to role",
+    "Add eligible member to role",
+    "Add scoped member to role"
+)
+| where Result == "success"
+// Extract the target user and role details from the nested TargetResources.
+| extend TargetUPN = tostring(TargetResources[0].userPrincipalName)
+| extend TargetDisplayName = tostring(TargetResources[0].displayName)
+| extend TargetUserId = tostring(TargetResources[0].id)
+| extend TargetUserType = tostring(TargetResources[0].type)
+// Extract the role being assigned from ModifiedProperties.
+| mv-expand ModifiedProperty = TargetResources[0].modifiedProperties
+| where tostring(ModifiedProperty.displayName) == "Role.TemplateId"
+| extend RoleTemplateId = tostring(parse_json(tostring(ModifiedProperty.newValue)))
+// Filter to only our critical privileged roles.
+| where RoleTemplateId in (PrivilegedRoleTemplateIds)
+// Identify guest users — UPN contains #EXT# or the userType is Guest.
+| where TargetUPN has "#EXT#"
+     or TargetUserType == "Guest"
+// Extract who initiated this action (the actor).
+| extend InitiatedByUPN = tostring(InitiatedBy.user.userPrincipalName)
+| extend InitiatedByApp = tostring(InitiatedBy.app.displayName)
+| extend Initiator = coalesce(InitiatedByUPN, InitiatedByApp, "Unknown")
+// Map role template IDs to human-readable names.
+| extend RoleName = case(
+    RoleTemplateId == "62e90394-69f5-4237-9190-012177145e10", "Global Administrator",
+    RoleTemplateId == "e8611ab8-c189-46e8-94e1-60213ab1f814", "Privileged Role Administrator",
+    RoleTemplateId == "194ae4cb-b126-40b2-bd5b-6091b380977d", "Security Administrator",
+    RoleTemplateId == "f28a1f50-f6e7-4571-818b-6a12f2af6b6c", "SharePoint Administrator",
+    RoleTemplateId == "29232cdf-9323-42fd-ade2-1d097af3e4de", "Exchange Administrator",
+    RoleTemplateId == "fe930be7-5e62-47db-91af-98c3a49a38b1", "User Administrator",
+    RoleTemplateId == "b0f54661-2d74-4c50-afa3-1ec803f12efe", "Billing Administrator",
+    RoleTemplateId == "9b895d92-2cd3-44c7-9d02-a6ac2d5ea5c3", "Application Administrator",
+    strcat("Unknown Role (", RoleTemplateId, ")")
+)
+| project
+    TimeGenerated,
+    AlertSeverity        = "CRITICAL",
+    GuestUPN             = TargetUPN,
+    GuestDisplayName     = TargetDisplayName,
+    GuestUserId          = TargetUserId,
+    RoleName,
+    RoleTemplateId,
+    AssignmentType        = OperationName,
+    InitiatedBy          = Initiator,
+    CorrelationId
+| sort by TimeGenerated desc

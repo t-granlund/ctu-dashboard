@@ -18,74 +18,95 @@ const SECTIONS = [
 
 export default function App() {
   const [active, setActive] = useState('overview');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  /* Track which section is in view for sidebar highlighting */
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActive(entry.target.id);
-          }
+          if (entry.isIntersecting) setActive(entry.target.id);
         }
       },
       { rootMargin: '-20% 0px -60% 0px', threshold: 0 },
     );
-
     for (const id of SECTIONS) {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     }
-
     return () => observer.disconnect();
   }, []);
 
   const handleNavigate = useCallback((id) => {
     setActive(id);
+    setSidebarOpen(false);
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
   return (
     <PasswordGate>
-    <div className="flex min-h-screen">
-      <Sidebar active={active} onNavigate={handleNavigate} />
+      <div className="flex min-h-screen overflow-x-hidden">
+        {/* Mobile hamburger */}
+        <button
+          onClick={() => setSidebarOpen((o) => !o)}
+          className="fixed left-4 top-4 z-50 flex h-10 w-10 items-center justify-center rounded-lg bg-slate-800 text-slate-400 shadow-lg lg:hidden"
+          aria-label="Toggle menu"
+        >
+          <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {sidebarOpen
+              ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            }
+          </svg>
+        </button>
 
-      <main className="ml-60 flex-1 px-8 py-8">
-        {/* Top header */}
-        <header className="mb-10">
-          <p className="text-xs font-semibold uppercase tracking-widest text-slate-600">
-            Cross-Tenant Utility · Phase 1 Audit Report
-          </p>
-          <h1 className="mt-1 text-3xl font-extrabold tracking-tight text-white">
-            Identity Governance Dashboard
-          </h1>
-          <p className="mt-1 text-sm text-slate-500">
-            HTT Brands · 5 tenants · 7 domains · 106 findings
-          </p>
-        </header>
+        {/* Sidebar overlay on mobile */}
+        {sidebarOpen && (
+          <div
+            className="fixed inset-0 z-30 bg-black/50 lg:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
 
-        {/* Sections */}
-        <div className="space-y-20">
-          <ExecutiveOverview />
-          <MSPWalkthrough />
-          <FindingsExplorer />
-          <TenantDeepDive />
-          <GuestInventory />
-          <UnknownTenants />
-          <ComplianceMatrix />
-          <RoadmapGates />
-          <PositiveFindings />
+        {/* Sidebar — fixed on desktop, slide-over on mobile */}
+        <div className={`fixed inset-y-0 left-0 z-40 w-60 transform transition-transform duration-200 lg:translate-x-0 ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}>
+          <Sidebar active={active} onNavigate={handleNavigate} />
         </div>
 
-        {/* Footer */}
-        <footer className="mt-20 border-t border-slate-800 py-8 text-center text-xs text-slate-600">
-          <p>CTU Dashboard v1.0 · Phase 1 Audit Snapshot · HTT Brands</p>
-          <p className="mt-1">
-            For Tyler Granlund (IT Director) &amp; Dustin Boyd (IT Operations &amp; Support Lead)
-          </p>
-        </footer>
-      </main>
-    </div>
+        <main className="min-w-0 flex-1 px-6 py-8 lg:ml-60 lg:px-8">
+          <header className="mb-10">
+            <p className="text-xs font-semibold uppercase tracking-widest text-slate-600">
+              Cross-Tenant Utility · Phase 1 Audit Report
+            </p>
+            <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-white lg:text-3xl">
+              Identity Governance Dashboard
+            </h1>
+            <p className="mt-1 text-sm text-slate-500">
+              HTT Brands · 5 tenants · 7 domains · 106 findings
+            </p>
+          </header>
+
+          <div className="space-y-20">
+            <ExecutiveOverview />
+            <MSPWalkthrough />
+            <FindingsExplorer />
+            <TenantDeepDive />
+            <GuestInventory />
+            <UnknownTenants />
+            <ComplianceMatrix />
+            <RoadmapGates />
+            <PositiveFindings />
+          </div>
+
+          <footer className="mt-20 border-t border-slate-800 py-8 text-center text-xs text-slate-600">
+            <p>CTU Dashboard v1.0 · Phase 1 Audit Snapshot · HTT Brands</p>
+            <p className="mt-1">
+              For Tyler Granlund (IT Director) &amp; Dustin Boyd (IT Operations &amp; Support Lead)
+            </p>
+          </footer>
+        </main>
+      </div>
     </PasswordGate>
   );
 }

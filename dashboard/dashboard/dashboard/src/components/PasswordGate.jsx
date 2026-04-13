@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 
-// SHA-256 hash of the access passphrase — generated via: echo -n 'CrossTenant!' | shasum -a 256
-const PASS_HASH = '4db34356ad4e5f129b8322fae8929691cab75dcfc42c101ca23ecd112b463e22';
+// SHA-256 hash of the access passphrase — generated via: printf 'CrossTenant!' | shasum -a 256
+const PASS_HASH = 'b15d0debbc260d948e98b91e1d7ed5064887a5c219149e2b30162bbae2a8aa41';
 const AUTH_KEY = 'ctu-dashboard-auth';
 
 async function sha256(message) {

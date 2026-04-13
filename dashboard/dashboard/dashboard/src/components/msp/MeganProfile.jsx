@@ -2,84 +2,42 @@ import { meganDetails } from '../../data/msp-data';
 
 function AccountCard({ tenant, data }) {
   return (
-    <div className="rounded-xl border border-slate-700/50 bg-slate-800/60 p-5 backdrop-blur-sm">
+    <div className="rounded-xl border border-slate-700/30 bg-slate-800/20 p-5">
       <div className="mb-3 flex items-center gap-2">
-        <span className="rounded-lg bg-cyan-500/15 px-2 py-0.5 text-xs font-bold text-cyan-400">
+        <span className="rounded bg-slate-700/50 px-2 py-0.5 text-[10px] font-bold text-slate-300">
           {tenant}
         </span>
-        <span className="text-sm font-semibold text-white">{data.displayName}</span>
-        <span className="rounded-full bg-slate-700 px-2 py-0.5 text-[10px] text-slate-400">
-          {data.userType}
-        </span>
+        <span className="text-sm font-medium text-white">{data.displayName}</span>
+        <span className="text-xs text-slate-500">({data.userType})</span>
       </div>
 
-      <div className="mb-3 grid grid-cols-2 gap-x-6 gap-y-2 text-xs">
-        <div>
-          <span className="text-slate-500">Email</span>
-          <p className="font-mono text-slate-300">{data.mail}</p>
-        </div>
-        <div>
-          <span className="text-slate-500">UPN</span>
-          <p className="truncate font-mono text-slate-400" title={data.upn}>
-            {data.upn}
-          </p>
-        </div>
-        <div>
-          <span className="text-slate-500">Created</span>
-          <p className="text-slate-300">{data.created}</p>
-        </div>
-        <div>
-          <span className="text-slate-500">Last Sign-In</span>
-          <p className="text-slate-300">{data.lastSignIn}</p>
-        </div>
-      </div>
-
-      {/* Admin Roles */}
-      <div className="mb-2 flex items-center gap-2">
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
-          Admin Roles:
-        </span>
+      <div className="space-y-1.5 text-xs">
+        <p className="text-slate-400">
+          <span className="text-slate-500">Email:</span> {data.mail}
+        </p>
+        <p className="text-slate-400">
+          <span className="text-slate-500">Created:</span> {data.created} · 
+          <span className="text-slate-500"> Last sign-in:</span> {data.lastSignIn}
+        </p>
         {data.adminRoles.length === 0 ? (
-          <span className="rounded bg-green-500/20 px-2 py-0.5 text-[10px] font-bold text-green-400">
-            None ✓
-          </span>
+          <p className="text-green-400/60">No admin roles ✓</p>
         ) : (
-          data.adminRoles.map((r) => (
-            <span key={r} className="rounded bg-red-500/20 px-2 py-0.5 text-[10px] text-red-300">
-              {r}
-            </span>
-          ))
+          <p className="text-red-400">Admin roles: {data.adminRoles.join(', ')}</p>
         )}
       </div>
 
-      {/* Groups */}
-      <div className="mb-3 flex flex-wrap items-center gap-1.5">
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
-          Groups:
-        </span>
-        {data.groupMemberships.map((g) => (
-          <span key={g} className="rounded bg-slate-700/60 px-2 py-0.5 text-[10px] text-slate-300">
-            {g}
-          </span>
-        ))}
-      </div>
-
-      {/* Note */}
-      <p className="text-xs italic text-slate-500">{data.note}</p>
+      <p className="mt-3 text-xs text-slate-600">{data.note}</p>
     </div>
   );
 }
 
 export default function MeganProfile() {
   return (
-    <div className="mt-6">
-      <h4 className="mb-3 flex items-center gap-2 text-lg font-bold text-white">
-        <span>👤</span> Megan Myrand — Guest Account Details
-      </h4>
-      <p className="mb-4 text-sm text-slate-400">
-        Informational — Megan has guest accounts in 2 tenants. No admin roles, active usage.
+    <div>
+      <p className="mb-4 text-sm text-slate-500">
+        Your guest accounts across HTT tenants. No admin roles, active usage — informational only.
       </p>
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-3 lg:grid-cols-2">
         {Object.entries(meganDetails).map(([tenant, data]) => (
           <AccountCard key={tenant} tenant={tenant} data={data} />
         ))}

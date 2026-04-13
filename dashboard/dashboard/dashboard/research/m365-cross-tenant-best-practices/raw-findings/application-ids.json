@@ -1,0 +1,43 @@
+{
+  "description": "Application IDs referenced in cross-tenant access policy configuration",
+  "source": "Microsoft Learn documentation (cross-tenant access settings)",
+  "extracted_date": "2026-04-09",
+  "applications": {
+    "sharepoint_online": {
+      "app_id": "00000003-0000-0ff1-ce00-000000000000",
+      "name": "SharePoint Online / OneDrive for Business",
+      "usage": "Scope partner B2B Collaboration inbound to SharePoint only",
+      "ctu_relevance": "Primary application scope for all partner overrides"
+    },
+    "microsoft_rights_management": {
+      "app_id": "00000012-0000-0000-c000-000000000000",
+      "name": "Microsoft Rights Management Service (OME)",
+      "usage": "MUST be allowed in outbound settings to prevent encrypted email breakage",
+      "ctu_relevance": "Critical — add to outbound allow list when implementing deny-by-default"
+    },
+    "microsoft_teams": {
+      "app_id": "cc15fd57-2c6c-4117-a88c-83b1d56b4bbe",
+      "name": "Microsoft Teams",
+      "usage": "Include in partner override if Teams access is needed beyond shared channels",
+      "ctu_relevance": "May need to be added to partner overrides alongside SharePoint"
+    },
+    "office_365_exchange_online": {
+      "app_id": "00000002-0000-0ff1-ce00-000000000000",
+      "name": "Office 365 Exchange Online",
+      "usage": "Include in partner override if Exchange/Outlook access is needed",
+      "ctu_relevance": "Evaluate if cross-tenant email/calendar scenarios exist"
+    },
+    "power_bi_service": {
+      "app_id": "00000009-0000-0000-c000-000000000000",
+      "name": "Power BI Service",
+      "usage": "Include in partner override for Power BI/Fabric access scenarios",
+      "ctu_relevance": "Relevant for bi-support-agent TLL Fabric access (Member userType in preview)"
+    }
+  },
+  "notes": [
+    "App IDs are consistent across all Microsoft 365 tenants (global constants)",
+    "When scoping partner policies to specific apps, use these IDs in the applications section",
+    "The OME app ID is critical — forgetting it blocks encrypted email reading",
+    "Teams app ID may vary by deployment — verify in your tenant's enterprise applications"
+  ]
+}

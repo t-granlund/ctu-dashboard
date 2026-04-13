@@ -7,12 +7,12 @@ function CriticalAlert({ tenant }) {
     <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-5">
       <div className="flex items-start gap-3">
         <span className="text-2xl">🚨</span>
-        <div className="flex-1">
+        <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <p className="font-bold text-red-300">CRITICAL — Immediate Investigation Required</p>
             <SeverityBadge level="critical" />
           </div>
-          <p className="mt-1 font-mono text-sm text-red-200">{tenant.id}</p>
+          <p className="mt-1 break-all font-mono text-sm text-red-200">{tenant.id}</p>
           <p className="mt-2 text-sm text-red-200/80">{tenant.description}</p>
           {tenant.flags.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-2">
@@ -34,7 +34,7 @@ function CriticalAlert({ tenant }) {
               </span>
             ))}
           </div>
-          <div className="mt-3 rounded-lg bg-slate-900/60 p-3">
+          <div className="mt-3 overflow-x-auto rounded-lg bg-slate-900/60 p-3">
             <p className="text-[10px] uppercase tracking-wider text-slate-500">Investigation Command</p>
             <code className="mt-1 block text-xs text-emerald-400">
               Invoke-MgGraphRequest -Method GET -Uri

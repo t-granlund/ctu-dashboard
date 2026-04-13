@@ -1,4 +1,35 @@
+# Environment files (secrets!)
+.env
+.env.*
+!.env.example
+
+# Audit reports contain sensitive tenant data
+reports/
+
+# KQL queries may be generated locally
+monitoring/kql/
+
+# Certificate files
+*.cer
+*.pfx
+*.pem
+*.key
+
+# PowerShell module cache
+*.psmodule
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node.js
 node_modules/
 dist/
 .vite/
+
+# OS files
 .DS_Store
+Thumbs.db

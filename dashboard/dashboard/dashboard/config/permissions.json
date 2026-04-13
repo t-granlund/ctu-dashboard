@@ -1,0 +1,78 @@
+{
+  "_comment": "Required Microsoft Graph API permissions per audit module. Use for app registration setup.",
+
+  "minimumReadOnly": {
+    "description": "Minimum permission set for full read-only audit across all 7 domains",
+    "applicationPermissions": [
+      "Policy.Read.All",
+      "User.Read.All",
+      "Directory.Read.All",
+      "AuditLog.Read.All",
+      "Synchronization.Read.All",
+      "GroupMember.Read.All",
+      "AccessReview.Read.All",
+      "EntitlementManagement.Read.All",
+      "RoleManagement.Read.Directory",
+      "LifecycleWorkflows.Read.All"
+    ],
+    "delegatedPermissions": [
+      "Policy.Read.All",
+      "User.Read.All",
+      "Directory.Read.All",
+      "AuditLog.Read.All",
+      "Synchronization.Read.All"
+    ]
+  },
+
+  "perModule": {
+    "01-CrossTenantSync": {
+      "read": ["Policy.Read.All", "Synchronization.Read.All", "AuditLog.Read.All", "Directory.Read.All"],
+      "write": ["Policy.ReadWrite.CrossTenantAccess", "Synchronization.ReadWrite.All"]
+    },
+    "02-B2BCollaboration": {
+      "read": ["Policy.Read.All"],
+      "write": ["Policy.ReadWrite.Authorization", "Policy.ReadWrite.CrossTenantAccess"]
+    },
+    "03-B2BDirectConnect": {
+      "read": ["Policy.Read.All"],
+      "write": ["Policy.ReadWrite.CrossTenantAccess"]
+    },
+    "04-GuestInventory": {
+      "read": ["User.Read.All", "AuditLog.Read.All", "Directory.Read.All", "GroupMember.Read.All"],
+      "write": [],
+      "licenseRequired": "Entra ID P1/P2 (for signInActivity)"
+    },
+    "05-ConditionalAccess": {
+      "read": ["Policy.Read.All"],
+      "write": ["Policy.ReadWrite.ConditionalAccess"]
+    },
+    "06-TeamsFederation": {
+      "read": [],
+      "write": [],
+      "note": "Teams federation uses Teams PowerShell (Connect-MicrosoftTeams), not Graph API. Requires Teams Administrator or Global Administrator role."
+    },
+    "07-IdentityGovernance": {
+      "read": ["AccessReview.Read.All", "EntitlementManagement.Read.All", "RoleManagement.Read.Directory", "LifecycleWorkflows.Read.All"],
+      "write": ["AccessReview.ReadWrite.All", "EntitlementManagement.ReadWrite.All", "RoleManagement.ReadWrite.Directory", "LifecycleWorkflows.ReadWrite.All"],
+      "licenseRequired": "Entra ID Governance or Entra Suite"
+    }
+  },
+
+  "powershellModules": {
+    "required": [
+      "Microsoft.Graph.Authentication",
+      "Microsoft.Graph.Identity.SignIns",
+      "Microsoft.Graph.Identity.Governance",
+      "Microsoft.Graph.Users",
+      "Microsoft.Graph.Applications",
+      "Microsoft.Graph.Reports",
+      "Microsoft.Graph.Groups",
+      "MicrosoftTeams"
+    ],
+    "optional": [
+      "Microsoft.Graph.Beta.Identity.SignIns",
+      "Microsoft.Graph.Beta.Identity.Governance",
+      "Microsoft.Graph.Identity.DirectoryManagement"
+    ]
+  }
+}

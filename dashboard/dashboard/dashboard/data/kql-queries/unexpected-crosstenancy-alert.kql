@@ -1,0 +1,72 @@
+// ============================================================================
+// CTU Phase 5 — Unexpected Cross-Tenant Access Alert
+// ============================================================================
+// Purpose:     Detect sign-ins from external tenants that are NOT one of the
+//              5 approved HTT Brands tenants. After Phase 3 deny-by-default
+//              policy, unapproved tenants should be blocked — any successful
+//              sign-in from an unapproved tenant is a policy bypass or
+//              misconfiguration that needs immediate investigation.
+//
+// Schedule:    Daily (06:00 UTC)
+// Severity:    High (P1); Critical (P0) if sign-in includes admin role claims
+//
+// Action:      1. Email investigation team (Tyler + Dustin)
+//              2. Verify cross-tenant access policy is correctly applied
+//              3. Check if the tenant is a new legitimate partner (onboard via CTU)
+//              4. If unauthorized: block + revoke sessions
+//              5. Reference runbook: docs/runbooks/unplanned-cross-tenant-access.md
+//
+// Targets:     HTT hub tenant (inbound sign-ins from external users)
+// Requirement: CTU baseline.json — Default Policy: B2B Inbound = BLOCK all
+//              except explicitly approved partners
+// Graph Ref:   SigninLogs (cross-tenant fields)
+// ============================================================================
+
+// Approved tenant IDs — these are the only tenants allowed to authenticate
+// into HTT Brands resources. Everything else is unexpected.
+let ApprovedTenantIds = dynamic([
+    "0c0e35dc-188a-4eb3-b8ba-61752154b407",  // HTT Brands (hub — home tenant)
+    "b5380912-79ec-452d-a6ca-6d897b19b294",  // BCC (Bishops)
+    "98723287-044b-4bbb-9294-19857d4128a0",  // FN  (Frenchies)
+    "3c7d2bf3-b597-4766-b5cb-2b489c2904d6",  // TLL (The Lash Lounge)
+    "ce62e17d-2feb-4e67-a115-8ea4af68da30"   // DCE (Delta Crown)
+]);
+SigninLogs
+| where TimeGenerated > ago(24h)
+// Only look at cross-tenant sign-ins — HomeTenantId differs from ResourceTenantId.
+| where HomeTenantId != ResourceTenantId
+// Exclude approved tenants.
+| where HomeTenantId !in (ApprovedTenantIds)
+// Successful sign-ins are the scary ones — failed attempts are expected noise
+// from the deny-by-default policy doing its job.
+| extend SignInSucceeded = (ResultType == 0)
+| extend AlertSeverity = iff(SignInSucceeded, "CRITICAL — Unapproved tenant succeeded", "MEDIUM — Blocked attempt (expected)")
+// Parse conditional access evaluation results for additional context.
+| mv-expand CAPolicy = ConditionalAccessPolicies
+| extend CAPolicyName = tostring(CAPolicy.displayName)
+| extend CAPolicyResult = tostring(CAPolicy.result)
+// Enrich with app and location info.
+| extend AppName = tostring(AppDisplayName)
+| extend ClientIP = tostring(IPAddress)
+| extend City = tostring(LocationDetails.city)
+| extend Country = tostring(LocationDetails.countryOrRegion)
+| project
+    TimeGenerated,
+    AlertSeverity,
+    UserPrincipalName,
+    UserDisplayName,
+    HomeTenantId,
+    ResourceTenantId,
+    AppName,
+    ClientIP,
+    City,
+    Country,
+    SignInSucceeded,
+    ResultType,
+    ResultDescription,
+    CAPolicyName,
+    CAPolicyResult,
+    CorrelationId,
+    UserType
+// Successful sign-ins from unapproved tenants sort to the top — these are the fires.
+| sort by SignInSucceeded desc, TimeGenerated desc
