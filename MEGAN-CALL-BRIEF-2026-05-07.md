@@ -13,6 +13,10 @@
 
 **Goal for this call:** confirm billing migration risk, lock the Delta Crown **model-tenant** next steps, and leave with owners/dates for backup, insurance attestation, Teams Premium, E5 replacement, and the new-user runbook.
 
+**Have open beside this brief:**
+- `DCE-NEW-USER-RUNBOOK-V0.1-2026-05-07.md` — hand this to Megan as the concrete DCE validation artifact.
+- `MEGAN-CALL-DECISION-LOG-2026-05-07.md` — fill this live; do not rely on memory.
+
 ### Five things to drive to decision
 
 | Priority | Decision needed | Tyler's talk track |
@@ -20,14 +24,14 @@
 | 1 | **Pax8→AppRiver transfer** — is Transfer ID `acd7573e-a487-41d9-83ce-560dea432e95` intentional and safe to proceed before May 27? | "I just need to confirm this transfer is expected, what it covers, and whether there is any action we owe before it expires." |
 | 2 | **HTT E5 + Extra Storage replacement** — are Pax8 replacements ordered, and is there any coverage gap? | "The expirations were intentional migration steps; I need to know whether replacement coverage is active or if we're exposed." |
 | 3 | **Teams Premium 25 seats** — what SKU/term should be repurchased through Pax8? | "This was direct-billed and lapsed. Let's settle SKU, term, and who orders it." |
-| 4 | **DCE model tenant** — who flips DCE/FN spoke-side auto-redeem, and when? | "Delta Crown is the reference implementation. I need your help making the identity handoff repeatable." |
+| 4 | **DCE model tenant + runbook** — can Megan validate v0.1, and who flips DCE/FN spoke-side auto-redeem? | "Delta Crown is the reference implementation. I have a v0.1 runbook ready; I need your help validating it and making the identity handoff repeatable." |
 | 5 | **Backup + insurance letter** — when do we get pricing and written attestation? | "For CFO/compliance, I need backup options and a written statement covering EDR, patching, firewall, and backup." |
 
 ### Owner read-back before ending the call
 
 | Megan owes | Tyler owes |
 |---|---|
-| E5 replacement status + Teams Premium SKU/term | DCE new-user runbook v0.1 |
+| E5 replacement status + Teams Premium SKU/term | Send/iterate DCE new-user runbook v0.1 |
 | M365 backup pricing | DUNS for Delta Crown ABM |
 | Cyber/insurance attestation letter | Azure payment-method verification |
 | DCE/FN auto-redeem owner/date | TLL CNAME action |
@@ -36,7 +40,7 @@
 ### If challenged, use these lines
 
 - "I'm not trying to relitigate Apr 13 — your answers are already captured. I'm only confirming what changed and what still needs an owner/date."
-- "Delta Crown is the model tenant because it is greenfield, small, and already hardened. If this works there, we can scale it across the brands."
+- "Delta Crown is the model tenant because it is greenfield, small, and already hardened. The v0.1 runbook gives us a concrete way to validate the lifecycle with Sui Generis before scaling it across the brands."
 - "The direct-bill expirations were intentional, but the replacement status and any feature gap are what I need to close today."
 
 ---
@@ -58,7 +62,7 @@ Yes — at the **per-tenant licensing posture and CSP-vs-direct-bill pattern** l
 **What Delta Crown still needs from Megan** (the Apr 10 verbal commitments, now made specific):
 - Spoke-side auto-redeem on the DCE tenant (so HTT-issued attributes propagate cleanly).
 - DUNS-gated Apple Business Manager → MDM enrollment for the all-Mac DCE fleet (Tyler owes the DUNS; Megan executes ABM tie-in).
-- Apply the new-user runbook the moment we hand it over — DCE is the **first** brand it lands on, and the Phase 2/3 dynamic groups (`AllStaff`, `Managers`, `Marketing`, `Stylists`) are already built waiting for the attribute-driven population logic.
+- Validate `DCE-NEW-USER-RUNBOOK-V0.1-2026-05-07.md` — DCE is the **first** brand it lands on, and the Phase 2/3 dynamic groups (`AllStaff`, `Managers`, `Marketing`, `Stylists`) are already built waiting for the attribute-driven population logic.
 - Confirm the deny-by-default partner-override scope she answered on Apr 13 (Global Reader / Directory Reader / Service Support Admin + Platform/API/billing) so we can flip the HTT default policy and let DCE inherit the deny-by-default posture cleanly.
 
 ---
@@ -273,7 +277,7 @@ All downstream access (SharePoint, Teams, mailboxes, license, CA scope) drops in
 | Step | Tyler delivers | Megan executes | Status |
 |---|---|---|---|
 | 1. Define the canonical attribute schema | ✅ Done in `HTT-CROSS-TENANT-IDENTITY-ANALYSIS.md` | — | Live |
-| 2. Author the new-user runbook (per-brand checklist of attributes, groups, license SKUs) | ⏳ **Tyler owes** — single biggest open commitment | — | Open (§10 row 9) |
+| 2. Validate the DCE new-user runbook v0.1 (per-brand checklist of attributes, groups, license SKUs) | ✅ Draft exists: `DCE-NEW-USER-RUNBOOK-V0.1-2026-05-07.md` | ⏳ Megan validates + Tyler iterates | Open (§10 row 9) |
 | 3. Create the per-brand dynamic groups at HTT-ANCHOR | ⏳ Tyler scripts | — | Pending runbook |
 | 4. Wire group-based license assignment | ⏳ Tyler | — | Pending runbook |
 | 5. Apply runbook on every new user create | — | ⏳ **Megan agreed Apr 10 + Apr 13** | Waiting on (2) |
@@ -352,7 +356,7 @@ All downstream access (SharePoint, Teams, mailboxes, license, CA scope) drops in
 | 6 | **M365 backup pricing** from Sui Generis (Apr 13 owed) | 🔴 | Megan | 2026-05-14 |
 | 7 | **Cyber insurance attestation letter** — EDR/patch/firewall/backup, in writing | 🔴 | Megan | 2026-05-14 |
 | 8 | **Frenchies + DCE spoke-side auto-redeem** — owner + timing | 🟠 | Sui Generis tenant admin | 2026-05-21 |
-| 9 | **New-user runbook** — Tyler authors, hands to Megan | 🔴 | Tyler | 2026-05-14 |
+| 9 | **DCE new-user runbook v0.1** — Megan validates; Tyler iterates into final onboarding SOP | 🔴 | Tyler + Megan | 2026-05-14 |
 | 10 | **Atera customer-specific API** — outcome of Apr 10 check; Freshdesk ingestion path | 🟠 | Megan | 2026-05-14 |
 | 11 | **DUNS for DCE Apple Business Manager** | 🟠 | Tyler | 2026-05-14 |
 | 12 | **Dashboard questionnaire** — finish in-app or verbal walkthrough? | 🟡 | Tyler | 2026-05-14 |
@@ -409,6 +413,8 @@ All downstream access (SharePoint, Teams, mailboxes, license, CA scope) drops in
 - `reports/MFA-VERIFY-2026-04-23.md`
 - `reports/CFO-Cyber-Insurance-Response-2026-04-23.md`
 - `HTT-CROSS-TENANT-IDENTITY-ANALYSIS.md`
+- `DCE-NEW-USER-RUNBOOK-V0.1-2026-05-07.md`
+- `MEGAN-CALL-DECISION-LOG-2026-05-07.md`
 - `/Users/tygranlund/dev/04-other-orgs/DeltaSetup/MEGAN-CALL-BRIEF-2026-05-06.md` (prior draft, superseded by this file)
 - Microsoft case `TrackingID#2604020040000719`
 - Pax8→AppRiver Transfer ID `acd7573e-a487-41d9-83ce-560dea432e95` (expires 2026-05-27)

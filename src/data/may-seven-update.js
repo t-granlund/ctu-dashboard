@@ -6,6 +6,8 @@ export const maySevenUpdate = {
   callTime: '1:15 PM CT',
   briefRefreshed: '2026-05-06 13:35 CT',
   briefPath: 'MEGAN-CALL-BRIEF-2026-05-07.md',
+  runbookPath: 'DCE-NEW-USER-RUNBOOK-V0.1-2026-05-07.md',
+  decisionLogPath: 'MEGAN-CALL-DECISION-LOG-2026-05-07.md',
   resolvedSinceApr10: [
     { date: '2026-04-13', text: 'Megan returned 20/20 questions in writing — partner-override scope, EDR (ThreatDown), Atera no-tenant-API, GDAP timeboxing, BCC October cutover, onboarding-checklist offer, SP removal authorizations.' },
     { date: '2026-04-10—13', text: 'AppRiver SPs disabled across HTT, FN, TLL.' },
@@ -27,7 +29,7 @@ export const maySevenUpdate = {
     { severity: 'low', text: 'GDAP approval workflow — confirm whether one exists.' },
   ],
   stillOwedByTyler: [
-    { severity: 'high', text: 'New-user runbook (per-brand attribute + group + license checklist) — Megan offered to follow it twice.' },
+    { severity: 'high', text: 'DCE new-user runbook v0.1 is drafted — validate with Megan and iterate into final SOP.' },
     { severity: 'high', text: 'DUNS for Delta Crown Apple Business Manager.' },
     { severity: 'medium', text: 'HTT-ANCHOR Azure payment method verification (Apr 25 reminder).' },
     { severity: 'medium', text: 'Disable Ingram-Micro-LicenseManager + O365Support-MSP-Connector SPs in TLL (Apr 13 authorized).' },
@@ -39,7 +41,7 @@ export const maySevenUpdate = {
     'Web Direct → CSP migration status — E5 + Extra Storage expired, Pax8 replacement order?',
     'BCC MOSA → Pax8 CSP — start now or ride to October Business Basic expiration',
     'Delta Crown current-state walkthrough — model-tenant architecture for hub-and-spoke',
-    'New-user runbook handoff (this is the unblock)',
+    'DCE new-user runbook v0.1 validation (this is the unblock)',
   ],
   deltaCrownStatus: {
     summary: 'DCE is the deliberate first-greenfield instance of the hub-and-spoke architecture. Tenant security hardened live Apr 29; Phase 2 + Phase 3 SharePoint deployed; CA active tenant-wide; dynamic groups built and waiting for attribute-driven population.',

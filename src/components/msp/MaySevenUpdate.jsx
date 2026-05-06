@@ -42,12 +42,17 @@ export default function MaySevenUpdate() {
             <span className="rounded-full bg-cyan-500/20 px-3 py-1 text-xs font-semibold text-cyan-300">
               Brief refreshed {u.briefRefreshed}
             </span>
-            <code className="mt-1 text-[10px] text-slate-500">{u.briefPath}</code>
+            <div className="mt-1 flex flex-col gap-0.5 text-[10px] text-slate-500">
+              <code>{u.briefPath}</code>
+              <code>{u.runbookPath}</code>
+              <code>{u.decisionLogPath}</code>
+            </div>
           </div>
         </div>
         <p className="text-sm text-slate-400">
           Snapshot of what's changed since the April 10 call, what each side still owes, and the agenda
-          for this session. The full brief is the canonical source of truth — this is the dashboard mirror.
+          for this session. The full brief is the canonical source of truth; the DCE runbook and decision log
+          are the two live working artifacts.
         </p>
       </div>
 
