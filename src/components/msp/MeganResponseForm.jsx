@@ -16,8 +16,36 @@ function saveResponses(data) {
   } catch {}
 }
 
+// Render simple **bold** markdown into JSX (no HTML parser needed for this scope)
+function renderInlineMd(text) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((p, i) =>
+    p.startsWith('**') && p.endsWith('**')
+      ? <strong key={i} className="text-white">{p.slice(2, -2)}</strong>
+      : <span key={i}>{p}</span>
+  );
+}
+
+function Apr13Panel({ answer }) {
+  if (!answer) return null;
+  return (
+    <div className="mb-4 ml-8 rounded-lg border border-green-500/30 bg-green-950/15 px-4 py-3">
+      <div className="mb-1 flex items-center gap-2">
+        <span className="text-xs">✅</span>
+        <span className="text-[10px] font-bold uppercase tracking-wider text-green-400">
+          Megan answered · Apr 13, 2026
+        </span>
+      </div>
+      <p className="text-sm leading-relaxed text-slate-200">
+        {renderInlineMd(answer)}
+      </p>
+    </div>
+  );
+}
+
 function QuestionCard({ q, response, onUpdate }) {
-  const isAnswered = response?.answered || false;
+  const hasApr13 = !!q.apr13Answer;
+  const isAnswered = response?.answered ?? hasApr13;
   const value = response?.value || '';
 
   return (
@@ -48,7 +76,15 @@ function QuestionCard({ q, response, onUpdate }) {
         {q.context}
       </p>
 
-      {/* Input */}
+      {/* Megan's Apr 13 written answer (if any) */}
+      <Apr13Panel answer={q.apr13Answer} />
+
+      {/* Input — labelled as "update" when prior answer exists */}
+      {hasApr13 && (
+        <p className="mb-2 ml-8 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+          Add an update or correction (optional)
+        </p>
+      )}
       <div className="ml-8">
         {q.inputType === 'select' ? (
           <select
@@ -131,8 +167,9 @@ export default function MeganResponseForm({ onExport }) {
     <div id="section-questions" className="scroll-mt-24">
       <h3 className="mb-2 text-xl font-bold text-white">Follow-Up Questions</h3>
       <p className="mb-8 text-sm text-slate-500">
-        These are the things we still need to finalize before Tyler can implement Phase 3.
-        Answer what you can — everything auto-saves. When you're done, export and send the file back.
+        Most of these are answered from your <strong className="text-green-400">April 13 written response</strong> (shown in green). 
+        If anything has changed or needs clarification, use the input below each question to add an update — everything auto-saves. 
+        When you're done, export and send the file back.
       </p>
 
       {/* Progress */}

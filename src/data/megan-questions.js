@@ -20,6 +20,7 @@ export const meganQuestions = [
         priority: "critical",
         inputType: "textarea",
         placeholder: "e.g., Global Reader, Helpdesk Administrator, User Administrator — per tenant if they differ",
+        apr13Answer: "Will send Partner Center screenshots showing GDAP role list per tenant.",
       },
       {
         id: "gdap-duration",
@@ -28,6 +29,7 @@ export const meganQuestions = [
         priority: "high",
         inputType: "textarea",
         placeholder: "e.g., 180-day duration, auto-renews, or permanent",
+        apr13Answer: "**2-year default** in Partner Center. No per-policy override available, even at acceptance. Roles can be removed manually before the 2-year mark, but they do not auto-reauthorize every 90 days.",
       },
       {
         id: "gdap-approval",
@@ -36,6 +38,7 @@ export const meganQuestions = [
         priority: "high",
         inputType: "select",
         options: ["Standing access (no approval needed)", "Approval required per session", "Not sure — need to check"],
+        apr13Answer: "Not sure — need to check",
       },
       {
         id: "gdap-engineers",
@@ -44,6 +47,7 @@ export const meganQuestions = [
         priority: "high",
         inputType: "textarea",
         placeholder: "Names and email addresses of anyone with access",
+        apr13Answer: "All Sui Generis team members are in the **'SGI Techs'** security group on each tenant — gated by a Conditional Access policy. **Tenure:** everyone except Genesis (Tier 1 support) has been with Sui Generis 2+ years.",
       },
     ],
   },
@@ -60,6 +64,7 @@ export const meganQuestions = [
         priority: "high",
         inputType: "textarea",
         placeholder: "e.g., HTT: Business Premium = PAX8, E1 = direct MOSA. BCC: all direct MOSA (migration in progress).",
+        apr13Answer: "**Policy: all licensing must go through Pax8. No direct bill.** Any current direct-bill subscription must be cancelled and repurchased on Pax8.",
       },
       {
         id: "bcc-migration-timeline",
@@ -68,6 +73,7 @@ export const meganQuestions = [
         priority: "medium",
         inputType: "textarea",
         placeholder: "e.g., July licenses: will purchase PAX8 replacements by June 15. August licenses: same approach.",
+        apr13Answer: "Re-checked: **Business Basic licenses expire October 2026** (not July/August as initially thought). Any future Business Basic purchases will be made on Pax8.",
       },
       {
         id: "extra-p2-cancellation",
@@ -76,6 +82,7 @@ export const meganQuestions = [
         priority: "medium",
         inputType: "select",
         options: ["Yes, cancel the extras — I'll handle PAX8 side", "Let me check first", "Those are needed — don't cancel"],
+        apr13Answer: "Yes, cancel the extras — I'll handle PAX8 side",
       },
     ],
   },
@@ -92,6 +99,7 @@ export const meganQuestions = [
         priority: "critical",
         inputType: "textarea",
         placeholder: "e.g., Atera includes Bitdefender EDR, or we use Defender for Endpoint separately, or no EDR currently",
+        apr13Answer: "**ThreatDown** — separate from Atera. Currently missing on Tyler and Dustin's machines. Plus a short list of users on personal (non-company-owned) computers who never responded — they likely have neither Atera nor ThreatDown.",
       },
       {
         id: "m365-backup",
@@ -100,6 +108,7 @@ export const meganQuestions = [
         priority: "critical",
         inputType: "textarea",
         placeholder: "e.g., We use Datto SaaS Protection, or Veeam Backup for M365, or no backup currently in place",
+        apr13Answer: "**No paid M365 backup currently** — only the standard tenant-level versioning. Megan owes pricing for a backup solution per tenant.",
       },
       {
         id: "security-training",
@@ -108,6 +117,7 @@ export const meganQuestions = [
         priority: "high",
         inputType: "textarea",
         placeholder: "e.g., We offer KnowBe4 through PAX8 for $X/user/mo, or no training currently — Tyler should self-manage",
+        apr13Answer: "Discussed early on with Kristin — **available if you want it**. Megan owes pricing.",
       },
       {
         id: "msp-mfa",
@@ -116,6 +126,7 @@ export const meganQuestions = [
         priority: "critical",
         inputType: "select",
         options: ["Yes — MFA enforced via our own CA policies", "Yes — MFA enforced but not via CA (e.g., per-user MFA)", "No MFA enforcement currently", "Not sure — need to check"],
+        apr13Answer: "Yes — MFA enforced via our own CA policies",
       },
       {
         id: "shared-accounts",
@@ -124,6 +135,7 @@ export const meganQuestions = [
         priority: "high",
         inputType: "select",
         options: ["All individual accounts — no shared accounts", "Mix of individual and shared", "Primarily shared accounts", "Not sure"],
+        apr13Answer: "All individual accounts — no shared accounts",
       },
       {
         id: "bcc-never-expire",
@@ -132,6 +144,7 @@ export const meganQuestions = [
         priority: "medium",
         inputType: "textarea",
         placeholder: "e.g., Yes, those are service accounts for X, Y, Z — or no, those are regular users that need to be fixed",
+        apr13Answer: "**Need the list of 7 users from Tyler.** The SGI Breakglass account should never expire — that's a backdoor account with strict CA policies (only accessible from our offices). The other 6 need triage to confirm whether they're service accounts or regular users.",
       },
     ],
   },
@@ -148,6 +161,7 @@ export const meganQuestions = [
         priority: "medium",
         inputType: "select",
         options: ["Still active — don't remove", "Legacy — safe to disable", "Not sure — need to check"],
+        apr13Answer: "Legacy — safe to disable",
       },
       {
         id: "office365-support",
@@ -156,6 +170,7 @@ export const meganQuestions = [
         priority: "high",
         inputType: "textarea",
         placeholder: "e.g., That's from when we used X vendor for support, or I don't recognize it — safe to remove",
+        apr13Answer: "Likely from when Ben or Garrett (Lash Lounge internal IT) opened a Microsoft support case. **Safe to remove the connector.**",
       },
     ],
   },
@@ -172,6 +187,7 @@ export const meganQuestions = [
         priority: "critical",
         inputType: "textarea",
         placeholder: "e.g., Exchange Admin Center, Azure Portal, SharePoint Admin, Entra Admin Center, etc.",
+        apr13Answer: "**Required GDAP roles:** Global Reader · Directory Reader · Service Support Admin. **Required platform/data access:** Pax8 Storefront/Platform · API & Integration access · billing & licensing data access. These are the minimum delegated administrative privileges needed to manage cloud subscriptions, licenses, and security settings for B2B clients.",
       },
       {
         id: "access-method",
@@ -180,6 +196,7 @@ export const meganQuestions = [
         priority: "high",
         inputType: "select",
         options: ["GDAP only (Partner Center)", "Guest account sign-in only", "Both GDAP and guest accounts", "Depends on the task — both used for different things"],
+        apr13Answer: "Depends on the task — both used for different things",
       },
       {
         id: "atera-connectivity",
@@ -188,6 +205,7 @@ export const meganQuestions = [
         priority: "high",
         inputType: "textarea",
         placeholder: "e.g., Atera uses agent-based (no tenant API needed), or Atera connects via Graph API with app ID X",
+        apr13Answer: "**No tenant API connection needed.** The Atera remote tool is installed on each machine — there is no integration to O365 products. **Won't be blocked by deny-by-default.**",
       },
     ],
   },
@@ -204,6 +222,7 @@ export const meganQuestions = [
         priority: "medium",
         inputType: "textarea",
         placeholder: "e.g., Create user, assign license, add to MFA group, add to Teams groups. Department and title usually set. No custom attributes currently.",
+        apr13Answer: "**TLL today:** create user → add to Everyone group → add to MFA Security Group (if specified). Other brands' processes still to formalize.",
       },
       {
         id: "onboarding-checklist-willing",
@@ -212,6 +231,7 @@ export const meganQuestions = [
         priority: "medium",
         inputType: "select",
         options: ["Yes — send me the checklist and I'll follow it", "Yes, but I'd need it integrated into our provisioning tool", "Let's discuss — depends on complexity"],
+        apr13Answer: "Yes — send me the checklist and I'll follow it",
       },
     ],
   },
