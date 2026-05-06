@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import MaySevenUpdate from './msp/MaySevenUpdate';
 import PostCallSummary from './msp/PostCallSummary';
 import ConfirmedContext from './msp/ConfirmedContext';
 import MeganResponseForm from './msp/MeganResponseForm';
@@ -53,7 +54,10 @@ export default function MSPWalkthrough() {
       </div>
 
       <div className="space-y-16">
-        {/* ── 1. Call Recap & Action Items ──────────────── */}
+        {/* ── 0. Status update for May 7 call (newest) ──── */}
+        <MaySevenUpdate />
+
+        {/* ── 1. Call Recap & Action Items (Apr 10) ─────── */}
         <PostCallSummary />
 
         {/* ── 2. Confirmed Context ─────────────────────── */}
