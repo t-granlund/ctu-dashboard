@@ -1,4 +1,4 @@
-import { maySevenUpdate } from '../../data/msp-data';
+import { maySevenUpdate } from '../../data/may-seven-update';
 
 const SEVERITY = {
   high: { dot: 'bg-red-400', text: 'text-red-300', label: 'High' },
@@ -47,7 +47,7 @@ export default function MaySevenUpdate() {
         </div>
         <p className="text-sm text-slate-400">
           Snapshot of what's changed since the April 10 call, what each side still owes, and the agenda
-          for tomorrow's session. The full brief is the canonical source of truth — this is the dashboard mirror.
+          for this session. The full brief is the canonical source of truth — this is the dashboard mirror.
         </p>
       </div>
 
@@ -55,7 +55,7 @@ export default function MaySevenUpdate() {
       <div className="mb-6 grid gap-4 lg:grid-cols-2">
         <div className="rounded-2xl border border-green-500/30 bg-green-950/10 p-5">
           <h4 className="mb-3 flex items-center gap-2 text-sm font-bold text-green-400">
-            <span>✅</span> Resolved since April 10 ({u.resolvedSinceApr10.length})
+            <span>✅</span> Closed since April 10 ({u.resolvedSinceApr10.length})
           </h4>
           <ul className="space-y-2">
             {u.resolvedSinceApr10.map((r, i) => (
@@ -105,7 +105,7 @@ export default function MaySevenUpdate() {
         <div className="mb-3 flex items-center gap-3">
           <span className="text-2xl">👑</span>
           <div>
-            <h4 className="text-base font-bold text-amber-300">Delta Crown — Golden Child Status</h4>
+            <h4 className="text-base font-bold text-amber-300">Delta Crown — Model Tenant Status</h4>
             <p className="text-xs text-slate-500">First-greenfield instance of the hub-and-spoke architecture</p>
           </div>
         </div>

@@ -165,9 +165,9 @@ test.describe('MSP Portal — Questions Form', () => {
     await page.waitForTimeout(500);
   });
 
-  test('shows progress bar starting at 0%', async ({ page }) => {
-    await expect(page.getByText('0 of')).toBeVisible();
-    await expect(page.getByText('0%', { exact: true })).toBeVisible();
+  test('shows progress bar starting at 100% from Apr 13 answers', async ({ page }) => {
+    await expect(page.getByText('20 of 20 answered')).toBeVisible();
+    await expect(page.getByText('100%', { exact: true })).toBeVisible();
   });
 
   test('first category is expanded, rest collapsed', async ({ page }) => {
@@ -225,10 +225,10 @@ test.describe('Reference Material', () => {
       'AppRiver Service Principals',
       'Tenant Footprint',
       'Licensing & Billing Landscape',
-      'Cyber Insurance',
+      'Cyber Insurance Gap Assessment',
     ];
     for (const title of expected) {
-      await expect(page.getByText(title, { exact: false })).toBeVisible();
+      await expect(page.getByRole('button', { name: new RegExp(title) })).toBeVisible();
     }
   });
 
@@ -236,8 +236,8 @@ test.describe('Reference Material', () => {
     // Click AppRiver section
     await page.getByText('AppRiver Service Principals').click();
     await page.waitForTimeout(300);
-    // Should now show resolved banner
-    await expect(page.getByText('Resolved')).toBeVisible();
+    // Should now show AppRiver's resolved banner, not any unrelated status summary text.
+    await expect(page.getByText('Resolved — Approved for Removal')).toBeVisible();
   });
 });
 

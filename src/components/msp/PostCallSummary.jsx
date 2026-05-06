@@ -35,7 +35,7 @@ export default function PostCallSummary() {
             { icon: "✅", text: "TD SYNNEX can't be removed but GDAP already revoked — low risk" },
             { icon: "✅", text: "Atera confirmed as RMM tool — Delta Crown going all-Mac with MDM" },
             { icon: "⏳", text: "Bishops MFA planned for post-convention to avoid support issues" },
-            { icon: "⏳", text: "BCC license migration to PAX8 in progress — most end July/August" },
+            { icon: "⏳", text: "BCC license migration to PAX8 in progress — Business Basic expires October; confirm any earlier non-BB renewal actions" },
           ].map((item, i) => (
             <div key={i} className="flex items-start gap-3">
               <span className="mt-0.5 shrink-0 text-base">{item.icon}</span>

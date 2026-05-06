@@ -9,12 +9,44 @@
 
 ---
 
+## 0. Live call run sheet — use this first
+
+**Goal for this call:** confirm billing migration risk, lock the Delta Crown **model-tenant** next steps, and leave with owners/dates for backup, insurance attestation, Teams Premium, E5 replacement, and the new-user runbook.
+
+### Five things to drive to decision
+
+| Priority | Decision needed | Tyler's talk track |
+|---|---|---|
+| 1 | **Pax8→AppRiver transfer** — is Transfer ID `acd7573e-a487-41d9-83ce-560dea432e95` intentional and safe to proceed before May 27? | "I just need to confirm this transfer is expected, what it covers, and whether there is any action we owe before it expires." |
+| 2 | **HTT E5 + Extra Storage replacement** — are Pax8 replacements ordered, and is there any coverage gap? | "The expirations were intentional migration steps; I need to know whether replacement coverage is active or if we're exposed." |
+| 3 | **Teams Premium 25 seats** — what SKU/term should be repurchased through Pax8? | "This was direct-billed and lapsed. Let's settle SKU, term, and who orders it." |
+| 4 | **DCE model tenant** — who flips DCE/FN spoke-side auto-redeem, and when? | "Delta Crown is the reference implementation. I need your help making the identity handoff repeatable." |
+| 5 | **Backup + insurance letter** — when do we get pricing and written attestation? | "For CFO/compliance, I need backup options and a written statement covering EDR, patching, firewall, and backup." |
+
+### Owner read-back before ending the call
+
+| Megan owes | Tyler owes |
+|---|---|
+| E5 replacement status + Teams Premium SKU/term | DCE new-user runbook v0.1 |
+| M365 backup pricing | DUNS for Delta Crown ABM |
+| Cyber/insurance attestation letter | Azure payment-method verification |
+| DCE/FN auto-redeem owner/date | TLL CNAME action |
+| GDAP approval workflow answer | BCC pwd-never-expires list |
+
+### If challenged, use these lines
+
+- "I'm not trying to relitigate Apr 13 — your answers are already captured. I'm only confirming what changed and what still needs an owner/date."
+- "Delta Crown is the model tenant because it is greenfield, small, and already hardened. If this works there, we can scale it across the brands."
+- "The direct-bill expirations were intentional, but the replacement status and any feature gap are what I need to close today."
+
+---
+
 ## 1. Bottom-line answers, in your voice
 
 **Are we in a position to confidently speak to all our M365/Azure billing across HTT and the brands?**
 Yes — at the **per-tenant licensing posture and CSP-vs-direct-bill pattern** level. Every tenant is walkable. What we cannot yet show in a single screen is a **consolidated, real-time dollar figure** — that's what Control Tower is being built to answer, and it's not wired to all four brand tenants yet (per-tenant `governance-platform-reader` app registrations are the gating step).
 
-**Are we ready to establish the cross-tenant situation with Delta Crown Extensions as the golden child?**
+**Are we ready to establish the cross-tenant situation with Delta Crown Extensions as the model tenant / reference implementation?**
 **Yes — Delta Crown is the proof.** The DCE tenant is the deliberate first-greenfield instance of the hub-and-spoke model we want every brand on:
 - Tenant security **hardened live Apr 29** (sharing narrowed to existing-external-only, external resharing off, legacy auth off, all 4 dynamic security groups verified, 10 sites audited clean).
 - SharePoint Phase 2 (Corp-Hub + DCE-Hub + 4 service sites + branding + dynamic security groups) **deployed.**
@@ -55,7 +87,7 @@ Microsoft support case **TrackingID#2604020040000719** (April 7–8) confirms Mi
 - **Per-user license renewals:** Most current Pax8 SKUs renew **July/August 2026**. Megan plans to align all subscription dates per tenant on a single renewal date (TLL is already aligned to end-of-January).
 - **AppRiver:** **100% migrated to Pax8** (Apr 10: "we are 100% migrated over"). The 3 AppRiver service principals (`Office 365 Security Audit App` `7aecb184`, `Office365 Integration` `bee5026c`, `PshellTools` `cc695ec2`) are authorized for removal across HTT, FN, TLL.
 - **TD SYNNEX:** GDAP already revoked on Megan's side; partner policy entries are cosmetic (Microsoft can't delete them).
-- **BCC MOSA → Pax8 CSP:** **Anchored Apr 13:** Business Basic licenses expire **October 2026**. Future BB purchases on Pax8. Convention is past — open question: do we wait for the October expiration or cut over earlier?
+- **BCC MOSA → Pax8 CSP:** **Anchored Apr 13:** Business Basic licenses expire **October 2026**. Future BB purchases on Pax8. Other non-Business-Basic SKUs may still renew July/August — confirm whether any need earlier action. Convention is past — open question: do we wait for October or cut over earlier?
 - **All licensing channel policy (Apr 13):** *"All licenses need to be through Pax8 and no direct bill. Any current direct bill needs to be canceled and repurchased on Pax8."* No ambiguity.
 
 ### What the call needs to settle on billing
@@ -118,7 +150,7 @@ These are the items the prior brief left open but Megan actually closed. Do not 
 
 ---
 
-## 5. Delta Crown Extensions — current state & the collaboration ask
+## 5. Delta Crown Extensions model tenant — current state & the collaboration ask
 
 ### What's live on the DCE tenant today
 
@@ -142,7 +174,7 @@ These are the items the prior brief left open but Megan actually closed. Do not 
 | Apple Business Manager → MDM | ❌ **Blocked on DUNS** | Tyler owes; DCE is all-Mac strategy |
 | Spoke-side auto-redeem | ❌ Not yet enabled | Sui Generis tenant admin to flip |
 
-### Why DCE is the golden child (the architecture pattern in one frame)
+### Why DCE is the model tenant (the architecture pattern in one frame)
 
 ```
 HTT-ANCHOR (hub) ─── attribute owner: htt_role, htt_brand, htt_region, htt_location_ids, htt_access_tier
@@ -341,7 +373,7 @@ All downstream access (SharePoint, Teams, mailboxes, license, CA scope) drops in
 
 - **`control-tower`** (`/Users/tygranlund/dev/01-htt-brands/control-tower`) — Multi-tenant Azure governance platform. Real integrations to Cost Management API, Policy Insights, Resource Manager, Microsoft Graph. ~35,000 LOC, 661 tests passing, 6 phases complete. Multi-tenant credentials via Azure Key Vault (`{tenant-id}-client-id` / `{tenant-id}-client-secret`). **Gating step before live data flows for all 4 brand tenants:** an app registration named `governance-platform-reader` per tenant with Reader / Cost Management Reader / Security Reader / 7 Graph permissions and admin consent (`docs/QUICK_START_CHECKLIST.md`). This is the platform that will eventually answer "what does our M365 + Azure cost across HTT and the brands, in real time."
 - **`Cross-Tenant-Utility`** (this repo) — PowerShell-based 7-domain identity audit toolkit (B2B Collab, Direct Connect, Guest Inventory, CA, Cross-Tenant Sync, Teams Federation, Identity Governance). Phase 1 audit reports generated. The dashboard at `https://t-granlund.github.io/ctu-dashboard/` is the published companion (passphrase `CrossTenant!`).
-- **`DeltaSetup`** (`/Users/tygranlund/dev/04-other-orgs/DeltaSetup`) — Delta Crown Extensions golden-child example. **Working tree restored** (28 entries, `gh-pages` branch, deployment runbook, full HTML deliverables). The May 6 brief draft lives here; this May 7 brief supersedes.
+- **`DeltaSetup`** (`/Users/tygranlund/dev/04-other-orgs/DeltaSetup`) — Delta Crown Extensions model-tenant example. **Working tree restored** (28 entries, `gh-pages` branch, deployment runbook, full HTML deliverables). The May 6 brief draft lives here; this May 7 brief supersedes.
 
 ---
 
@@ -380,7 +412,7 @@ All downstream access (SharePoint, Teams, mailboxes, license, CA scope) drops in
 - `/Users/tygranlund/dev/04-other-orgs/DeltaSetup/MEGAN-CALL-BRIEF-2026-05-06.md` (prior draft, superseded by this file)
 - Microsoft case `TrackingID#2604020040000719`
 - Pax8→AppRiver Transfer ID `acd7573e-a487-41d9-83ce-560dea432e95` (expires 2026-05-27)
-- Dashboard: `https://t-granlund.github.io/ctu-dashboard/` (passphrase: `CrossTenant!`)
+- Dashboard: `https://t-granlund.github.io/ctu-dashboard/` (passphrase shared separately; do not forward in the brief)
 
 ---
 

@@ -179,7 +179,7 @@ export default function ConfirmedContext() {
               </span>
             </div>
             <p className="text-sm text-slate-400">
-              Most licenses end July/August. Megan will purchase PAX8 replacements and align renewal dates.
+              BCC Business Basic expires October 2026; other renewals may land July/August. Megan will purchase PAX8 replacements and align renewal dates.
             </p>
           </div>
 
@@ -205,7 +205,7 @@ export default function ConfirmedContext() {
               </span>
             </div>
             <ul className="mt-1 space-y-1 text-sm text-slate-400">
-              <li>• Most license subscriptions end <span className="text-slate-300">July/August 2026</span> — consolidating to PAX8</li>
+              <li>• BCC Business Basic expires <span className="text-slate-300">October 2026</span>; other Pax8 renewals may land July/August — consolidating to PAX8</li>
               <li>• TLL has only <span className="text-slate-300">2 active billing accounts</span> (not the huge list feared)</li>
               <li>• Power BI individual licenses being phased out → Fabric Free via cross-tenant sync</li>
               <li>• HTT Power BI + Teams Premium still direct-billed — migration in progress</li>

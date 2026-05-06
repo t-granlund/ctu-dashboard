@@ -55,6 +55,8 @@ function QuestionCard({ q, response, onUpdate }) {
       {/* Checkbox + question */}
       <div className="mb-2 flex items-start gap-3">
         <button
+          type="button"
+          aria-label={`${isAnswered ? 'Mark as needing review' : 'Mark as answered'}: ${q.question}`}
           onClick={() => onUpdate(q.id, { ...response, answered: !isAnswered })}
           className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border transition-colors ${
             isAnswered
@@ -88,6 +90,7 @@ function QuestionCard({ q, response, onUpdate }) {
       <div className="ml-8">
         {q.inputType === 'select' ? (
           <select
+            aria-label={`Update or correction for: ${q.question}`}
             value={value}
             onChange={(e) => onUpdate(q.id, { ...response, value: e.target.value, answered: !!e.target.value })}
             className="w-full rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-2.5 text-sm text-white focus:border-slate-500 focus:outline-none"
@@ -99,6 +102,7 @@ function QuestionCard({ q, response, onUpdate }) {
           </select>
         ) : (
           <textarea
+            aria-label={`Update or correction for: ${q.question}`}
             value={value}
             onChange={(e) => onUpdate(q.id, { ...response, value: e.target.value })}
             placeholder={q.placeholder}
@@ -113,7 +117,7 @@ function QuestionCard({ q, response, onUpdate }) {
 
 function CategorySection({ category, responses, onUpdate, defaultOpen }) {
   const [open, setOpen] = useState(defaultOpen);
-  const answered = category.questions.filter((q) => responses[q.id]?.answered).length;
+  const answered = category.questions.filter((q) => responses[q.id]?.answered ?? !!q.apr13Answer).length;
   const total = category.questions.length;
 
   return (
@@ -160,7 +164,10 @@ export default function MeganResponseForm({ onExport }) {
     setResponses((prev) => ({ ...prev, [questionId]: data }));
   }, []);
 
-  const answeredCount = Object.values(responses).filter((r) => r?.answered).length;
+  const answeredCount = meganQuestions.reduce(
+    (sum, cat) => sum + cat.questions.filter((q) => responses[q.id]?.answered ?? !!q.apr13Answer).length,
+    0,
+  );
   const progress = Math.round((answeredCount / totalQuestions) * 100);
 
   return (

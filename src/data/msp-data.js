@@ -442,11 +442,11 @@ export const confirmedContext = {
   },
   bishops: {
     billingStatus: "MOSA / Direct Bill — migration to PAX8 IN PROGRESS",
-    action: "Most licenses end July/August 2026. Megan will purchase replacements via PAX8 and align all subscription renewal dates.",
+    action: "BCC Business Basic expires October 2026; other Pax8 renewals may land July/August. Confirm which SKUs need earlier action and align renewal dates per tenant.",
     mfaStatus: "Planned for POST-CONVENTION — Megan doesn't want support nightmare during event. Will use MFA security group approach (same as TLL).",
     extraP2: "5 P2 licenses (3 allocated) — extras purchased by Eric Canfield (previous person). Tyler can cancel the ones he purchased.",
   },
-  billingMess: "Billing is fragmented but improving. Most license subscriptions end July/August 2026 — Megan will consolidate to PAX8 and align renewal dates per tenant. TLL has only 2 active billing accounts (not the huge list feared). Power BI individual licenses being phased out (auto-assigned Fabric Free via cross-tenant sync). Some HTT Power BI + Teams Premium still direct-billed — migration in progress.",
+  billingMess: "Billing is fragmented but improving. BCC Business Basic expires October 2026; other Pax8 renewals may still land July/August — confirm if any require earlier action. Megan will consolidate to PAX8 and align renewal dates per tenant. TLL has only 2 active billing accounts (not the huge list feared). Power BI individual licenses being phased out (auto-assigned Fabric Free via cross-tenant sync). Some HTT Power BI + Teams Premium still direct-billed — migration in progress.",
   lifecycleVision: "Delta Crown is the clean-slate opportunity. Tyler building SharePoint hub-and-spoke architecture, proper user properties (role, brand, location, salon IDs) as anchors for dynamic groups. Goal: when someone onboards, their properties drive automatic group membership, access, and licensing. No manual permission management. Will present Delta Crown layout to Megan + Kristen for review.",
   deviceManagement: {
     tool: "Atera (RMM)",
@@ -732,7 +732,7 @@ export const callAgenda = [
   { id: "web-to-csp", title: "Web Direct → CSP", time: "7 min", icon: "🔀", description: "E5 + Extra Storage expired on schedule. Pax8 replacement order status, coverage gap, payment-method verify" },
   { id: "teams-premium", title: "Teams Premium", time: "3 min", icon: "📞", description: "25 seats lapsed Apr 2 — SKU + term decision" },
   { id: "bcc-mosa", title: "BCC MOSA → CSP", time: "5 min", icon: "🏪", description: "Convention is past — start now or ride to October Business Basic expiration" },
-  { id: "delta-crown", title: "Delta Crown — Golden Child", time: "10 min", icon: "👑", description: "DCE current state walkthrough + spoke-side auto-redeem + DUNS/ABM unblock" },
+  { id: "delta-crown", title: "Delta Crown — Model Tenant", time: "10 min", icon: "👑", description: "DCE current state walkthrough + spoke-side auto-redeem + DUNS/ABM unblock" },
   { id: "lifecycle", title: "Onboarding/Offboarding", time: "8 min", icon: "🔄", description: "Hand over the new-user runbook (Megan offered Apr 10 + Apr 13 to follow it)" },
   { id: "governance", title: "Backup + Cyber Insurance", time: "3 min", icon: "🛡️", description: "M365 backup pricing, attestation letter (EDR=ThreatDown confirmed Apr 13)" },
   { id: "tll-cname", title: "TLL CNAME (today's ask)", time: "2 min", icon: "🌐", description: "Colton's CallView analytics subdomain — Tyler to action" },
@@ -757,66 +757,3 @@ export const callActionItems = [
   { owner: "Both", action: "Align on licensing needs per tenant — what we have, why, how provisioned", priority: "ongoing", status: "in-progress" },
   { owner: "Both", action: "Define 'when you create a new user, add to these groups' procedure for Megan", priority: "next-week", status: "pending" },
 ];
-
-// ── May 7, 2026 status update (since the Apr 10 call) ───────
-// This is the "what's happened, what's still owed, what's new" snapshot
-// surfaced at the top of the MSP walkthrough portal for the May 7 call.
-export const maySevenUpdate = {
-  callDate: '2026-05-07',
-  callTime: '1:15 PM CT',
-  briefRefreshed: '2026-05-06 13:35 CT',
-  briefPath: 'MEGAN-CALL-BRIEF-2026-05-07.md',
-  resolvedSinceApr10: [
-    { date: '2026-04-13', text: 'Megan returned 20/20 questions in writing — partner-override scope, EDR (ThreatDown), Atera no-tenant-API, GDAP timeboxing, BCC October cutover, onboarding-checklist offer, SP removal authorizations.' },
-    { date: '2026-04-10—13', text: 'AppRiver SPs disabled across HTT, FN, TLL.' },
-    { date: '2026-04-20', text: 'Comprehensive end-to-end audit (Phase 1) completed.' },
-    { date: '2026-04-22', text: 'Megan cleaned 68 shared mailboxes on TLL.' },
-    { date: '2026-04-23', text: 'CA verify + MFA verify audits + CFO cyber-insurance response drafted.' },
-    { date: '2026-04-27', text: 'Pax8 US submitted Pax8→AppRiver billing-ownership transfer (Transfer ID acd7573e-…, expires 2026-05-27).' },
-    { date: '2026-04-29', text: 'Delta Crown tenant security hardened LIVE — sharing narrowed, external resharing off, legacy auth off, all 4 dynamic security groups verified.' },
-    { date: '2026-05-03', text: 'HTT M365 E5 (no Teams) expired on schedule.' },
-    { date: '2026-05-04', text: 'HTT Office 365 Extra File Storage expired on schedule.' },
-  ],
-  stillOwedByMegan: [
-    { severity: 'high', text: 'M365 backup pricing (Apr 13 commitment).' },
-    { severity: 'high', text: 'Cyber insurance attestation letter — EDR/patch/firewall/backup, in writing.' },
-    { severity: 'high', text: 'Teams Premium 25 seats — repurchase SKU + term via Pax8.' },
-    { severity: 'medium', text: 'Spoke-side auto-redeem on DCE + FN tenants.' },
-    { severity: 'medium', text: 'Phishing simulation pricing.' },
-    { severity: 'medium', text: 'Atera customer-specific API answer (Apr 10 check).' },
-    { severity: 'low', text: 'GDAP approval workflow — confirm whether one exists.' },
-  ],
-  stillOwedByTyler: [
-    { severity: 'high', text: 'New-user runbook (per-brand attribute + group + license checklist) — Megan offered to follow it twice.' },
-    { severity: 'high', text: 'DUNS for Delta Crown Apple Business Manager.' },
-    { severity: 'medium', text: 'HTT-ANCHOR Azure payment method verification (Apr 25 reminder).' },
-    { severity: 'medium', text: 'Disable Ingram-Micro-LicenseManager + O365Support-MSP-Connector SPs in TLL (Apr 13 authorized).' },
-    { severity: 'medium', text: 'Share the 7 BCC pwd-never-expires account list with Megan for triage.' },
-    { severity: 'low', text: "TLL CNAME for Colton's CallView analytics subdomain (today's ask)." },
-  ],
-  newAgendaTopics: [
-    'Pax8→AppRiver Apr 27 transfer (Transfer ID acd7573e-…) — confirm scope before May 27 expiration',
-    'Web Direct → CSP migration status — E5 + Extra Storage expired, Pax8 replacement order?',
-    'BCC MOSA → Pax8 CSP — start now or ride to October Business Basic expiration',
-    'Delta Crown current-state walkthrough — golden child architecture for hub-and-spoke',
-    'New-user runbook handoff (this is the unblock)',
-  ],
-  deltaCrownStatus: {
-    summary: 'DCE is the deliberate first-greenfield instance of the hub-and-spoke architecture. Tenant security hardened live Apr 29; Phase 2 + Phase 3 SharePoint deployed; CA active tenant-wide; dynamic groups built and waiting for attribute-driven population.',
-    live: [
-      'Conditional Access enforced tenant-wide (Megan, late Apr)',
-      'P2 blanket entitlement (1 license, no per-user assignment needed)',
-      'Tenant security hardening live (Apr 29) — sharingCapability narrowed, external resharing off, legacy auth off',
-      'SharePoint Phase 2: Corp-Hub + DCE-Hub + 4 service sites (HR, IT, Finance, Training)',
-      'SharePoint Phase 3: 4 brand sites (Operations, ClientServices, Marketing, Docs) + Teams workspace + DLP policies',
-      'Dynamic security groups: AllStaff (6), Managers (0), Marketing (0), Stylists (0) — empty by design, waiting on attribute population',
-      '3 shared mailboxes (operations@, bookings@, info@) and 3 dynamic distribution groups',
-    ],
-    blocked: [
-      'Apple Business Manager → MDM (DUNS)',
-      'Spoke-side auto-redeem',
-      'Internal access controls (break inheritance + role matrix) — pending PnP run',
-    ],
-  },
-};
-
