@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import CrossTenantOverview from './msp/CrossTenantOverview';
 import MaySevenUpdate from './msp/MaySevenUpdate';
 import MeganOverviewGuide from './msp/MeganOverviewGuide';
 import PshMspEscalationView from './msp/PshMspEscalationView';
@@ -48,31 +49,22 @@ function CollapsibleReference({ title, icon, children }) {
 export default function MSPWalkthrough() {
   return (
     <section id="msp-review" className="scroll-mt-8">
-      <div className="mb-8 border-l-4 border-cyan-500 pl-4">
-        <h2 className="section-title" style={{ color: '#06b6d4' }}>
-          🤝 MSP Partnership Portal
-        </h2>
-        <p className="text-sm text-slate-400">
-          Hi Megan — this is the shared view of our cross-tenant governance project.
-          Below you'll find what we confirmed on our call, plus a few remaining questions
-          that will help Tyler finalize the Phase 3 security policies.
-        </p>
-        <p className="mt-1 text-xs text-slate-500">
-          Your answers auto-save in this browser. When you're done, hit "Export as Markdown" to download a file you can send back.
-        </p>
-      </div>
+      <h2 className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-slate-400">MSP Partnership Portal</h2>
 
-      <div role="navigation" aria-label="MSP portal sections" className="mb-8 rounded-2xl border border-slate-700/40 bg-slate-900/45 p-3">
-        <div className="flex flex-wrap gap-2">
+      <CrossTenantOverview />
+
+      <div role="navigation" aria-label="MSP portal sections" className="my-12 border-y border-slate-800 py-4">
+        <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-slate-400">Drill in</p>
+        <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold text-slate-200">
           {[
-            ['Decisions', '#section-may7-update'],
-            ['Lifecycle', '#msp-lifecycle-workflow'],
+            ['May 7 working brief', '#section-may7-update'],
+            ['Lifecycle workflow', '#msp-lifecycle-workflow'],
             ['Megan questions', '#section-questions'],
-            ['Escalation', '#psh-msp-escalation-view'],
-            ['Context', '#section-context'],
+            ['MSP escalation', '#psh-msp-escalation-view'],
+            ['Confirmed context', '#section-context'],
             ['Evidence', '#source-truth-review'],
           ].map(([label, href]) => (
-            <a key={href} href={href} className="min-h-10 rounded-full border border-slate-700/70 bg-slate-950/50 px-4 py-2 text-xs font-black text-slate-100 transition hover:border-cyan-300/60 hover:text-cyan-100">
+            <a key={href} href={href} className="inline-flex min-h-6 items-center underline decoration-slate-600 underline-offset-4 transition hover:decoration-slate-200">
               {label}
             </a>
           ))}
