@@ -106,6 +106,9 @@ test.describe('MSP Portal — May 7 War Room', () => {
     const guide = page.getByRole('link', { name: 'Jump to Designed Megan Overview Guide' });
     await expect(guide).toBeVisible();
     await expect(guide).toHaveAttribute('href', '#megan-overview-guide');
+    const pshEscalation = page.getByRole('link', { name: 'Jump to PSH MSP Escalation View' });
+    await expect(pshEscalation).toBeVisible();
+    await expect(pshEscalation).toHaveAttribute('href', '#psh-msp-escalation-view');
     const sourceTruth = page.getByRole('link', { name: 'Jump to Embedded Source-of-Truth Review' });
     await expect(sourceTruth).toBeVisible();
     await expect(sourceTruth).toHaveAttribute('href', '#source-truth-review');
@@ -131,6 +134,18 @@ test.describe('MSP Portal — May 7 War Room', () => {
       await expect(page.getByText(term, { exact: false }).first()).toBeVisible();
     }
     await expect(page.locator('a[href$="MEGAN-OVERVIEW-GUIDE-2026-05-07.md"]')).toHaveCount(0);
+  });
+
+  test('embeds the People Support Hub MSP escalation value story', async ({ page }) => {
+    for (const term of [
+      'People Support Hub — MSP Escalation View',
+      'Freshdesk is the front door',
+      'Proposed routing field conditions',
+      'What Megan gets out of it',
+      'No new infra. No new endpoints. No new schemas.',
+    ]) {
+      await expect(page.getByText(term, { exact: false }).first()).toBeVisible();
+    }
   });
 
   test('embeds the full source-of-truth review in the password-gated page', async ({ page }) => {

@@ -43,6 +43,12 @@ export default function MeganWarRoomOverview() {
             Jump to Designed Megan Overview Guide
           </a>
           <a
+            href="#psh-msp-escalation-view"
+            className="rounded-xl border border-green-400/40 bg-green-500/15 px-4 py-2 text-sm font-bold text-green-100 transition hover:bg-green-500/25"
+          >
+            Jump to PSH MSP Escalation View
+          </a>
+          <a
             href="#source-truth-review"
             className="rounded-xl border border-cyan-400/40 bg-cyan-500/15 px-4 py-2 text-sm font-bold text-cyan-100 transition hover:bg-cyan-500/25"
           >

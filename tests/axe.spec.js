@@ -62,6 +62,12 @@ test.describe('Axe WCAG audit', () => {
     await expectNoAxeViolations(page, { include: '#megan-overview-guide' });
   });
 
+  test('People Support Hub MSP escalation view has no WCAG A/AA violations', async ({ page }) => {
+    await openMspPortal(page);
+    await page.locator('#psh-msp-escalation-view').scrollIntoViewIfNeeded();
+    await expectNoAxeViolations(page, { include: '#psh-msp-escalation-view' });
+  });
+
   test('source-of-truth review has no WCAG A/AA violations', async ({ page }) => {
     await openMspPortal(page);
     await page.locator('#source-truth-review').scrollIntoViewIfNeeded();

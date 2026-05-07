@@ -55,6 +55,7 @@ test.describe('Accessibility and design-system guardrails', () => {
     await openMspPortal(page);
     await expect(page.locator('a[href$=".md"]')).toHaveCount(0);
     await expect(page.getByRole('link', { name: 'Jump to Designed Megan Overview Guide' })).toHaveAttribute('href', '#megan-overview-guide');
+    await expect(page.getByRole('link', { name: 'Jump to PSH MSP Escalation View' })).toHaveAttribute('href', '#psh-msp-escalation-view');
     await expect(page.getByRole('link', { name: 'Jump to Embedded Source-of-Truth Review' })).toHaveAttribute('href', '#source-truth-review');
   });
 
@@ -91,7 +92,7 @@ test.describe('Accessibility and design-system guardrails', () => {
   test('tables in the designed call content have accessible captions', async ({ page }) => {
     await openMspPortal(page);
     const captionIssues = await page.evaluate(() => {
-      const sections = ['megan-overview-guide', 'source-truth-review'];
+      const sections = ['megan-overview-guide', 'psh-msp-escalation-view', 'source-truth-review'];
       return sections.flatMap((id) => [...document.querySelectorAll(`#${id} table`)]
         .map((table, index) => ({ index, caption: table.caption?.textContent?.trim() }))
         .filter((item) => !item.caption)
