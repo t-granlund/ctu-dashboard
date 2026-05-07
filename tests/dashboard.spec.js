@@ -125,6 +125,8 @@ test.describe('MSP Portal — May 7 War Room', () => {
 
   test('embeds the designed Megan overview guide in the password-gated page', async ({ page }) => {
     for (const term of [
+      'Scan first',
+      'What matters before the wall of detail',
       'Current priority picture',
       'Billing / CSP questions to land today',
       'Requested outcomes before ending the call',
@@ -133,6 +135,7 @@ test.describe('MSP Portal — May 7 War Room', () => {
     ]) {
       await expect(page.getByText(term, { exact: false }).first()).toBeVisible();
     }
+    await expect(page.getByRole('button', { name: /Show \d+ more live items/i }).first()).toBeVisible();
     await expect(page.locator('a[href$="MEGAN-OVERVIEW-GUIDE-2026-05-07.md"]')).toHaveCount(0);
   });
 

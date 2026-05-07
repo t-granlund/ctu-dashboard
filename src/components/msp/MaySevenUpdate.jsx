@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { maySevenUpdate } from '../../data/may-seven-update';
 import MeganWarRoomOverview from './MeganWarRoomOverview';
 
@@ -7,20 +8,71 @@ const SEVERITY = {
   low: { dot: 'bg-slate-500', text: 'text-slate-400', label: 'Low' },
 };
 
-function OwedList({ items }) {
+function ShowMoreButton({ expanded, remaining, label, onClick }) {
+  if (remaining <= 0 && !expanded) return null;
   return (
-    <ul className="space-y-2">
-      {items.map((item, i) => {
-        const sev = SEVERITY[item.severity] ?? SEVERITY.low;
-        return (
-          <li key={i} className="flex items-start gap-3 rounded-lg border border-slate-700/30 bg-slate-900/40 px-3 py-2">
-            <span className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${sev.dot}`} />
-            <p className="flex-1 text-sm text-slate-300">{item.text}</p>
-            <span className={`shrink-0 text-[10px] font-bold uppercase ${sev.text}`}>{sev.label}</span>
+    <button
+      type="button"
+      aria-expanded={expanded}
+      onClick={onClick}
+      className="mt-3 min-h-10 rounded-full border border-slate-700/70 bg-slate-900/70 px-3 py-2 text-xs font-black text-slate-100 transition hover:bg-slate-800"
+    >
+      {expanded ? `Show fewer ${label}` : `Show ${remaining} more ${label}`}
+    </button>
+  );
+}
+
+function OwedList({ items, initialVisible = 3 }) {
+  const [expanded, setExpanded] = useState(false);
+  const visibleItems = expanded ? items : items.slice(0, initialVisible);
+  const remaining = items.length - visibleItems.length;
+
+  return (
+    <div>
+      <ul className="space-y-2">
+        {visibleItems.map((item, i) => {
+          const sev = SEVERITY[item.severity] ?? SEVERITY.low;
+          return (
+            <li key={`${item.text}-${i}`} className="flex items-start gap-3 rounded-lg border border-slate-700/30 bg-slate-900/40 px-3 py-2">
+              <span className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${sev.dot}`} />
+              <p className="flex-1 text-sm text-slate-300">{item.text}</p>
+              <span className={`shrink-0 text-[10px] font-bold uppercase ${sev.text}`}>{sev.label}</span>
+            </li>
+          );
+        })}
+      </ul>
+      <ShowMoreButton
+        expanded={expanded}
+        remaining={remaining}
+        label="owed items"
+        onClick={() => setExpanded((value) => !value)}
+      />
+    </div>
+  );
+}
+
+function StatusList({ items, icon, iconClass, initialVisible = 4, label }) {
+  const [expanded, setExpanded] = useState(false);
+  const visibleItems = expanded ? items : items.slice(0, initialVisible);
+  const remaining = items.length - visibleItems.length;
+
+  return (
+    <div>
+      <ul className="space-y-1.5">
+        {visibleItems.map((item, i) => (
+          <li key={`${item}-${i}`} className="flex items-start gap-2 text-xs text-slate-300">
+            <span className={iconClass}>{icon}</span>
+            <span>{item}</span>
           </li>
-        );
-      })}
-    </ul>
+        ))}
+      </ul>
+      <ShowMoreButton
+        expanded={expanded}
+        remaining={remaining}
+        label={label}
+        onClick={() => setExpanded((value) => !value)}
+      />
+    </div>
   );
 }
 
@@ -124,27 +176,25 @@ export default function MaySevenUpdate() {
             <h5 className="mb-2 text-xs font-bold uppercase tracking-wider text-green-400">
               Live ({u.deltaCrownStatus.live.length})
             </h5>
-            <ul className="space-y-1.5">
-              {u.deltaCrownStatus.live.map((item, i) => (
-                <li key={i} className="flex items-start gap-2 text-xs text-slate-300">
-                  <span className="text-green-400">✓</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+            <StatusList
+              items={u.deltaCrownStatus.live}
+              icon="✓"
+              iconClass="text-green-400"
+              initialVisible={4}
+              label="live items"
+            />
           </div>
           <div>
             <h5 className="mb-2 text-xs font-bold uppercase tracking-wider text-orange-400">
               Blocked ({u.deltaCrownStatus.blocked.length})
             </h5>
-            <ul className="space-y-1.5">
-              {u.deltaCrownStatus.blocked.map((item, i) => (
-                <li key={i} className="flex items-start gap-2 text-xs text-slate-300">
-                  <span className="text-orange-400">✗</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+            <StatusList
+              items={u.deltaCrownStatus.blocked}
+              icon="✗"
+              iconClass="text-orange-400"
+              initialVisible={3}
+              label="blocked items"
+            />
           </div>
         </div>
       </div>

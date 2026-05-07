@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { meganOverviewGuide } from '../../data/megan-overview-guide';
 
 function GuideCard({ eyebrow, title, children, tone = 'cyan' }) {
@@ -17,16 +18,60 @@ function GuideCard({ eyebrow, title, children, tone = 'cyan' }) {
   );
 }
 
-function BulletList({ items, marker = '•', className = '' }) {
+function BulletList({ items, marker = '•', className = '', initialVisible = 4, label = 'items' }) {
+  const [expanded, setExpanded] = useState(false);
+  const shouldCollapse = items.length > initialVisible;
+  const visibleItems = shouldCollapse && !expanded ? items.slice(0, initialVisible) : items;
+  const remaining = items.length - visibleItems.length;
+
   return (
-    <ul className={`space-y-2 ${className}`}>
-      {items.map((item) => (
-        <li key={item} className="flex gap-2 text-xs leading-5 text-slate-300">
-          <span className="mt-0.5 text-cyan-300">{marker}</span>
-          <span>{item}</span>
-        </li>
-      ))}
-    </ul>
+    <div className={className}>
+      <ul className="space-y-2">
+        {visibleItems.map((item) => (
+          <li key={item} className="flex gap-2 text-xs leading-5 text-slate-300">
+            <span className="mt-0.5 text-cyan-300">{marker}</span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+      {shouldCollapse && (
+        <button
+          type="button"
+          aria-expanded={expanded}
+          onClick={() => setExpanded((value) => !value)}
+          className="mt-3 min-h-10 rounded-full border border-slate-700/70 bg-slate-900/70 px-3 py-2 text-xs font-black text-slate-100 transition hover:bg-slate-800"
+        >
+          {expanded ? `Show fewer ${label}` : `Show ${remaining} more ${label}`}
+        </button>
+      )}
+    </div>
+  );
+}
+
+function ScanSummary({ guide }) {
+  const asks = [
+    'Confirm Pax8 / CSP replacement and export path.',
+    'Validate DCE runbook + assign auto-redeem owner/date.',
+    'Provide backup, phishing, and insurance-attestation answers.',
+  ];
+  return (
+    <div className="mb-6 rounded-3xl border border-cyan-400/30 bg-cyan-500/10 p-5">
+      <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-[0.25em] text-cyan-300">Scan first</p>
+          <h4 className="text-xl font-black text-white">What matters before the wall of detail</h4>
+        </div>
+        <p className="max-w-2xl text-sm leading-6 text-slate-300">{guide.operatingModel.takeaway}</p>
+      </div>
+      <div className="grid gap-3 lg:grid-cols-3">
+        {asks.map((ask, index) => (
+          <div key={ask} className="rounded-2xl border border-slate-700/60 bg-slate-950/55 p-4">
+            <p className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Ask {index + 1}</p>
+            <p className="text-sm font-bold leading-6 text-white">{ask}</p>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -95,12 +140,14 @@ export default function MeganOverviewGuide() {
         </div>
       </div>
 
+      <ScanSummary guide={guide} />
+
       <div className="mb-6 grid gap-4 lg:grid-cols-3">
         <GuideCard eyebrow="Operating model" title="HTT owns the standard" tone="cyan">
-          <BulletList items={guide.operatingModel.htt} />
+          <BulletList items={guide.operatingModel.htt} initialVisible={3} label="HTT responsibilities" />
         </GuideCard>
         <GuideCard eyebrow="Operating model" title="Sui Generis operationalizes" tone="fuchsia">
-          <BulletList items={guide.operatingModel.suiGeneris} />
+          <BulletList items={guide.operatingModel.suiGeneris} initialVisible={3} label="Sui Generis responsibilities" />
         </GuideCard>
         <GuideCard eyebrow="Takeaway" title="Collaboration frame" tone="green">
           <p className="text-sm leading-6 text-slate-300">{guide.operatingModel.takeaway}</p>
@@ -120,10 +167,10 @@ export default function MeganOverviewGuide() {
       <div className="mb-6 grid gap-4 xl:grid-cols-3">
         <GuideCard eyebrow="DCE model tenant" title="Live today" tone="green">
           <p className="mb-3 text-xs leading-5 text-slate-300">{guide.deltaCrown.summary}</p>
-          <BulletList items={guide.deltaCrown.live} marker="✓" />
+          <BulletList items={guide.deltaCrown.live} marker="✓" initialVisible={3} label="live items" />
         </GuideCard>
         <GuideCard eyebrow="DCE model tenant" title="Blocked / open" tone="amber">
-          <BulletList items={guide.deltaCrown.blocked} marker="!" />
+          <BulletList items={guide.deltaCrown.blocked} marker="!" initialVisible={3} label="blocked items" />
         </GuideCard>
         <GuideCard eyebrow="DCE model tenant" title="Validation flow" tone="cyan">
           <StepRail items={guide.deltaCrown.validationFlow} />
@@ -140,7 +187,7 @@ export default function MeganOverviewGuide() {
 
       <div className="mb-6 grid gap-4 lg:grid-cols-2">
         <GuideCard eyebrow="Security" title="Already confirmed by Megan" tone="green">
-          <BulletList items={guide.security.confirmed} marker="✓" />
+          <BulletList items={guide.security.confirmed} marker="✓" initialVisible={4} label="confirmed security facts" />
         </GuideCard>
         <GuideCard eyebrow="Security" title="Open asks" tone="amber">
           <BulletList items={guide.security.openAsks} marker="→" />
@@ -153,9 +200,9 @@ export default function MeganOverviewGuide() {
         </GuideCard>
         <GuideCard eyebrow="Support routing" title="How the hubs help Megan" tone="fuchsia">
           <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-            <BulletList items={guide.supportHubs.groupsHub} marker="G" />
-            <BulletList items={guide.supportHubs.peopleSupportHub} marker="P" />
-            <BulletList items={guide.supportHubs.helpsMegan} marker="✓" />
+              <BulletList items={guide.supportHubs.groupsHub} marker="G" initialVisible={3} label="Groups Hub details" />
+            <BulletList items={guide.supportHubs.peopleSupportHub} marker="P" initialVisible={3} label="People Support Hub details" />
+            <BulletList items={guide.supportHubs.helpsMegan} marker="✓" initialVisible={3} label="Megan benefits" />
           </div>
         </GuideCard>
       </div>
