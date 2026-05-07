@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import MaySevenUpdate from './msp/MaySevenUpdate';
+import SourceTruthReview from './msp/SourceTruthReview';
 import PostCallSummary from './msp/PostCallSummary';
 import ConfirmedContext from './msp/ConfirmedContext';
 import MeganResponseForm from './msp/MeganResponseForm';
@@ -13,10 +14,10 @@ import exportMarkdown from './msp/exportMarkdown';
 function CollapsibleReference({ title, icon, children }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="rounded-2xl border border-slate-700/30 bg-slate-900/40 overflow-hidden">
+    <div className="overflow-hidden rounded-2xl border border-slate-700/30 bg-slate-900/40">
       <button
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center gap-3 px-6 py-4 text-left hover:bg-slate-800/30 transition-colors"
+        className="flex w-full items-center gap-3 px-6 py-4 text-left transition-colors hover:bg-slate-800/30"
       >
         <span className="text-lg">{icon}</span>
         <span className="flex-1 text-sm font-bold text-slate-300">{title}</span>
@@ -25,7 +26,9 @@ function CollapsibleReference({ title, icon, children }) {
         </span>
         <svg
           className={`h-4 w-4 text-slate-500 transition-transform ${open ? 'rotate-180' : ''}`}
-          fill="none" stroke="currentColor" viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
@@ -38,7 +41,6 @@ function CollapsibleReference({ title, icon, children }) {
 export default function MSPWalkthrough() {
   return (
     <section id="msp-review" className="scroll-mt-8">
-      {/* Section header — Megan-facing */}
       <div className="mb-8 border-l-4 border-cyan-500 pl-4">
         <h2 className="section-title" style={{ color: '#06b6d4' }}>
           🤝 MSP Partnership Portal
@@ -54,19 +56,12 @@ export default function MSPWalkthrough() {
       </div>
 
       <div className="space-y-16">
-        {/* ── 0. Status update for May 7 call (newest) ──── */}
         <MaySevenUpdate />
-
-        {/* ── 1. Call Recap & Action Items (Apr 10) ─────── */}
+        <SourceTruthReview />
         <PostCallSummary />
-
-        {/* ── 2. Confirmed Context ─────────────────────── */}
         <ConfirmedContext />
-
-        {/* ── 3. Megan's Questions (the main event) ────── */}
         <MeganResponseForm onExport={exportMarkdown} />
 
-        {/* ── 4. Reference Material (collapsed) ────────── */}
         <div>
           <h3 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">
             <span>📚</span> Reference Material

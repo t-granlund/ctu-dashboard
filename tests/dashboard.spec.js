@@ -106,13 +106,29 @@ test.describe('MSP Portal — May 7 War Room', () => {
     const guide = page.getByRole('link', { name: 'Open Megan Overview Guide' });
     await expect(guide).toBeVisible();
     await expect(guide).toHaveAttribute('href', './MEGAN-OVERVIEW-GUIDE-2026-05-07.md');
-    const sourceTruth = page.getByRole('link', { name: 'Open Full Source-of-Truth Review' });
+    const sourceTruth = page.getByRole('link', { name: 'Jump to Embedded Source-of-Truth Review' });
     await expect(sourceTruth).toBeVisible();
-    await expect(sourceTruth).toHaveAttribute('href', './FULL-REPO-SOURCE-OF-TRUTH-REVIEW-2026-05-07.md');
+    await expect(sourceTruth).toHaveAttribute('href', '#source-truth-review');
+    await expect(page.getByText('Full Repo Source-of-Truth Review')).toBeVisible();
+    await expect(page.getByText('Portfolio source-of-truth map')).toBeVisible();
   });
 
   test('shows key repo-backed call terms', async ({ page }) => {
     for (const term of ['Pax8', 'DCE', 'Teams Premium', 'Groups Hub', 'People Support Hub']) {
+      await expect(page.getByText(term, { exact: false }).first()).toBeVisible();
+    }
+  });
+
+  test('embeds the full source-of-truth review in the password-gated page', async ({ page }) => {
+    for (const term of [
+      'Repo-by-repo review',
+      'AZURE-AUDIT-QUICK',
+      'microsoft-group-management / Groups Hub',
+      'freshdesk-oracle / People Support Hub',
+      'MSP / CSP / Pax8 billing map',
+      'Unified identity model',
+      'Prioritized post-call cleanup backlog',
+    ]) {
       await expect(page.getByText(term, { exact: false }).first()).toBeVisible();
     }
   });
