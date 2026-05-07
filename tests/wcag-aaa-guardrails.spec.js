@@ -5,7 +5,10 @@ const MIN_BODY_FONT_SIZE = 12;
 const MIN_AAA_CONTRAST = 7;
 
 async function login(page) {
-  await page.addInitScript(() => localStorage.setItem('ctu-dashboard-theme', 'dark'));
+  await page.addInitScript(() => {
+    localStorage.setItem('ctu-dashboard-theme', 'dark');
+    sessionStorage.removeItem('ctu-dashboard-auth');
+  });
   await page.goto('/');
   await page.getByPlaceholder('Enter passphrase to continue').fill(PASSWORD);
   await page.getByRole('button', { name: /enter dashboard/i }).click();

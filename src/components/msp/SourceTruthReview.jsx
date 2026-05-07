@@ -1,4 +1,5 @@
 import { sourceTruthReview } from '../../data/source-truth-review';
+import { DetailBlock, ProgressiveList, ScanFirstGrid } from './ProgressiveDisclosure';
 
 function Pill({ children, tone = 'cyan' }) {
   const classes = {
@@ -14,16 +15,15 @@ function Pill({ children, tone = 'cyan' }) {
   );
 }
 
-function List({ items, marker = '•', markerClass = 'text-cyan-300' }) {
+function List({ items, marker = '•', markerClass = 'text-cyan-300', initialVisible = 4, label = 'items' }) {
   return (
-    <ul className="space-y-2">
-      {items.map((item) => (
-        <li key={item} className="flex gap-2 text-xs leading-5 text-slate-300">
-          <span className={`mt-0.5 ${markerClass}`}>{marker}</span>
-          <span>{item}</span>
-        </li>
-      ))}
-    </ul>
+    <ProgressiveList
+      items={items}
+      marker={marker}
+      markerClass={markerClass}
+      initialVisible={initialVisible}
+      label={label}
+    />
   );
 }
 
@@ -121,15 +121,27 @@ export default function SourceTruthReview() {
         </div>
       </div>
 
+      <div className="mb-6">
+        <ScanFirstGrid
+          title="Source-truth reading order"
+          summary="Use this section as provenance, not bedtime reading. Start with verdict, dependencies, and call framing; expand repo detail only when someone asks “where did that come from?”"
+          items={[
+            { eyebrow: 'Verdict', title: review.verdict[0], copy: review.verdict[1] },
+            { eyebrow: 'Dependency', title: review.dependencyGraph[0], copy: review.dependencyGraph[1] },
+            { eyebrow: 'Call framing', title: review.callFraming[0], copy: review.callFraming[1] },
+          ]}
+        />
+      </div>
+
       <div className="mb-6 grid gap-4 lg:grid-cols-3">
         <ReviewCard title="Executive verdict" tone="green">
-          <List items={review.verdict} marker="✓" markerClass="text-green-300" />
+          <List items={review.verdict} marker="✓" markerClass="text-green-300" initialVisible={2} label="verdict items" />
         </ReviewCard>
         <ReviewCard title="Dependency graph" tone="cyan">
-          <List items={review.dependencyGraph} marker="→" />
+          <List items={review.dependencyGraph} marker="→" initialVisible={2} label="dependency items" />
         </ReviewCard>
         <ReviewCard title="Call framing" tone="amber">
-          <List items={review.callFraming} marker="★" markerClass="text-amber-300" />
+          <List items={review.callFraming} marker="★" markerClass="text-amber-300" initialVisible={2} label="call-framing items" />
         </ReviewCard>
       </div>
 
@@ -138,9 +150,16 @@ export default function SourceTruthReview() {
         <Matrix caption="Portfolio source-of-truth map" columns={['Domain', 'Source of truth', 'Supporting repos']} rows={review.sourceMap} />
       </div>
 
-      <div className="mb-8 space-y-5">
+      <div className="mb-8 space-y-4">
         <h4 className="text-lg font-black text-white">Repo-by-repo review</h4>
-        {review.repos.map((repo) => <RepoReview key={repo.name} repo={repo} />)}
+        <p className="text-sm leading-6 text-slate-300">
+          Collapsed by default so the dashboard stays a dashboard. Expand a repo when you need provenance, cleanup risk, or canonical file paths.
+        </p>
+        {review.repos.map((repo, index) => (
+          <DetailBlock key={repo.name} title={repo.name} defaultOpen={index === 0}>
+            <RepoReview repo={repo} />
+          </DetailBlock>
+        ))}
       </div>
 
       <div className="mb-8 grid gap-6 xl:grid-cols-2">
@@ -161,10 +180,10 @@ export default function SourceTruthReview() {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <ReviewCard title="Safe to screen-share / discuss" tone="green">
-          <List items={review.shareGuidance.safe} marker="✓" markerClass="text-green-300" />
+          <List items={review.shareGuidance.safe} marker="✓" markerClass="text-green-300" initialVisible={3} label="screen-share notes" />
         </ReviewCard>
         <ReviewCard title="Keep internal or sanitized" tone="rose">
-          <List items={review.shareGuidance.internal} marker="!" markerClass="text-rose-300" />
+          <List items={review.shareGuidance.internal} marker="!" markerClass="text-rose-300" initialVisible={3} label="internal-only notes" />
         </ReviewCard>
       </div>
 

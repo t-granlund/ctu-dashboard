@@ -1,4 +1,5 @@
 import { pshMspEscalation } from '../../data/psh-msp-escalation';
+import { ProgressiveList, ScanFirstGrid } from './ProgressiveDisclosure';
 
 function Card({ eyebrow, title, children, tone = 'cyan' }) {
   const tones = {
@@ -17,17 +18,8 @@ function Card({ eyebrow, title, children, tone = 'cyan' }) {
   );
 }
 
-function List({ items, marker = '•' }) {
-  return (
-    <ul className="space-y-2">
-      {items.map((item) => (
-        <li key={item} className="flex gap-2 text-xs leading-5 text-slate-300">
-          <span className="mt-0.5 text-cyan-300">{marker}</span>
-          <span>{item}</span>
-        </li>
-      ))}
-    </ul>
-  );
+function List({ items, marker = '•', initialVisible = 4, label = 'items' }) {
+  return <ProgressiveList items={items} marker={marker} initialVisible={initialVisible} label={label} />;
 }
 
 function Table({ caption, columns, rows }) {
@@ -80,9 +72,16 @@ export default function PshMspEscalationView() {
         </div>
       </div>
 
-      <div className="mb-6 grid gap-4 lg:grid-cols-5">
-        {view.valueProps.map(([title, copy]) => (
-          <Card key={title} eyebrow="Why it matters" title={title} tone="green">
+      <ScanFirstGrid
+        tone="green"
+        title="How PSH creates immediate MSP value"
+        summary="Start with the operating promise, then expand into routing rules and implementation detail only when needed."
+        items={view.valueProps.slice(0, 3).map(([title, copy], index) => ({ eyebrow: `Value ${index + 1}`, title, copy }))}
+      />
+
+      <div className="my-6 grid gap-4 lg:grid-cols-2">
+        {view.valueProps.slice(3).map(([title, copy]) => (
+          <Card key={title} eyebrow="Additional value" title={title} tone="green">
             <p className="text-xs leading-5 text-slate-300">{copy}</p>
           </Card>
         ))}
@@ -114,7 +113,7 @@ export default function PshMspEscalationView() {
             <p className="mb-3 rounded-xl border border-slate-700/50 bg-slate-950/50 px-3 py-2 text-xs font-bold text-slate-200">
               {stage.dependency}
             </p>
-            <List items={stage.items} marker="→" />
+            <List items={stage.items} marker="→" initialVisible={2} label={`${stage.label} steps`} />
           </Card>
         ))}
       </div>
@@ -132,7 +131,7 @@ export default function PshMspEscalationView() {
 
       <div className="mb-6 grid gap-4 lg:grid-cols-[1fr_0.8fr]">
         <Card eyebrow="Call decisions" title="Decisions to capture with Megan" tone="fuchsia">
-          <List items={view.decisions} marker="✓" />
+          <List items={view.decisions} marker="✓" initialVisible={3} label="call decisions" />
         </Card>
         <Card eyebrow="Scope sanity" title="Why this is low-risk" tone="green">
           <p className="mb-4 text-sm leading-6 text-slate-300">{view.callout}</p>
@@ -141,7 +140,7 @@ export default function PshMspEscalationView() {
       </div>
 
       <Card eyebrow="Reference anchors" title="Where this maps back to PSH" tone="cyan">
-        <List items={view.references} marker="↳" />
+        <List items={view.references} marker="↳" initialVisible={3} label="reference anchors" />
       </Card>
     </section>
   );
