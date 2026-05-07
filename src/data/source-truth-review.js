@@ -42,7 +42,7 @@ export const sourceTruthReview = {
         'MEGAN-CALL-BRIEF-2026-05-07.md',
         'DCE-NEW-USER-RUNBOOK-V0.1-2026-05-07.md',
         'MEGAN-CALL-DECISION-LOG-2026-05-07.md',
-        'docs/MEGAN-OVERVIEW-GUIDE-2026-05-07.md',
+        'Designed in-app Megan Overview Guide section',
         'src/data/may-seven-update.js',
         'src/components/msp/MeganWarRoomOverview.jsx',
       ],

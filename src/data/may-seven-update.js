@@ -8,7 +8,6 @@ export const maySevenUpdate = {
   briefPath: 'MEGAN-CALL-BRIEF-2026-05-07.md',
   runbookPath: 'DCE-NEW-USER-RUNBOOK-V0.1-2026-05-07.md',
   decisionLogPath: 'MEGAN-CALL-DECISION-LOG-2026-05-07.md',
-  overviewGuidePath: 'MEGAN-OVERVIEW-GUIDE-2026-05-07.md',
   warRoom: {
     objective: 'Align HTT and Sui Generis on the current operating picture: billing/CSP transition, Delta Crown as the model tenant, group/distribution-group governance, Azure/direct-bill visibility, and support-routing systems that make franchisee help consistent instead of scavenger-hunt flavored.',
     decisionTopics: [
