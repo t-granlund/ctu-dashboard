@@ -52,14 +52,32 @@
 
 @layer utilities {
   /* Accessibility token overrides: slate-500/600/700 were too dim on the dashboard's dark surfaces. */
+  .text-slate-400,
   .text-slate-500,
   .text-slate-600,
   .text-slate-700 {
-    color: #94a3b8 !important;
+    color: #cbd5e1 !important;
   }
 
-  .text-cyan-500\/70 {
-    color: rgb(34 211 238 / 0.95) !important;
+  .text-cyan-500\/70,
+  .text-cyan-400,
+  .text-cyan-300,
+  .text-green-300,
+  .text-green-400,
+  .text-amber-200\/60,
+  .text-amber-300,
+  .text-orange-400,
+  .text-red-400,
+  .text-blue-400,
+  .text-purple-400,
+  .text-fuchsia-300 {
+    color: #f8fafc !important;
+  }
+
+  .text-\[10px\],
+  .text-\[11px\] {
+    font-size: 12px !important;
+    line-height: 1.45 !important;
   }
 }
 
