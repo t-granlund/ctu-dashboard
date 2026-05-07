@@ -1,26 +1,36 @@
 import { maySevenUpdate } from '../../data/may-seven-update';
+import { ProgressiveList } from './ProgressiveDisclosure';
 
-function MiniCard({ title, children, accent = 'cyan' }) {
-  const border = accent === 'amber' ? 'border-amber-500/30' : accent === 'green' ? 'border-green-500/30' : 'border-cyan-500/30';
-  const heading = accent === 'amber' ? 'text-amber-300' : accent === 'green' ? 'text-green-300' : 'text-cyan-300';
+function HeroLink({ href, label, children, tone }) {
+  const tones = {
+    fuchsia: 'border-fuchsia-400/40 bg-fuchsia-500/15 text-fuchsia-100 hover:bg-fuchsia-500/25',
+    green: 'border-green-400/40 bg-green-500/15 text-green-100 hover:bg-green-500/25',
+    cyan: 'border-cyan-400/40 bg-cyan-500/15 text-cyan-100 hover:bg-cyan-500/25',
+  };
   return (
-    <section className={`rounded-2xl border ${border} bg-slate-950/40 p-4`}>
-      <h4 className={`mb-2 text-sm font-bold ${heading}`}>{title}</h4>
+    <a
+      href={href}
+      aria-label={label}
+      className={`min-h-10 rounded-xl border px-4 py-2 text-sm font-bold transition ${tones[tone]}`}
+    >
       {children}
-    </section>
+    </a>
   );
 }
 
-function BulletList({ items, marker = '•' }) {
+function Pillar({ eyebrow, title, items, marker, markerClass, label }) {
   return (
-    <ul className="space-y-1.5">
-      {items.map((item, i) => (
-        <li key={i} className="flex items-start gap-2 text-xs text-slate-300">
-          <span className="mt-0.5 text-cyan-300">{marker}</span>
-          <span>{item}</span>
-        </li>
-      ))}
-    </ul>
+    <section className="rounded-2xl border border-slate-700/40 bg-slate-950/50 p-5">
+      <p className="text-[10px] font-black uppercase tracking-[0.22em] text-slate-400">{eyebrow}</p>
+      <h4 className="mt-1 mb-3 text-base font-black text-white">{title}</h4>
+      <ProgressiveList
+        items={items}
+        marker={marker}
+        markerClass={markerClass}
+        initialVisible={3}
+        label={label}
+      />
+    </section>
   );
 }
 
@@ -28,71 +38,46 @@ export default function MeganWarRoomOverview() {
   const w = maySevenUpdate.warRoom;
 
   return (
-    <div className="mb-6 rounded-3xl border-2 border-fuchsia-500/40 bg-gradient-to-br from-fuchsia-950/30 via-slate-950/60 to-cyan-950/20 p-6 shadow-2xl shadow-fuchsia-950/20">
-      <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
+    <section className="mb-6 rounded-3xl border-2 border-fuchsia-500/40 bg-gradient-to-br from-fuchsia-950/30 via-slate-950/60 to-cyan-950/20 p-6 shadow-2xl shadow-fuchsia-950/20">
+      <header className="mb-5 grid gap-4 xl:grid-cols-[1.4fr_0.8fr] xl:items-end">
         <div>
           <p className="text-[10px] font-black uppercase tracking-[0.25em] text-fuchsia-300">May 7 War Room</p>
           <h3 className="mt-1 text-2xl font-black text-white">Tyler × Megan Alignment Brief</h3>
-          <p className="mt-2 max-w-4xl text-sm leading-6 text-slate-300">{w.objective}</p>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-300">{w.objective}</p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <a
-            href="#megan-overview-guide"
-            className="rounded-xl border border-fuchsia-400/40 bg-fuchsia-500/15 px-4 py-2 text-sm font-bold text-fuchsia-100 transition hover:bg-fuchsia-500/25"
-          >
-            Jump to Designed Megan Overview Guide
-          </a>
-          <a
-            href="#psh-msp-escalation-view"
-            className="rounded-xl border border-green-400/40 bg-green-500/15 px-4 py-2 text-sm font-bold text-green-100 transition hover:bg-green-500/25"
-          >
-            Jump to PSH MSP Escalation View
-          </a>
-          <a
-            href="#source-truth-review"
-            className="rounded-xl border border-cyan-400/40 bg-cyan-500/15 px-4 py-2 text-sm font-bold text-cyan-100 transition hover:bg-cyan-500/25"
-          >
-            Jump to Embedded Source-of-Truth Review
-          </a>
+        <div role="group" aria-label="Designed deep-dive jump links" className="flex flex-wrap gap-2 xl:justify-end">
+          <HeroLink tone="fuchsia" href="#megan-overview-guide" label="Jump to Designed Megan Overview Guide">Overview guide</HeroLink>
+          <HeroLink tone="green" href="#psh-msp-escalation-view" label="Jump to PSH MSP Escalation View">MSP escalation</HeroLink>
+          <HeroLink tone="cyan" href="#source-truth-review" label="Jump to Embedded Source-of-Truth Review">Evidence</HeroLink>
         </div>
-      </div>
+      </header>
 
-      <div className="mb-4 grid gap-4 lg:grid-cols-3">
-        <MiniCard title="Decisions to land" accent="cyan">
-          <BulletList items={w.decisionTopics} />
-        </MiniCard>
-        <MiniCard title="Billing / CSP snapshot" accent="amber">
-          <BulletList items={w.billingSnapshot} marker="→" />
-        </MiniCard>
-        <MiniCard title="Collaborative framing" accent="green">
-          <BulletList items={w.talkTrack} marker="✓" />
-        </MiniCard>
+      <div className="grid gap-4 lg:grid-cols-3">
+        <Pillar
+          eyebrow="Decisions"
+          title="To land today"
+          items={w.decisionTopics}
+          marker="•"
+          markerClass="text-cyan-300"
+          label="decisions"
+        />
+        <Pillar
+          eyebrow="Billing / CSP"
+          title="Where the money is moving"
+          items={w.billingSnapshot}
+          marker="→"
+          markerClass="text-amber-300"
+          label="billing notes"
+        />
+        <Pillar
+          eyebrow="Framing"
+          title="How we run the conversation"
+          items={w.talkTrack}
+          marker="✓"
+          markerClass="text-green-300"
+          label="framing notes"
+        />
       </div>
-
-      <div className="mb-4 rounded-2xl border border-slate-700/50 bg-slate-900/50 p-4">
-        <h4 className="mb-3 text-sm font-bold text-white">Repo-backed source map</h4>
-        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-          {w.repoContext.map((repo) => (
-            <article key={repo.name} className="rounded-xl border border-slate-700/40 bg-slate-950/50 p-3">
-              <h5 className="text-sm font-bold text-cyan-200">{repo.name}</h5>
-              <code className="mt-1 block break-words text-[10px] text-slate-500">{repo.path}</code>
-              <p className="mt-2 text-xs leading-5 text-slate-300">{repo.relevance}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-
-      <div className="grid gap-4 lg:grid-cols-2">
-        <MiniCard title="Support + access request context" accent="cyan">
-          <BulletList items={w.supportRouting} marker="↳" />
-        </MiniCard>
-        <MiniCard title="What this lets Megan do better" accent="green">
-          <p className="text-sm leading-6 text-slate-300">
-            Give Sui Generis clear runbooks, clean ticket context, finance-ready billing exports, and a reference tenant
-            where onboarding/offboarding can be tested before rolling the pattern across HTT, TLL, BCC, and Frenchies.
-          </p>
-        </MiniCard>
-      </div>
-    </div>
+    </section>
   );
 }

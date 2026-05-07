@@ -74,18 +74,10 @@ export default function PshMspEscalationView() {
 
       <ScanFirstGrid
         tone="green"
-        title="How PSH creates immediate MSP value"
-        summary="Start with the operating promise, then expand into routing rules and implementation detail only when needed."
-        items={view.valueProps.slice(0, 3).map(([title, copy], index) => ({ eyebrow: `Value ${index + 1}`, title, copy }))}
+        title="Why this matters in one screen"
+        summary="Three operating outcomes. Routing rules and engineering shape live below for whoever wants the receipts."
+        items={view.valueProps.slice(0, 3).map(([title, copy], index) => ({ eyebrow: `Outcome ${index + 1}`, title, copy }))}
       />
-
-      <div className="my-6 grid gap-4 lg:grid-cols-2">
-        {view.valueProps.slice(3).map(([title, copy]) => (
-          <Card key={title} eyebrow="Additional value" title={title} tone="green">
-            <p className="text-xs leading-5 text-slate-300">{copy}</p>
-          </Card>
-        ))}
-      </div>
 
       <div className="mb-6 grid gap-4 xl:grid-cols-2">
         <section>
@@ -120,11 +112,11 @@ export default function PshMspEscalationView() {
 
       <div className="mb-6 grid gap-4 xl:grid-cols-2">
         <section>
-          <h4 className="mb-4 text-lg font-black text-white">What Megan gets out of it</h4>
+          <h4 className="mb-3 text-sm font-black uppercase tracking-[0.16em] text-slate-300">What Megan gets out of it</h4>
           <Table caption="MSP escalation queue metrics" columns={['Metric', 'Why Megan cares']} rows={view.metrics} />
         </section>
         <section>
-          <h4 className="mb-4 text-lg font-black text-white">Engineering shape</h4>
+          <h4 className="mb-3 text-sm font-black uppercase tracking-[0.16em] text-slate-300">Engineering shape</h4>
           <Table caption="MSP escalation engineering scope" columns={['Work item', 'Effort', 'Notes']} rows={view.engineeringShape} />
         </section>
       </div>

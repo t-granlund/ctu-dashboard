@@ -72,17 +72,27 @@
     color: #cbd5e1 !important;
   }
 
+  /* Dark-mode accent contrast guardrail: flatten low-contrast accent text to
+     near-white so it always passes WCAG AAA on tinted surfaces. Hierarchy is
+     preserved through size, weight, tracking, and positioning instead of hue. */
   .text-cyan-500\/70,
   .text-cyan-400,
   .text-cyan-300,
+  .text-cyan-200,
   .text-green-300,
   .text-green-400,
   .text-amber-200\/60,
+  .text-amber-200,
   .text-amber-300,
   .text-orange-400,
   .text-red-400,
+  .text-rose-200,
+  .text-rose-300,
   .text-blue-400,
   .text-purple-400,
+  .text-violet-200,
+  .text-violet-300,
+  .text-fuchsia-200,
   .text-fuchsia-300 {
     color: #f8fafc !important;
   }
@@ -91,6 +101,49 @@
   .text-\[11px\] {
     font-size: 12px !important;
     line-height: 1.45 !important;
+  }
+
+  /* Theme-neutral surface tint for new "cockpit" sections so light mode does
+     not render dark violet/cyan/fuchsia gradients underneath dark text. */
+  html[data-theme="light"] [class*="from-violet-950"],
+  html[data-theme="light"] [class*="via-violet-950"],
+  html[data-theme="light"] [class*="to-violet-950"],
+  html[data-theme="light"] [class*="from-fuchsia-950"],
+  html[data-theme="light"] [class*="via-fuchsia-950"],
+  html[data-theme="light"] [class*="to-fuchsia-950"],
+  html[data-theme="light"] [class*="from-cyan-950"],
+  html[data-theme="light"] [class*="via-cyan-950"],
+  html[data-theme="light"] [class*="to-cyan-950"],
+  html[data-theme="light"] [class*="from-green-950"],
+  html[data-theme="light"] [class*="via-green-950"],
+  html[data-theme="light"] [class*="to-green-950"],
+  html[data-theme="light"] [class*="from-amber-950"],
+  html[data-theme="light"] [class*="via-amber-950"],
+  html[data-theme="light"] [class*="to-amber-950"],
+  html[data-theme="light"] [class*="from-rose-950"],
+  html[data-theme="light"] [class*="via-rose-950"],
+  html[data-theme="light"] [class*="to-rose-950"] {
+    --tw-gradient-from: #ffffff var(--tw-gradient-from-position) !important;
+    --tw-gradient-via: #f8fafc var(--tw-gradient-via-position) !important;
+    --tw-gradient-to: #ffffff var(--tw-gradient-to-position) !important;
+  }
+
+  /* Tinted callout panels use very low-opacity color overlays in dark mode
+     (e.g. bg-violet-500/10). In light mode flatten to a soft tinted surface
+     instead of leaving them as light-on-light ghosts. */
+  html[data-theme="light"] [class*="bg-violet-500/10"],
+  html[data-theme="light"] [class*="bg-violet-500/15"],
+  html[data-theme="light"] [class*="bg-fuchsia-500/10"],
+  html[data-theme="light"] [class*="bg-fuchsia-500/15"],
+  html[data-theme="light"] [class*="bg-cyan-500/10"],
+  html[data-theme="light"] [class*="bg-cyan-500/15"],
+  html[data-theme="light"] [class*="bg-green-500/10"],
+  html[data-theme="light"] [class*="bg-green-500/15"],
+  html[data-theme="light"] [class*="bg-amber-500/10"],
+  html[data-theme="light"] [class*="bg-amber-500/15"],
+  html[data-theme="light"] [class*="bg-rose-500/10"],
+  html[data-theme="light"] [class*="bg-rose-500/15"] {
+    background-color: #f1f5f9 !important;
   }
 
   html[data-theme="light"] [class*="bg-slate-950"],
@@ -129,6 +182,7 @@
   html[data-theme="light"] [class*="text-rose"],
   html[data-theme="light"] [class*="text-blue"],
   html[data-theme="light"] [class*="text-purple"],
+  html[data-theme="light"] [class*="text-violet"],
   html[data-theme="light"] [class*="text-fuchsia"] {
     color: #0f172a !important;
   }

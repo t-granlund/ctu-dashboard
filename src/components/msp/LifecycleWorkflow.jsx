@@ -1,122 +1,162 @@
+import { useState } from 'react';
 import { lifecycleWorkflow } from '../../data/lifecycle-workflow';
 
 const STATUS = {
-  complete: { label: 'Complete', className: 'border-green-400/40 bg-green-500/15 text-green-100', dot: 'bg-green-300' },
-  'needs-megan': { label: 'Needs Megan', className: 'border-fuchsia-400/40 bg-fuchsia-500/15 text-fuchsia-100', dot: 'bg-fuchsia-300' },
-  'needs-tyler': { label: 'Needs Tyler', className: 'border-cyan-400/40 bg-cyan-500/15 text-cyan-100', dot: 'bg-cyan-300' },
-  pending: { label: 'Pending', className: 'border-amber-400/40 bg-amber-500/15 text-amber-100', dot: 'bg-amber-300' },
-  blocked: { label: 'Blocked', className: 'border-rose-400/40 bg-rose-500/15 text-rose-100', dot: 'bg-rose-300' },
+  complete: { label: 'Complete', tile: 'border-green-400/50 bg-green-500/15', text: 'text-green-100', dot: 'bg-green-300' },
+  'needs-megan': { label: 'Needs Megan', tile: 'border-fuchsia-400/50 bg-fuchsia-500/15', text: 'text-fuchsia-100', dot: 'bg-fuchsia-300' },
+  'needs-tyler': { label: 'Needs Tyler', tile: 'border-cyan-400/50 bg-cyan-500/15', text: 'text-cyan-100', dot: 'bg-cyan-300' },
+  pending: { label: 'Pending', tile: 'border-amber-400/50 bg-amber-500/15', text: 'text-amber-100', dot: 'bg-amber-300' },
+  blocked: { label: 'Blocked', tile: 'border-rose-400/50 bg-rose-500/15', text: 'text-rose-100', dot: 'bg-rose-300' },
 };
 
-function StatusBadge({ status }) {
-  const current = STATUS[status] ?? STATUS.pending;
+function StageTile({ stage, index, isActive, onSelect }) {
+  const status = STATUS[stage.status] ?? STATUS.pending;
+  const blockerCount = stage.blockers.length;
   return (
-    <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] ${current.className}`}>
-      <span className={`h-2 w-2 rounded-full ${current.dot}`} />
-      {current.label}
-    </span>
+    <button
+      type="button"
+      onClick={onSelect}
+      aria-pressed={isActive}
+      className={`group relative flex w-full flex-col gap-2 rounded-2xl border-2 p-4 text-left transition ${
+        isActive
+          ? `${status.tile} shadow-lg shadow-slate-950/30`
+          : 'border-slate-700/50 bg-slate-950/55 hover:border-slate-500'
+      }`}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <span className="flex h-7 w-7 items-center justify-center rounded-full border border-slate-600/60 bg-slate-950/80 text-xs font-black text-white">
+          {index + 1}
+        </span>
+        <span className={`inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.16em] ${status.text}`}>
+          <span className={`h-1.5 w-1.5 rounded-full ${status.dot}`} aria-hidden="true" />
+          {status.label}
+        </span>
+      </div>
+      <p className="text-sm font-black leading-5 text-white">{stage.label}</p>
+      {blockerCount > 0 && (
+        <span className="inline-flex w-fit items-center gap-1 rounded-full border border-amber-400/40 bg-amber-500/15 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.14em] text-amber-100">
+          ⚠ {blockerCount} blocker{blockerCount === 1 ? '' : 's'}
+        </span>
+      )}
+    </button>
   );
 }
 
-function StageCard({ stage, index }) {
+function StageDetail({ stage }) {
+  const status = STATUS[stage.status] ?? STATUS.pending;
   return (
-    <article className="group relative rounded-3xl border border-slate-700/60 bg-slate-950/70 p-4 shadow-xl shadow-slate-950/25 transition hover:-translate-y-1 hover:border-cyan-300/60">
-      <div className="absolute -top-3 left-4 flex h-8 w-8 items-center justify-center rounded-full border border-cyan-300/40 bg-slate-950 text-xs font-black text-cyan-100 shadow-lg shadow-cyan-950/30">
-        {index + 1}
+    <article className={`rounded-3xl border-2 ${status.tile} p-6`}>
+      <div className="mb-4 flex flex-wrap items-center gap-3">
+        <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] ${status.text}`}>
+          <span className={`h-2 w-2 rounded-full ${status.dot}`} aria-hidden="true" />
+          {status.label}
+        </span>
+        <h4 className="text-xl font-black text-white">{stage.label}</h4>
       </div>
-      <div className="pt-5">
-        <StatusBadge status={stage.status} />
-        <h4 className="mt-3 text-base font-black text-white">{stage.label}</h4>
-        <p className="mt-2 text-xs leading-5 text-slate-300">{stage.summary}</p>
-        <dl className="mt-4 space-y-2 text-[11px] leading-5">
-          <div>
-            <dt className="font-black uppercase tracking-[0.16em] text-slate-500">Owner</dt>
-            <dd className="text-slate-200">{stage.owner}</dd>
-          </div>
-          <div>
-            <dt className="font-black uppercase tracking-[0.16em] text-slate-500">System</dt>
-            <dd className="text-slate-200">{stage.system}</dd>
-          </div>
-          <div>
-            <dt className="font-black uppercase tracking-[0.16em] text-slate-500">Evidence</dt>
-            <dd className="text-slate-300">{stage.evidence}</dd>
-          </div>
-        </dl>
-        {stage.blockers.length > 0 && (
-          <div className="mt-4 rounded-2xl border border-amber-400/25 bg-amber-500/10 p-3">
-            <p className="text-[10px] font-black uppercase tracking-[0.18em] text-amber-200">Blocks scale</p>
-            <ul className="mt-2 space-y-1">
-              {stage.blockers.map((blocker) => (
-                <li key={blocker} className="text-xs leading-5 text-amber-100">• {blocker}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+      <p className="mb-4 max-w-3xl text-sm leading-6 text-slate-200">{stage.summary}</p>
+      <dl className="grid gap-3 md:grid-cols-3">
+        <div className="rounded-2xl border border-slate-700/60 bg-slate-950/55 p-3">
+          <dt className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Owner</dt>
+          <dd className="mt-1 text-sm font-bold text-white">{stage.owner}</dd>
+        </div>
+        <div className="rounded-2xl border border-slate-700/60 bg-slate-950/55 p-3">
+          <dt className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">System of record</dt>
+          <dd className="mt-1 text-sm font-bold text-white">{stage.system}</dd>
+        </div>
+        <div className="rounded-2xl border border-slate-700/60 bg-slate-950/55 p-3">
+          <dt className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Evidence</dt>
+          <dd className="mt-1 text-sm font-bold text-white">{stage.evidence}</dd>
+        </div>
+      </dl>
+      {stage.blockers.length > 0 && (
+        <div className="mt-4 rounded-2xl border border-amber-400/30 bg-amber-500/10 p-4">
+          <p className="text-[10px] font-black uppercase tracking-[0.18em] text-amber-200">What blocks scale</p>
+          <ul className="mt-2 grid gap-1.5 sm:grid-cols-2">
+            {stage.blockers.map((blocker) => (
+              <li key={blocker} className="flex gap-2 text-sm leading-5 text-amber-50">
+                <span aria-hidden="true">⚠</span>
+                <span>{blocker}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </article>
   );
 }
 
-function OffboardingRail({ steps }) {
+function OffboardingFlow({ steps }) {
   return (
-    <section className="rounded-3xl border border-rose-400/30 bg-rose-950/20 p-5">
-      <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+    <section className="mt-6 rounded-3xl border border-rose-400/30 bg-rose-950/20 p-6">
+      <header className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.25em] text-rose-200">Parallel compliance lane</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-rose-200">Parallel compliance lane</p>
           <h4 className="text-xl font-black text-white">Offboarding risk closure</h4>
         </div>
-        <p className="max-w-2xl text-sm leading-6 text-slate-300">
-          This is where SaaS lifecycle gaps become real. Fireflies Pro has no SCIM, so offboarding must include an explicit Fireflies admin/API step.
+        <p className="max-w-xl text-xs leading-5 text-rose-100">
+          Fireflies Pro has no SCIM. Offboarding must include an explicit Fireflies admin/API step or accounts stay live.
         </p>
-      </div>
-      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-7">
-        {steps.map(([step, owner, system, note], index) => (
-          <article key={step} className="relative rounded-2xl border border-slate-700/60 bg-slate-950/65 p-4">
-            <div className="mb-3 flex items-center gap-2">
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-rose-500/20 text-xs font-black text-rose-100">{index + 1}</span>
-              <h5 className="text-sm font-black text-white">{step}</h5>
-            </div>
-            <p className="text-[11px] font-bold text-slate-300">{owner}</p>
-            <p className="mt-1 text-[11px] text-slate-400">{system}</p>
-            <p className="mt-3 text-xs leading-5 text-rose-100">{note}</p>
-          </article>
+      </header>
+      <ol className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7">
+        {steps.map(([step, owner], index) => (
+          <li key={step} className="flex flex-col rounded-xl border border-slate-700/60 bg-slate-950/65 px-3 py-3">
+            <span className="text-[10px] font-black uppercase tracking-[0.16em] text-rose-200">Step {index + 1}</span>
+            <p className="mt-1 text-sm font-black leading-5 text-white">{step}</p>
+            <p className="mt-2 text-[11px] leading-4 text-slate-300">{owner}</p>
+          </li>
         ))}
-      </div>
+      </ol>
     </section>
   );
 }
 
 export default function LifecycleWorkflow() {
   const workflow = lifecycleWorkflow;
+  const [activeId, setActiveId] = useState(workflow.stages[1]?.id ?? workflow.stages[0].id);
+  const activeStage = workflow.stages.find((stage) => stage.id === activeId) ?? workflow.stages[0];
+
   return (
     <section id="msp-lifecycle-workflow" className="scroll-mt-8 rounded-3xl border-2 border-cyan-400/35 bg-gradient-to-br from-cyan-950/25 via-slate-950/85 to-fuchsia-950/25 p-6 shadow-2xl shadow-cyan-950/20">
-      <div className="mb-6 grid gap-5 xl:grid-cols-[1.25fr_0.75fr]">
+      <header className="mb-6 grid gap-4 xl:grid-cols-[1.3fr_0.7fr] xl:items-end">
         <div>
           <p className="text-[10px] font-black uppercase tracking-[0.28em] text-cyan-200">Lifecycle cockpit</p>
-          <h3 className="mt-1 text-3xl font-black text-white">{workflow.title}</h3>
-          <p className="mt-3 max-w-4xl text-sm leading-6 text-slate-300">{workflow.summary}</p>
+          <h3 className="mt-1 text-2xl font-black text-white sm:text-3xl">{workflow.title}</h3>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">{workflow.summary}</p>
         </div>
-        <aside className="rounded-3xl border border-amber-400/30 bg-amber-500/10 p-5">
-          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-amber-200">Scale blockers</p>
-          <ul className="mt-3 space-y-2">
+        <aside className="rounded-2xl border border-amber-400/30 bg-amber-500/10 p-4">
+          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-amber-200">Scale blockers · {workflow.blockers.length}</p>
+          <ul className="mt-2 grid gap-1 sm:grid-cols-2">
             {workflow.blockers.map((blocker) => (
-              <li key={blocker} className="flex gap-2 text-xs leading-5 text-amber-100">
+              <li key={blocker} className="flex gap-2 text-[12px] leading-4 text-amber-50">
                 <span aria-hidden="true">⚠</span>
                 <span>{blocker}</span>
               </li>
             ))}
           </ul>
         </aside>
-      </div>
+      </header>
 
-      <div className="relative mb-6">
-        <div aria-hidden="true" className="absolute left-6 top-8 hidden h-1 w-[calc(100%-3rem)] rounded-full bg-gradient-to-r from-green-300 via-cyan-300 via-fuchsia-300 to-amber-300 opacity-60 xl:block" />
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-7">
-          {workflow.stages.map((stage, index) => <StageCard key={stage.id} stage={stage} index={index} />)}
+      <p className="mb-3 text-[11px] font-black uppercase tracking-[0.22em] text-slate-400">
+        Click any stage to expand its detail
+      </p>
+      <div className="relative mb-5">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-x-4 top-7 hidden h-[2px] bg-gradient-to-r from-green-400/60 via-cyan-400/60 to-amber-400/60 xl:block" />
+        <div className="relative grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7">
+          {workflow.stages.map((stage, index) => (
+            <StageTile
+              key={stage.id}
+              stage={stage}
+              index={index}
+              isActive={stage.id === activeId}
+              onSelect={() => setActiveId(stage.id)}
+            />
+          ))}
         </div>
       </div>
 
-      <OffboardingRail steps={workflow.offboarding} />
+      <StageDetail stage={activeStage} />
+
+      <OffboardingFlow steps={workflow.offboarding} />
     </section>
   );
 }
