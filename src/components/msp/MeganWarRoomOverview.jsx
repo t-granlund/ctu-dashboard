@@ -35,14 +35,24 @@ export default function MeganWarRoomOverview() {
           <h3 className="mt-1 text-2xl font-black text-white">Tyler × Megan Alignment Brief</h3>
           <p className="mt-2 max-w-4xl text-sm leading-6 text-slate-300">{w.objective}</p>
         </div>
-        <a
-          href="./MEGAN-OVERVIEW-GUIDE-2026-05-07.md"
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-xl border border-fuchsia-400/40 bg-fuchsia-500/15 px-4 py-2 text-sm font-bold text-fuchsia-100 transition hover:bg-fuchsia-500/25"
-        >
-          Open Megan Overview Guide
-        </a>
+        <div className="flex flex-wrap gap-2">
+          <a
+            href="./MEGAN-OVERVIEW-GUIDE-2026-05-07.md"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-xl border border-fuchsia-400/40 bg-fuchsia-500/15 px-4 py-2 text-sm font-bold text-fuchsia-100 transition hover:bg-fuchsia-500/25"
+          >
+            Open Megan Overview Guide
+          </a>
+          <a
+            href="./FULL-REPO-SOURCE-OF-TRUTH-REVIEW-2026-05-07.md"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-xl border border-cyan-400/40 bg-cyan-500/15 px-4 py-2 text-sm font-bold text-cyan-100 transition hover:bg-cyan-500/25"
+          >
+            Open Full Source-of-Truth Review
+          </a>
+        </div>
       </div>
 
       <div className="mb-4 grid gap-4 lg:grid-cols-3">

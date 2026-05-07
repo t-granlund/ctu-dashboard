@@ -106,6 +106,9 @@ test.describe('MSP Portal — May 7 War Room', () => {
     const guide = page.getByRole('link', { name: 'Open Megan Overview Guide' });
     await expect(guide).toBeVisible();
     await expect(guide).toHaveAttribute('href', './MEGAN-OVERVIEW-GUIDE-2026-05-07.md');
+    const sourceTruth = page.getByRole('link', { name: 'Open Full Source-of-Truth Review' });
+    await expect(sourceTruth).toBeVisible();
+    await expect(sourceTruth).toHaveAttribute('href', './FULL-REPO-SOURCE-OF-TRUTH-REVIEW-2026-05-07.md');
   });
 
   test('shows key repo-backed call terms', async ({ page }) => {
