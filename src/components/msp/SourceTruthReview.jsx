@@ -29,7 +29,7 @@ function List({ items, marker = '•', markerClass = 'text-cyan-300' }) {
 
 function Matrix({ columns, rows, caption }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-slate-800/70">
+    <div tabIndex={0} aria-label={caption ? `${caption} table scroll area` : 'Table scroll area'} className="overflow-x-auto rounded-2xl border border-slate-800/70">
       <table className="min-w-full divide-y divide-slate-800 text-left text-xs">
         {caption && <caption className="sr-only">{caption}</caption>}
         <thead className="bg-slate-950/80 text-[10px] uppercase tracking-wider text-slate-500">

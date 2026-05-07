@@ -50,6 +50,19 @@
   textarea, select { border: 1px solid #999 !important; background: #f9f9f9 !important; color: #333 !important; }
 }
 
+@layer utilities {
+  /* Accessibility token overrides: slate-500/600/700 were too dim on the dashboard's dark surfaces. */
+  .text-slate-500,
+  .text-slate-600,
+  .text-slate-700 {
+    color: #94a3b8 !important;
+  }
+
+  .text-cyan-500\/70 {
+    color: rgb(34 211 238 / 0.95) !important;
+  }
+}
+
 @layer components {
   .card {
     @apply rounded-xl border border-slate-700/50 bg-slate-800/60 p-5 backdrop-blur-sm;
