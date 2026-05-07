@@ -70,7 +70,7 @@ export const meganOverviewGuide = {
     ['Pax8→AppRiver transfer', 'Is Transfer ID acd7573e-a487-41d9-83ce-560dea432e95 intentional, what exactly does it cover, and what action is due before May 27?'],
     ['HTT E5 replacement', 'Since HTT M365 E5 expired May 3 intentionally, is the Pax8 replacement active and is there any feature coverage gap?'],
     ['Extra File Storage', 'Since Office 365 Extra Storage expired May 4 intentionally, is the Pax8 replacement active?'],
-    ['Teams Premium', 'Which 25-seat Teams Premium SKU/term should be purchased through Pax8, and who is placing the order?'],
+    ['Fireflies.ai Pro', 'Confirm Teams Premium is removed, Copilot is not in scope, and Fireflies Pro rollout uses OIDC Sign in with Microsoft rather than SAML/SCIM.'],
     ['Azure direct-bill', 'Azure subscriptions remain direct-billed today; can Sui Generis/Pax8 help produce a finance-ready current + projected spend view?'],
     ['Pax8 API/export', 'Does Megan have Pax8 API access, invoice export, or reporting access we can use for finance reconciliation?'],
     ['BCC MOSA', 'Do we ride Business Basic to October 2026 or start CSP cutover earlier now that convention is over?'],
@@ -124,7 +124,7 @@ export const meganOverviewGuide = {
   },
   outcomes: [
     ['Confirm Pax8→AppRiver transfer scope/action', 'Megan/Tyler', 'Before May 27'],
-    ['Confirm E5, Extra Storage, Teams Premium replacement plan', 'Megan', 'May 14'],
+    ['Confirm E5, Extra Storage, and Fireflies.ai rollout implications', 'Megan/Tyler', 'May 14'],
     ['Confirm Pax8 invoice/API/export path for finance', 'Megan', 'May 21'],
     ['Validate DCE new-user runbook v0.1', 'Megan + Tyler', 'May 14'],
     ['Assign DCE/FN spoke-side auto-redeem owner/date', 'Megan', 'May 21'],

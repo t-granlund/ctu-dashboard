@@ -18,8 +18,8 @@ export default function PostCallSummary() {
       <div className="mb-8 rounded-2xl border border-slate-700/30 bg-slate-900/50 p-6">
         <div className="mb-5 flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-bold text-white">Call Recap</h3>
-            <p className="text-sm text-slate-500">April 10, 2026 · Tyler × Megan</p>
+            <h3 className="text-lg font-bold text-white">April 10 Historical Recap</h3>
+            <p className="text-sm text-slate-500">Call Recap · April 10, 2026 · Historical context — superseded where May 7 decisions differ.</p>
           </div>
           <span className="rounded-full bg-green-500/15 px-3 py-1 text-xs font-semibold text-green-400">
             Completed

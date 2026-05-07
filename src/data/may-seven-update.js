@@ -12,7 +12,7 @@ export const maySevenUpdate = {
     objective: 'Align HTT and Sui Generis on the current operating picture: billing/CSP transition, Delta Crown as the model tenant, group/distribution-group governance, Azure/direct-bill visibility, and support-routing systems that make franchisee help consistent instead of scavenger-hunt flavored.',
     decisionTopics: [
       'Confirm Pax8→AppRiver transfer scope before Transfer ID acd7573e-a487-41d9-83ce-560dea432e95 expires on 2026-05-27.',
-      'Confirm Teams Premium 25-seat Pax8 SKU/term and HTT E5 + Extra Storage replacement status.',
+      'Confirm Teams Premium removal is complete and Fireflies.ai Pro rollout replaces the lost meeting-AI capability.',
       'Ask whether Pax8 API, invoice export, or reporting access can feed finance projected-spend reporting.',
       'Validate the DCE new-user runbook v0.1 and identify who flips DCE/FN spoke-side auto-redeem.',
       'Lock backup pricing, phishing simulation pricing, and written cyber-insurance attestation timing.',
@@ -23,7 +23,7 @@ export const maySevenUpdate = {
       'AppRiver is being removed from the operating model; Logically is already gone.',
       'Azure subscriptions remain HTT direct-bill today and need finance-visible cost reporting.',
       'HTT M365 E5 expired May 3 and Office 365 Extra Storage expired May 4 as intentional migration steps.',
-      'Teams Premium 25 seats lapsed and needs a Pax8 replacement decision.',
+      'Teams Premium 25 seats were removed; Fireflies.ai Pro is the selected replacement path for meeting-AI workflows.',
       'Finance ask: one clear per-tenant view of current spend, renewal dates, and projected run-rate.',
     ],
     talkTrack: [
@@ -62,7 +62,7 @@ export const maySevenUpdate = {
   stillOwedByMegan: [
     { severity: 'high', text: 'M365 backup pricing (Apr 13 commitment).' },
     { severity: 'high', text: 'Insurance attestation letter — EDR/patch/firewall/backup, in writing.' },
-    { severity: 'high', text: 'Teams Premium 25 seats — repurchase SKU + term via Pax8.' },
+    { severity: 'high', text: 'Fireflies.ai Pro rollout — confirm tier/count, OIDC-only login, credit alerts, bot policy, and Kayla/Jill Ticket #10333 follow-up.' },
     { severity: 'medium', text: 'Spoke-side auto-redeem on DCE + FN tenants.' },
     { severity: 'medium', text: 'Phishing simulation pricing.' },
     { severity: 'medium', text: 'Atera customer-specific API answer (Apr 10 check).' },

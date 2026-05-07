@@ -4,6 +4,7 @@ import MeganOverviewGuide from './msp/MeganOverviewGuide';
 import PshMspEscalationView from './msp/PshMspEscalationView';
 import SourceTruthReview from './msp/SourceTruthReview';
 import PostCallSummary from './msp/PostCallSummary';
+import LifecycleWorkflow from './msp/LifecycleWorkflow';
 import ConfirmedContext from './msp/ConfirmedContext';
 import MeganResponseForm from './msp/MeganResponseForm';
 import AppRiverDeepDive from './msp/AppRiverDeepDive';
@@ -15,15 +16,17 @@ import exportMarkdown from './msp/exportMarkdown';
 
 function CollapsibleReference({ title, icon, children }) {
   const [open, setOpen] = useState(false);
+  const panelId = `reference-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-700/30 bg-slate-900/40">
       <button
         type="button"
         aria-expanded={open}
+        aria-controls={panelId}
         onClick={() => setOpen(!open)}
         className="flex w-full items-center gap-3 px-6 py-4 text-left transition-colors hover:bg-slate-800/30"
       >
-        <span className="text-lg">{icon}</span>
+        <span className="text-lg" aria-hidden="true">{icon}</span>
         <span className="flex-1 text-sm font-bold text-slate-300">{title}</span>
         <span className="text-[10px] uppercase tracking-wider text-slate-600">
           {open ? 'Collapse' : 'Expand'}
@@ -37,7 +40,7 @@ function CollapsibleReference({ title, icon, children }) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
-      {open && <div className="border-t border-slate-800/50 px-6 py-6">{children}</div>}
+      {open && <div id={panelId} className="border-t border-slate-800/50 px-6 py-6">{children}</div>}
     </div>
   );
 }
@@ -59,14 +62,32 @@ export default function MSPWalkthrough() {
         </p>
       </div>
 
+      <div role="navigation" aria-label="MSP portal sections" className="mb-8 rounded-2xl border border-slate-700/40 bg-slate-900/45 p-3">
+        <div className="flex flex-wrap gap-2">
+          {[
+            ['Decisions', '#section-may7-update'],
+            ['Lifecycle', '#msp-lifecycle-workflow'],
+            ['Megan questions', '#section-questions'],
+            ['Escalation', '#psh-msp-escalation-view'],
+            ['Context', '#section-context'],
+            ['Evidence', '#source-truth-review'],
+          ].map(([label, href]) => (
+            <a key={href} href={href} className="min-h-10 rounded-full border border-slate-700/70 bg-slate-950/50 px-4 py-2 text-xs font-black text-slate-100 transition hover:border-cyan-300/60 hover:text-cyan-100">
+              {label}
+            </a>
+          ))}
+        </div>
+      </div>
+
       <div className="space-y-16">
         <MaySevenUpdate />
-        <MeganOverviewGuide />
+        <LifecycleWorkflow />
+        <MeganResponseForm onExport={exportMarkdown} />
         <PshMspEscalationView />
+        <ConfirmedContext />
+        <MeganOverviewGuide />
         <SourceTruthReview />
         <PostCallSummary />
-        <ConfirmedContext />
-        <MeganResponseForm onExport={exportMarkdown} />
 
         <div>
           <h3 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">

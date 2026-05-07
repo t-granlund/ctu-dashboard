@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { maySevenUpdate } from '../../data/may-seven-update';
 import MeganWarRoomOverview from './MeganWarRoomOverview';
+import FirefliesDecision from './FirefliesDecision';
 
 const SEVERITY = {
   high: { dot: 'bg-red-400', text: 'text-red-300', label: 'High' },
@@ -22,32 +23,79 @@ function ShowMoreButton({ expanded, remaining, label, onClick }) {
   );
 }
 
-function OwedList({ items, initialVisible = 3 }) {
-  const [expanded, setExpanded] = useState(false);
-  const visibleItems = expanded ? items : items.slice(0, initialVisible);
-  const remaining = items.length - visibleItems.length;
+function buildActionRegister(update) {
+  const megan = update.stillOwedByMegan.map((item) => ({
+    ...item,
+    owner: 'Megan / Sui Generis',
+    decision: item.text.includes('Teams Premium') ? 'Superseded by Fireflies decision; confirm no replacement purchase.' : 'Confirm owner, answer, or target date.',
+    target: item.severity === 'high' ? 'May 7 call' : 'Next MSP sync',
+    status: item.text.includes('Teams Premium') ? 'Superseded' : 'Needs Megan',
+  }));
+  const tyler = update.stillOwedByTyler.map((item) => ({
+    ...item,
+    owner: 'Tyler / HTT',
+    decision: item.text.includes('runbook') ? 'Validate with Megan and convert to final SOP.' : 'Complete or confirm dependency.',
+    target: item.severity === 'high' ? 'May 7 call' : 'This week',
+    status: 'Needs Tyler',
+  }));
+  return [...megan, ...tyler];
+}
 
+function ActionRegister({ items }) {
   return (
-    <div>
-      <ul className="space-y-2">
-        {visibleItems.map((item, i) => {
+    <section className="mb-6 rounded-2xl border border-slate-700/40 bg-slate-900/50 p-5">
+      <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-cyan-300">Working surface</p>
+          <h4 className="text-lg font-black text-white">May 7 action register</h4>
+        </div>
+        <p className="max-w-xl text-xs leading-5 text-slate-400">
+          One table beats two owed-item piles. Megan can scan owner, decision, target, and status without spelunking.
+        </p>
+      </div>
+      <div tabIndex={0} aria-label="May 7 action register table scroll area" className="hidden overflow-x-auto rounded-2xl border border-slate-800/70 md:block">
+        <table className="min-w-full divide-y divide-slate-800 text-left text-xs">
+          <caption className="sr-only">May 7 action register</caption>
+          <thead className="bg-slate-950/80 text-[10px] uppercase tracking-wider text-slate-400">
+            <tr>
+              {['Priority', 'Item', 'Owner', 'Decision needed', 'Due / target', 'Status'].map((column) => <th key={column} className="px-4 py-3 font-black">{column}</th>)}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-800/60 bg-slate-950/35">
+            {items.map((item) => {
+              const sev = SEVERITY[item.severity] ?? SEVERITY.low;
+              return (
+                <tr key={`${item.owner}-${item.text}`} className="align-top">
+                  <td className={`px-4 py-3 font-black uppercase ${sev.text}`}>{sev.label}</td>
+                  <td className="px-4 py-3 leading-5 text-slate-200">{item.text}</td>
+                  <td className="px-4 py-3 leading-5 text-slate-300">{item.owner}</td>
+                  <td className="px-4 py-3 leading-5 text-slate-300">{item.decision}</td>
+                  <td className="px-4 py-3 leading-5 text-slate-300">{item.target}</td>
+                  <td className="px-4 py-3"><span className="rounded-full border border-cyan-400/30 bg-cyan-500/10 px-2 py-1 text-[10px] font-black uppercase text-cyan-100">{item.status}</span></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div className="space-y-3 md:hidden">
+        {items.map((item) => {
           const sev = SEVERITY[item.severity] ?? SEVERITY.low;
           return (
-            <li key={`${item.text}-${i}`} className="flex items-start gap-3 rounded-lg border border-slate-700/30 bg-slate-900/40 px-3 py-2">
-              <span className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${sev.dot}`} />
-              <p className="flex-1 text-sm text-slate-300">{item.text}</p>
-              <span className={`shrink-0 text-[10px] font-bold uppercase ${sev.text}`}>{sev.label}</span>
-            </li>
+            <article key={`${item.owner}-${item.text}`} className="rounded-2xl border border-slate-700/50 bg-slate-950/45 p-4">
+              <div className="mb-2 flex items-center justify-between gap-3">
+                <span className={`text-[10px] font-black uppercase ${sev.text}`}>{sev.label}</span>
+                <span className="rounded-full border border-cyan-400/30 bg-cyan-500/10 px-2 py-1 text-[10px] font-black uppercase text-cyan-100">{item.status}</span>
+              </div>
+              <p className="text-sm font-bold leading-6 text-white">{item.text}</p>
+              <p className="mt-2 text-xs leading-5 text-slate-300"><strong>Owner:</strong> {item.owner}</p>
+              <p className="text-xs leading-5 text-slate-300"><strong>Decision:</strong> {item.decision}</p>
+              <p className="text-xs leading-5 text-slate-300"><strong>Target:</strong> {item.target}</p>
+            </article>
           );
         })}
-      </ul>
-      <ShowMoreButton
-        expanded={expanded}
-        remaining={remaining}
-        label="owed items"
-        onClick={() => setExpanded((value) => !value)}
-      />
-    </div>
+      </div>
+    </section>
   );
 }
 
@@ -144,20 +192,12 @@ export default function MaySevenUpdate() {
         </div>
       </div>
 
-      {/* Owed lists — two columns */}
-      <div className="mb-6 grid gap-4 lg:grid-cols-2">
-        <div className="rounded-2xl border border-slate-700/30 bg-slate-900/50 p-5">
-          <h4 className="mb-3 flex items-center gap-2 text-sm font-bold text-white">
-            <span>📥</span> Still owed by Megan ({u.stillOwedByMegan.length})
-          </h4>
-          <OwedList items={u.stillOwedByMegan} />
-        </div>
-        <div className="rounded-2xl border border-slate-700/30 bg-slate-900/50 p-5">
-          <h4 className="mb-3 flex items-center gap-2 text-sm font-bold text-white">
-            <span>📤</span> Still owed by Tyler ({u.stillOwedByTyler.length})
-          </h4>
-          <OwedList items={u.stillOwedByTyler} />
-        </div>
+      <ActionRegister items={buildActionRegister(u)} />
+
+      <FirefliesDecision />
+
+      <div className="my-6 rounded-2xl border border-cyan-400/25 bg-cyan-500/10 p-4 text-sm leading-6 text-cyan-50">
+        <strong>Lifecycle pointer:</strong> Delta Crown’s open blockers should be judged against the onboarding/offboarding workflow below, not as isolated tasks.
       </div>
 
       {/* Delta Crown spotlight */}

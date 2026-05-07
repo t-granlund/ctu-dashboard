@@ -234,7 +234,8 @@ export const sourceTruthReview = {
   billing: [
     ['Pax8 CSP licensing', 'Sui Generis / Megan', 'Desired future state for all Microsoft licensing', 'Confirm SKUs, terms, renewal alignment, invoice/export/API options'],
     ['AppRiver', 'Being removed', 'Migration reportedly complete; Apr 27 transfer needs confirmation', 'Confirm Transfer ID scope and action before May 27'],
-    ['Microsoft Web Direct', 'HTT/Tyler, being sunset', 'E5 and Extra Storage expired intentionally; Teams Premium lapsed', 'Confirm Pax8 replacements and coverage gaps'],
+    ['Microsoft Web Direct', 'HTT/Tyler, being sunset', 'E5 and Extra Storage expired intentionally; Teams Premium removed after Fireflies decision', 'Confirm remaining Pax8 replacements and coverage gaps'],
+    ['Fireflies.ai Pro', 'COO-selected SaaS', 'Selected after Teams Premium removal and Copilot ruled out', 'Confirm OIDC-only lifecycle, retention, storage, credits, and Ticket #10333 follow-up'],
     ['Azure subscriptions', 'HTT/Tyler direct-bill', 'Multiple subscriptions/resource groups; not fully folded into Pax8 view', 'Finance-ready current/projected Azure spend view or confirm outside Pax8 scope'],
     ['Backup/phishing', 'Sui Generis pricing needed', 'No paid M365 backup confirmed; phishing pricing still needed', 'Pricing/options and timeline'],
     ['Insurance attestation', 'Sui Generis facts; Tyler sends to CFO', 'ThreatDown/Atera known; written statement still needed', 'Written EDR/patch/firewall/backup attestation'],
