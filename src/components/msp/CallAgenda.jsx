@@ -89,6 +89,7 @@ export default function CallAgenda() {
             const secTime = sectionTimes[item.id];
             return (
               <button
+        type="button"
                 key={item.id}
                 onClick={() => scrollTo(item.id)}
                 className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all ${
@@ -123,6 +124,7 @@ export default function CallAgenda() {
 
           {!running ? (
             <button
+        type="button"
               onClick={handleStart}
               className="rounded-lg bg-cyan-500/20 px-3 py-1.5 text-xs font-semibold text-cyan-400 transition-colors hover:bg-cyan-500/30"
             >
@@ -130,6 +132,7 @@ export default function CallAgenda() {
             </button>
           ) : (
             <button
+        type="button"
               onClick={handleReset}
               className="rounded-lg bg-red-500/20 px-3 py-1.5 text-xs font-semibold text-red-400 transition-colors hover:bg-red-500/30"
             >

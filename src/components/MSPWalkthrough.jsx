@@ -17,6 +17,8 @@ function CollapsibleReference({ title, icon, children }) {
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-700/30 bg-slate-900/40">
       <button
+        type="button"
+        aria-expanded={open}
         onClick={() => setOpen(!open)}
         className="flex w-full items-center gap-3 px-6 py-4 text-left transition-colors hover:bg-slate-800/30"
       >

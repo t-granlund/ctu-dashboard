@@ -13,7 +13,8 @@ function DomainCard({ domain, isExpanded, onToggle }) {
   return (
     <div className={`card transition-all duration-200 ${isExpanded ? 'ring-1 ring-slate-600' : ''}`}>
       {/* Header row — always visible */}
-      <button onClick={onToggle} className="flex w-full items-start gap-4 text-left">
+      <button
+        type="button" onClick={onToggle} className="flex w-full items-start gap-4 text-left">
         {/* Icon */}
         <span className="mt-0.5 text-2xl" role="img" aria-hidden="true">{domain.icon}</span>
 
@@ -90,6 +91,7 @@ export default function DomainExplainer() {
       <div className="mb-6 flex items-center justify-between">
         <h2 className="section-title mb-0">Understanding the 7 Audit Domains</h2>
         <button
+        type="button"
           onClick={expandAll}
           className="rounded-lg border border-slate-700/50 bg-slate-800/60 px-3 py-1.5 text-xs font-medium text-slate-400 transition-colors hover:border-slate-600 hover:text-slate-200"
         >

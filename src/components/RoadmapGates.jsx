@@ -65,6 +65,7 @@ function PhaseCard({ phase, signoffs, onToggle, expanded, onExpand }) {
     >
       {/* Header */}
       <button
+        type="button"
         className="flex w-full items-start justify-between text-left"
         onClick={() => onExpand(isOpen ? null : phase.id)}
       >
@@ -157,8 +158,9 @@ function PhaseCard({ phase, signoffs, onToggle, expanded, onExpand }) {
                       type="checkbox"
                       checked={checked}
                       disabled={disabled}
+                      aria-label={`Sign off: ${item.text}`}
                       onChange={() => onToggle(item.id)}
-                      className="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-600 bg-slate-800 text-green-500 accent-green-500"
+                      className="mt-0.5 h-5 w-5 shrink-0 rounded border-slate-600 bg-slate-800 text-green-500 accent-green-500"
                     />
                     <div className="flex-1">
                       <p className={`text-sm ${checked ? 'text-green-300 line-through' : 'text-slate-200'}`}>

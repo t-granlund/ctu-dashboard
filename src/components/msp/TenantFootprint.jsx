@@ -169,6 +169,7 @@ function TenantCard({ tenantKey }) {
     <div className="overflow-hidden rounded-xl border border-slate-700/50 bg-slate-800/60 backdrop-blur-sm">
       {/* Header — clickable */}
       <button
+        type="button"
         onClick={() => setOpen((o) => !o)}
         className="flex w-full items-center justify-between border-b border-slate-700/50 px-5 py-3 text-left transition-colors hover:bg-slate-800/80"
         style={{ borderTopColor: color, borderTopWidth: '3px' }}

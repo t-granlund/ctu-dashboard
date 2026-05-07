@@ -111,7 +111,7 @@ test.describe('MSP Portal — May 7 War Room', () => {
     await expect(sourceTruth).toHaveAttribute('href', '#source-truth-review');
     await expect(page.getByRole('heading', { name: 'Megan Overview Guide' })).toBeVisible();
     await expect(page.getByText('Full Repo Source-of-Truth Review')).toBeVisible();
-    await expect(page.getByText('Portfolio source-of-truth map')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Portfolio source-of-truth map' })).toBeVisible();
   });
 
   test('shows key repo-backed call terms', async ({ page }) => {

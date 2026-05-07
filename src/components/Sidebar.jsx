@@ -23,14 +23,16 @@ export default function Sidebar({ active, onNavigate }) {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
+      <nav aria-label="Dashboard sections" className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
         {NAV_ITEMS.map((item) => (
           <button
             key={item.id}
+            type="button"
+            aria-current={active === item.id ? 'page' : undefined}
             onClick={() => onNavigate(item.id)}
             className={`nav-link w-full text-left ${active === item.id ? 'active' : ''}`}
           >
-            <span className="text-base">{item.icon}</span>
+            <span className="text-base" aria-hidden="true">{item.icon}</span>
             <span>{item.label}</span>
           </button>
         ))}

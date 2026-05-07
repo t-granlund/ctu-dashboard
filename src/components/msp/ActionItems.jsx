@@ -134,6 +134,7 @@ export default function ActionItems({ state, exportNotes }) {
 
       {/* Export button */}
       <button
+        type="button"
         onClick={exportNotes}
         className="rounded-lg border border-cyan-500/30 bg-cyan-500/10 px-5 py-2.5 text-sm font-semibold text-cyan-400 transition-colors hover:bg-cyan-500/20 print:hidden"
       >

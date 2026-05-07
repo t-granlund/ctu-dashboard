@@ -30,10 +30,11 @@ function BulletList({ items, marker = '•', className = '' }) {
   );
 }
 
-function Table({ columns, rows }) {
+function Table({ columns, rows, caption }) {
   return (
     <div className="overflow-x-auto rounded-2xl border border-slate-800/70">
       <table className="min-w-full divide-y divide-slate-800 text-left text-xs">
+        {caption && <caption className="sr-only">{caption}</caption>}
         <thead className="bg-slate-950/80 text-[10px] uppercase tracking-wider text-slate-500">
           <tr>
             {columns.map((column) => <th key={column} className="px-4 py-3 font-black">{column}</th>)}
@@ -108,12 +109,12 @@ export default function MeganOverviewGuide() {
 
       <div className="mb-6 space-y-4">
         <h4 className="text-lg font-black text-white">Current priority picture</h4>
-        <Table columns={['Area', 'Where we are today', 'What we need from Megan']} rows={guide.priorities} />
+        <Table caption="Current priority picture" columns={['Area', 'Where we are today', 'What we need from Megan']} rows={guide.priorities} />
       </div>
 
       <div className="mb-6 space-y-4">
         <h4 className="text-lg font-black text-white">Repo-backed source map</h4>
-        <Table columns={['Repo', 'What it supplies', 'Relevance for Megan']} rows={guide.repoMap} />
+        <Table caption="Repo-backed source map" columns={['Repo', 'What it supplies', 'Relevance for Megan']} rows={guide.repoMap} />
       </div>
 
       <div className="mb-6 grid gap-4 xl:grid-cols-3">
@@ -131,7 +132,7 @@ export default function MeganOverviewGuide() {
 
       <div className="mb-6 space-y-4">
         <h4 className="text-lg font-black text-white">Billing / CSP questions to land today</h4>
-        <Table columns={['Topic', 'Question']} rows={guide.billingQuestions} />
+        <Table caption="Billing and CSP questions to land today" columns={['Topic', 'Question']} rows={guide.billingQuestions} />
         <p className="rounded-2xl border border-amber-400/30 bg-amber-500/10 p-4 text-xs font-bold text-amber-100">
           Finance end goal: one clear per-tenant view of current spend, renewal dates, and projected run-rate.
         </p>
@@ -161,7 +162,7 @@ export default function MeganOverviewGuide() {
 
       <div className="mb-6 space-y-4">
         <h4 className="text-lg font-black text-white">Requested outcomes before ending the call</h4>
-        <Table columns={['Outcome', 'Owner', 'Target']} rows={guide.outcomes} />
+        <Table caption="Requested outcomes before ending the call" columns={['Outcome', 'Owner', 'Target']} rows={guide.outcomes} />
       </div>
 
       <blockquote className="rounded-2xl border border-fuchsia-400/30 bg-fuchsia-500/10 p-5 text-sm leading-7 text-fuchsia-50">

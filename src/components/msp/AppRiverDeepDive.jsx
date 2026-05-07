@@ -15,6 +15,7 @@ function SPCard({ sp }) {
   return (
     <div className="rounded-xl border border-slate-700/30 bg-slate-800/30">
       <button
+        type="button"
         onClick={() => setOpen((o) => !o)}
         className="flex w-full items-center justify-between px-5 py-3 text-left hover:bg-slate-800/50"
       >

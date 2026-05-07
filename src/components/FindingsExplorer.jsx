@@ -28,6 +28,7 @@ function FilterPills({ options, selected, onToggle, colorFn }) {
         const active = selected.includes(opt);
         return (
           <button
+        type="button"
             key={opt}
             onClick={() => onToggle(opt)}
             className={`rounded-full px-3 py-1 text-xs font-semibold transition-all ${

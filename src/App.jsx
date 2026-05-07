@@ -47,9 +47,12 @@ export default function App() {
       <div className="flex min-h-screen overflow-x-hidden">
         {/* Mobile hamburger */}
         <button
+          type="button"
           onClick={() => setSidebarOpen((o) => !o)}
-          className="fixed left-4 top-4 z-50 flex h-10 w-10 items-center justify-center rounded-lg bg-slate-800 text-slate-400 shadow-lg lg:hidden"
+          className="fixed left-4 top-4 z-50 flex h-11 w-11 items-center justify-center rounded-lg bg-slate-800 text-slate-300 shadow-lg lg:hidden"
           aria-label="Toggle menu"
+          aria-expanded={sidebarOpen}
+          aria-controls="dashboard-sidebar"
         >
           <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             {sidebarOpen
@@ -68,7 +71,7 @@ export default function App() {
         )}
 
         {/* Sidebar — fixed on desktop, slide-over on mobile */}
-        <div className={`fixed inset-y-0 left-0 z-40 w-60 transform transition-transform duration-200 lg:translate-x-0 ${
+        <div id="dashboard-sidebar" className={`fixed inset-y-0 left-0 z-40 w-60 transform transition-transform duration-200 lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}>
           <Sidebar active={active} onNavigate={handleNavigate} />

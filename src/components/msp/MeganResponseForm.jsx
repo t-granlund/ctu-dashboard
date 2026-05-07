@@ -58,7 +58,7 @@ function QuestionCard({ q, response, onUpdate }) {
           type="button"
           aria-label={`${isAnswered ? 'Mark as needing review' : 'Mark as answered'}: ${q.question}`}
           onClick={() => onUpdate(q.id, { ...response, answered: !isAnswered })}
-          className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border transition-colors ${
+          className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded border transition-colors ${
             isAnswered
               ? 'border-green-500 bg-green-500 text-white'
               : 'border-slate-600 hover:border-slate-400'
@@ -123,10 +123,12 @@ function CategorySection({ category, responses, onUpdate, defaultOpen }) {
   return (
     <div className="rounded-2xl border border-slate-700/30 bg-slate-900/30 overflow-hidden">
       <button
+        type="button"
+        aria-expanded={open}
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center gap-4 px-6 py-5 text-left hover:bg-slate-800/20 transition-colors"
+        className="flex w-full items-center gap-4 px-6 py-5 text-left transition-colors hover:bg-slate-800/20"
       >
-        <span className="text-xl">{category.icon}</span>
+        <span className="text-xl" aria-hidden="true">{category.icon}</span>
         <div className="flex-1 min-w-0">
           <h4 className="text-sm font-semibold text-white">{category.category}</h4>
           <p className="mt-0.5 text-xs text-slate-500">{category.why}</p>
@@ -187,7 +189,14 @@ export default function MeganResponseForm({ onExport }) {
             {progress}%
           </span>
         </div>
-        <div className="h-1.5 overflow-hidden rounded-full bg-slate-800">
+        <div
+          role="progressbar"
+          aria-label="Megan follow-up question completion"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={progress}
+          className="h-1.5 overflow-hidden rounded-full bg-slate-800"
+        >
           <div
             className={`h-full rounded-full transition-all duration-500 ${
               progress === 100 ? 'bg-green-500' : 'bg-slate-500'
@@ -213,6 +222,7 @@ export default function MeganResponseForm({ onExport }) {
       {/* Export */}
       <div className="mt-10 flex items-center gap-4">
         <button
+          type="button"
           onClick={() => onExport(responses)}
           className="rounded-xl bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/15"
         >

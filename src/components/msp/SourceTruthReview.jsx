@@ -27,10 +27,11 @@ function List({ items, marker = '•', markerClass = 'text-cyan-300' }) {
   );
 }
 
-function Matrix({ columns, rows }) {
+function Matrix({ columns, rows, caption }) {
   return (
     <div className="overflow-x-auto rounded-2xl border border-slate-800/70">
       <table className="min-w-full divide-y divide-slate-800 text-left text-xs">
+        {caption && <caption className="sr-only">{caption}</caption>}
         <thead className="bg-slate-950/80 text-[10px] uppercase tracking-wider text-slate-500">
           <tr>
             {columns.map((column) => (
@@ -134,7 +135,7 @@ export default function SourceTruthReview() {
 
       <div className="mb-8 space-y-4">
         <h4 className="text-lg font-black text-white">Portfolio source-of-truth map</h4>
-        <Matrix columns={['Domain', 'Source of truth', 'Supporting repos']} rows={review.sourceMap} />
+        <Matrix caption="Portfolio source-of-truth map" columns={['Domain', 'Source of truth', 'Supporting repos']} rows={review.sourceMap} />
       </div>
 
       <div className="mb-8 space-y-5">
@@ -145,17 +146,17 @@ export default function SourceTruthReview() {
       <div className="mb-8 grid gap-6 xl:grid-cols-2">
         <section>
           <h4 className="mb-4 text-lg font-black text-white">MSP / CSP / Pax8 billing map</h4>
-          <Matrix columns={['Bucket', 'Owner', 'Current state', 'Megan ask']} rows={review.billing} />
+          <Matrix caption="MSP, CSP, and Pax8 billing map" columns={['Bucket', 'Owner', 'Current state', 'Megan ask']} rows={review.billing} />
         </section>
         <section>
           <h4 className="mb-4 text-lg font-black text-white">Unified identity model</h4>
-          <Matrix columns={['Field', 'Purpose', 'Consumers']} rows={review.identityModel} />
+          <Matrix caption="Unified identity model" columns={['Field', 'Purpose', 'Consumers']} rows={review.identityModel} />
         </section>
       </div>
 
       <div className="mb-8 space-y-4">
         <h4 className="text-lg font-black text-white">Prioritized post-call cleanup backlog</h4>
-        <Matrix columns={['Priority', 'Task', 'Repo']} rows={review.backlog} />
+        <Matrix caption="Prioritized post-call cleanup backlog" columns={['Priority', 'Task', 'Repo']} rows={review.backlog} />
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">

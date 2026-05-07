@@ -177,6 +177,7 @@ export default function TenantDeepDive() {
       <div className="flex gap-1 rounded-xl bg-slate-900/50 p-1">
         {tenants.map((t) => (
           <button
+        type="button"
             key={t.key}
             onClick={() => setActiveTab(t.key)}
             className={`flex-1 rounded-lg px-3 py-2.5 text-sm font-semibold transition-all ${

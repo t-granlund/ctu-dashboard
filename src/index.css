@@ -3,6 +3,24 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  :focus-visible {
+    outline: 3px solid #67e8f9;
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -46,7 +64,7 @@
     @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold;
   }
   .nav-link {
-    @apply flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
+    @apply flex min-h-11 items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium
            text-slate-400 transition-all duration-150
            hover:bg-slate-800 hover:text-white;
   }

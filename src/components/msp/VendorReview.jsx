@@ -37,6 +37,7 @@ function VendorCard({
     >
       {/* Header */}
       <button
+        type="button"
         onClick={() => setOpen((o) => !o)}
         className="flex w-full items-center justify-between px-5 py-4 text-left transition-colors hover:bg-slate-800/80"
       >
@@ -119,6 +120,7 @@ function VendorCard({
                   return (
                     <li key={i} className="flex items-start gap-2.5">
                       <button
+        type="button"
                         onClick={() => onQuestionToggle(qKey)}
                         className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px] transition-colors ${
                           checked

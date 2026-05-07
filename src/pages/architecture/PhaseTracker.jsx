@@ -12,6 +12,7 @@ function PhaseCard({ phase, isExpanded, onToggle }) {
 
   return (
     <button
+        type="button"
       onClick={onToggle}
       className={`card flex-1 min-w-[160px] cursor-pointer text-left transition-all duration-200 hover:border-slate-600 ${isExpanded ? 'ring-1 ring-slate-600' : ''}`}
     >
