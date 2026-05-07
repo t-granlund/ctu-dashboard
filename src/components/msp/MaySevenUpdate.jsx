@@ -1,4 +1,5 @@
 import { maySevenUpdate } from '../../data/may-seven-update';
+import MeganWarRoomOverview from './MeganWarRoomOverview';
 
 const SEVERITY = {
   high: { dot: 'bg-red-400', text: 'text-red-300', label: 'High' },
@@ -27,6 +28,8 @@ export default function MaySevenUpdate() {
   const u = maySevenUpdate;
   return (
     <div id="section-may7-update" className="scroll-mt-24">
+      <MeganWarRoomOverview />
+
       {/* Banner */}
       <div className="mb-6 rounded-2xl border-2 border-cyan-500/40 bg-gradient-to-br from-cyan-950/40 to-slate-900/60 p-6">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3">

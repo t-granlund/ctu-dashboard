@@ -89,7 +89,34 @@ test.describe('Sidebar Navigation', () => {
 });
 
 // ════════════════════════════════════════════════════════════
-// 3. MSP PORTAL — POST-CALL SUMMARY
+// 3. MSP PORTAL — MAY 7 WAR ROOM
+// ════════════════════════════════════════════════════════════
+
+test.describe('MSP Portal — May 7 War Room', () => {
+  test.beforeEach(async ({ page }) => {
+    await login(page);
+    await openSidebar(page);
+    await page.locator('nav').getByText('MSP Portal').click();
+    await page.waitForTimeout(500);
+  });
+
+  test('shows Megan alignment war room and guide link', async ({ page }) => {
+    await expect(page.getByText('May 7 War Room')).toBeVisible();
+    await expect(page.getByText('Tyler × Megan Alignment Brief')).toBeVisible();
+    const guide = page.getByRole('link', { name: 'Open Megan Overview Guide' });
+    await expect(guide).toBeVisible();
+    await expect(guide).toHaveAttribute('href', './MEGAN-OVERVIEW-GUIDE-2026-05-07.md');
+  });
+
+  test('shows key repo-backed call terms', async ({ page }) => {
+    for (const term of ['Pax8', 'DCE', 'Teams Premium', 'Groups Hub', 'People Support Hub']) {
+      await expect(page.getByText(term, { exact: false }).first()).toBeVisible();
+    }
+  });
+});
+
+// ════════════════════════════════════════════════════════════
+// 4. MSP PORTAL — POST-CALL SUMMARY
 // ════════════════════════════════════════════════════════════
 
 test.describe('MSP Portal — Call Recap', () => {
@@ -117,7 +144,7 @@ test.describe('MSP Portal — Call Recap', () => {
 });
 
 // ════════════════════════════════════════════════════════════
-// 4. MSP PORTAL — CONFIRMED CONTEXT
+// 5. MSP PORTAL — CONFIRMED CONTEXT
 // ════════════════════════════════════════════════════════════
 
 test.describe('MSP Portal — Confirmed Context', () => {
@@ -154,7 +181,7 @@ test.describe('MSP Portal — Confirmed Context', () => {
 });
 
 // ════════════════════════════════════════════════════════════
-// 5. MSP PORTAL — QUESTIONS FORM
+// 6. MSP PORTAL — QUESTIONS FORM
 // ════════════════════════════════════════════════════════════
 
 test.describe('MSP Portal — Questions Form', () => {
@@ -207,7 +234,7 @@ test.describe('MSP Portal — Questions Form', () => {
 });
 
 // ════════════════════════════════════════════════════════════
-// 6. REFERENCE MATERIAL — COLLAPSIBLES
+// 7. REFERENCE MATERIAL — COLLAPSIBLES
 // ════════════════════════════════════════════════════════════
 
 test.describe('Reference Material', () => {
@@ -242,7 +269,7 @@ test.describe('Reference Material', () => {
 });
 
 // ════════════════════════════════════════════════════════════
-// 7. VISUAL SANITY — NO OVERFLOW / TRUNCATION
+// 8. VISUAL SANITY — NO OVERFLOW / TRUNCATION
 // ════════════════════════════════════════════════════════════
 
 test.describe('Visual Sanity', () => {
