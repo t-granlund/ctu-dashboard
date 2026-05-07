@@ -10,15 +10,31 @@ import ComplianceMatrix from './components/ComplianceMatrix';
 import RoadmapGates from './components/RoadmapGates';
 import PositiveFindings from './components/PositiveFindings';
 import MSPWalkthrough from './components/MSPWalkthrough';
+import ThemeToggle from './components/ThemeToggle';
 
 const SECTIONS = [
   'overview', 'msp-review', 'findings', 'tenants', 'guests',
   'unknown', 'compliance', 'roadmap', 'positive',
 ];
+const THEME_KEY = 'ctu-dashboard-theme';
+
+function getInitialTheme() {
+  if (typeof window === 'undefined') return 'dark';
+  const stored = localStorage.getItem(THEME_KEY);
+  if (stored === 'dark' || stored === 'light') return stored;
+  return window.matchMedia?.('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+}
 
 export default function App() {
   const [active, setActive] = useState('overview');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [theme, setTheme] = useState(getInitialTheme);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.style.colorScheme = theme;
+    localStorage.setItem(THEME_KEY, theme);
+  }, [theme]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -42,8 +58,12 @@ export default function App() {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   }, []);
 
+  const toggleTheme = useCallback(() => {
+    setTheme((current) => (current === 'dark' ? 'light' : 'dark'));
+  }, []);
+
   return (
-    <PasswordGate>
+    <PasswordGate theme={theme} onToggleTheme={toggleTheme}>
       <div className="flex min-h-screen overflow-x-hidden">
         {/* Mobile hamburger */}
         <button
@@ -78,16 +98,19 @@ export default function App() {
         </div>
 
         <main className="min-w-0 flex-1 px-6 py-8 lg:ml-60 lg:px-8">
-          <header className="mb-10">
-            <p className="text-xs font-semibold uppercase tracking-widest text-slate-600">
-              Cross-Tenant Utility · Phase 1 Audit Report
-            </p>
-            <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-white lg:text-3xl">
-              Identity Governance Dashboard
-            </h1>
-            <p className="mt-1 text-sm text-slate-500">
-              HTT Brands · 5 tenants · 7 domains · 106 findings
-            </p>
+          <header className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-slate-600">
+                Cross-Tenant Utility · Phase 1 Audit Report
+              </p>
+              <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-white lg:text-3xl">
+                Identity Governance Dashboard
+              </h1>
+              <p className="mt-1 text-sm text-slate-500">
+                HTT Brands · 5 tenants · 7 domains · 106 findings
+              </p>
+            </div>
+            <ThemeToggle theme={theme} onToggle={toggleTheme} />
           </header>
 
           <div className="space-y-20">

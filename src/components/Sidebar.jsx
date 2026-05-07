@@ -18,7 +18,7 @@ export default function Sidebar({ active, onNavigate }) {
         <img
           src="/ctu-dashboard/htt-logo-white.png"
           alt="HTT Brands"
-          className="h-7 w-auto opacity-90"
+          className="brand-logo h-7 w-auto opacity-90"
         />
       </div>
 

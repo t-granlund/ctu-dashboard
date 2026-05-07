@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import ThemeToggle from './ThemeToggle';
 
 // SHA-256 hash of the access passphrase — generated via: printf 'CrossTenant!' | shasum -a 256
 const PASS_HASH = 'b15d0debbc260d948e98b91e1d7ed5064887a5c219149e2b30162bbae2a8aa41';
@@ -11,7 +12,7 @@ async function sha256(message) {
   return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
-export default function PasswordGate({ children }) {
+export default function PasswordGate({ children, theme = 'dark', onToggleTheme }) {
   const [authed, setAuthed] = useState(() => sessionStorage.getItem(AUTH_KEY) === 'true');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
@@ -36,6 +37,9 @@ export default function PasswordGate({ children }) {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-slate-950">
+      <div className="fixed right-4 top-4 z-20">
+        <ThemeToggle theme={theme} onToggle={onToggleTheme} />
+      </div>
       <div className="pointer-events-none fixed inset-0 bg-gradient-to-b from-[#500711]/20 via-transparent to-transparent" />
 
       <div className="relative z-10 w-full max-w-md px-6">
@@ -43,7 +47,7 @@ export default function PasswordGate({ children }) {
           <img
             src="/ctu-dashboard/htt-logo-white.png"
             alt="HTT Brands"
-            className="mb-6 h-14 w-auto drop-shadow-lg"
+            className="brand-logo mb-6 h-14 w-auto drop-shadow-lg"
           />
           <div className="flex items-center gap-2">
             <div className="h-px w-8 bg-gradient-to-r from-transparent to-[#500711]/60" />

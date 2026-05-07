@@ -4,7 +4,12 @@ import AxeBuilder from '@axe-core/playwright';
 const PASSWORD = 'CrossTenant!';
 const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'wcag2aaa'];
 
+async function useDarkTheme(page) {
+  await page.addInitScript(() => localStorage.setItem('ctu-dashboard-theme', 'dark'));
+}
+
 async function login(page) {
+  await useDarkTheme(page);
   await page.goto('/');
   await page.getByPlaceholder('Enter passphrase to continue').fill(PASSWORD);
   await page.getByRole('button', { name: /enter dashboard/i }).click();
@@ -42,6 +47,7 @@ async function expectNoAxeViolations(page, options = {}) {
 
 test.describe('Axe WCAG 2.2 AA + automated AAA audit', () => {
   test('password gate has no WCAG 2.2 AA / automated AAA violations', async ({ page }) => {
+    await useDarkTheme(page);
     await page.goto('/');
     await expectNoAxeViolations(page);
   });
