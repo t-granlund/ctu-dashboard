@@ -100,15 +100,16 @@ test.describe('MSP Portal — May 7 War Room', () => {
     await page.waitForTimeout(500);
   });
 
-  test('shows Megan alignment war room and guide link', async ({ page }) => {
+  test('shows Megan alignment war room and in-page designed guide links', async ({ page }) => {
     await expect(page.getByText('May 7 War Room')).toBeVisible();
     await expect(page.getByText('Tyler × Megan Alignment Brief')).toBeVisible();
-    const guide = page.getByRole('link', { name: 'Open Megan Overview Guide' });
+    const guide = page.getByRole('link', { name: 'Jump to Designed Megan Overview Guide' });
     await expect(guide).toBeVisible();
-    await expect(guide).toHaveAttribute('href', './MEGAN-OVERVIEW-GUIDE-2026-05-07.md');
+    await expect(guide).toHaveAttribute('href', '#megan-overview-guide');
     const sourceTruth = page.getByRole('link', { name: 'Jump to Embedded Source-of-Truth Review' });
     await expect(sourceTruth).toBeVisible();
     await expect(sourceTruth).toHaveAttribute('href', '#source-truth-review');
+    await expect(page.getByRole('heading', { name: 'Megan Overview Guide' })).toBeVisible();
     await expect(page.getByText('Full Repo Source-of-Truth Review')).toBeVisible();
     await expect(page.getByText('Portfolio source-of-truth map')).toBeVisible();
   });
@@ -117,6 +118,19 @@ test.describe('MSP Portal — May 7 War Room', () => {
     for (const term of ['Pax8', 'DCE', 'Teams Premium', 'Groups Hub', 'People Support Hub']) {
       await expect(page.getByText(term, { exact: false }).first()).toBeVisible();
     }
+  });
+
+  test('embeds the designed Megan overview guide in the password-gated page', async ({ page }) => {
+    for (const term of [
+      'Current priority picture',
+      'Billing / CSP questions to land today',
+      'Requested outcomes before ending the call',
+      'Closing script',
+      'DCE/FN spoke-side auto-redeem needs a Sui Generis owner/date',
+    ]) {
+      await expect(page.getByText(term, { exact: false }).first()).toBeVisible();
+    }
+    await expect(page.locator('a[href$="MEGAN-OVERVIEW-GUIDE-2026-05-07.md"]')).toHaveCount(0);
   });
 
   test('embeds the full source-of-truth review in the password-gated page', async ({ page }) => {

@@ -37,12 +37,10 @@ export default function MeganWarRoomOverview() {
         </div>
         <div className="flex flex-wrap gap-2">
           <a
-            href="./MEGAN-OVERVIEW-GUIDE-2026-05-07.md"
-            target="_blank"
-            rel="noreferrer"
+            href="#megan-overview-guide"
             className="rounded-xl border border-fuchsia-400/40 bg-fuchsia-500/15 px-4 py-2 text-sm font-bold text-fuchsia-100 transition hover:bg-fuchsia-500/25"
           >
-            Open Megan Overview Guide
+            Jump to Designed Megan Overview Guide
           </a>
           <a
             href="#source-truth-review"

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import MaySevenUpdate from './msp/MaySevenUpdate';
+import MeganOverviewGuide from './msp/MeganOverviewGuide';
 import SourceTruthReview from './msp/SourceTruthReview';
 import PostCallSummary from './msp/PostCallSummary';
 import ConfirmedContext from './msp/ConfirmedContext';
@@ -57,6 +58,7 @@ export default function MSPWalkthrough() {
 
       <div className="space-y-16">
         <MaySevenUpdate />
+        <MeganOverviewGuide />
         <SourceTruthReview />
         <PostCallSummary />
         <ConfirmedContext />
