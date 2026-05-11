@@ -1,65 +1,80 @@
 import { callActionItems } from '../../data/msp-data';
+import { Eyebrow, SectionHeader, StatusPill } from './atoms';
 
-const PRIORITY_LABEL = {
-  immediate: { color: 'text-red-400', dot: 'bg-red-400' },
-  'this-week': { color: 'text-orange-400', dot: 'bg-orange-400' },
-  'next-week': { color: 'text-yellow-400', dot: 'bg-yellow-400' },
-  ongoing: { color: 'text-blue-400', dot: 'bg-blue-400' },
-  'post-convention': { color: 'text-purple-400', dot: 'bg-purple-400' },
-  'when-ready': { color: 'text-slate-500', dot: 'bg-slate-500' },
+// Map priority to the sequential ordinal palette used by SeverityDot /
+// StatusPill across the board. We keep the original priority slugs as the
+// labels because they're meaningful here ("immediate", "this week", etc.).
+const PRIORITY_TONE = {
+  immediate:         'blocked',
+  'this-week':       'warn',
+  'next-week':       'warn',
+  ongoing:           'info',
+  'post-convention': 'info',
+  'when-ready':      'info',
 };
+
+const OUTCOMES = [
+  { tone: 'ok',   text: 'AppRiver migration confirmed 100% complete — all 3 service principals approved for removal' },
+  { tone: 'ok',   text: 'Entra ID P2 already purchased on every tenant (blanket license via PAX8)' },
+  { tone: 'ok',   text: 'Conditional Access deployed on DCE and FN — our audit data was stale' },
+  { tone: 'ok',   text: 'TD SYNNEX can’t be removed but GDAP already revoked — low risk' },
+  { tone: 'ok',   text: 'Atera confirmed as RMM tool — Delta Crown going all-Mac with MDM' },
+  { tone: 'warn', text: 'Bishops MFA planned for post-convention to avoid support issues' },
+  { tone: 'warn', text: 'BCC license migration to PAX8 in progress — Business Basic expires October; confirm any earlier non-BB renewal actions' },
+];
+
+const TONE_DOT = {
+  ok:      '#34d399',
+  warn:    '#fbbf24',
+  blocked: '#fb7185',
+};
+
+function OutcomeRow({ tone, text }) {
+  return (
+    <div className="flex items-start gap-3">
+      <span aria-hidden="true" style={{ background: TONE_DOT[tone] }} className="mt-1.5 inline-block h-2 w-2 shrink-0 rounded-full" />
+      <p className="text-sm leading-relaxed text-slate-200">{text}</p>
+    </div>
+  );
+}
+
+function ActionRow({ item }) {
+  const tone = PRIORITY_TONE[item.priority] ?? 'info';
+  const label = item.priority.replace('-', ' ');
+  return (
+    <div className="flex items-center gap-3 rounded-2xl border border-slate-800 bg-slate-900/40 px-4 py-3">
+      <span aria-hidden="true" style={{ background: TONE_DOT[tone] ?? '#94a3b8' }} className="inline-block h-2 w-2 shrink-0 rounded-full" />
+      <p className="flex-1 text-sm text-slate-200">{item.action}</p>
+      <StatusPill tone={tone}>{label}</StatusPill>
+    </div>
+  );
+}
 
 export default function PostCallSummary() {
   const meganItems = callActionItems.filter((i) => i.owner === 'Megan' || i.owner === 'Both');
 
   return (
     <div id="section-summary" className="scroll-mt-24">
-      {/* Call recap — compact */}
-      <div className="mb-8 rounded-2xl border border-slate-700/30 bg-slate-900/50 p-6">
-        <div className="mb-5 flex items-center justify-between">
+      <section className="mb-8 rounded-2xl border border-slate-800 bg-slate-900/40 p-6">
+        <header className="mb-5 flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h3 className="text-lg font-bold text-white">April 10 Historical Recap</h3>
-            <p className="text-sm text-slate-500">Call Recap · April 10, 2026 · Historical context — superseded where May 7 decisions differ.</p>
+            <Eyebrow>April 10 historical recap</Eyebrow>
+            <h3 className="mt-1 text-xl font-bold text-white">April 10 Historical Recap</h3>
+            <p className="mt-1 text-sm text-slate-400">
+              Call recap · April 10, 2026 · Historical context — superseded where May 7 decisions differ.
+            </p>
           </div>
-          <span className="rounded-full bg-green-500/15 px-3 py-1 text-xs font-semibold text-green-400">
-            Completed
-          </span>
-        </div>
+          <StatusPill tone="ok">Completed</StatusPill>
+        </header>
 
-        {/* Key outcomes — clean bullet list, not a card grid */}
-        <div className="space-y-3 text-sm">
-          {[
-            { icon: "✅", text: "AppRiver migration confirmed 100% complete — all 3 service principals approved for removal" },
-            { icon: "✅", text: "Entra ID P2 already purchased on every tenant (blanket license via PAX8)" },
-            { icon: "✅", text: "Conditional Access deployed on DCE and FN — our audit data was stale" },
-            { icon: "✅", text: "TD SYNNEX can't be removed but GDAP already revoked — low risk" },
-            { icon: "✅", text: "Atera confirmed as RMM tool — Delta Crown going all-Mac with MDM" },
-            { icon: "⏳", text: "Bishops MFA planned for post-convention to avoid support issues" },
-            { icon: "⏳", text: "BCC license migration to PAX8 in progress — Business Basic expires October; confirm any earlier non-BB renewal actions" },
-          ].map((item, i) => (
-            <div key={i} className="flex items-start gap-3">
-              <span className="mt-0.5 shrink-0 text-base">{item.icon}</span>
-              <p className="text-slate-300">{item.text}</p>
-            </div>
-          ))}
+        <div className="space-y-3">
+          {OUTCOMES.map((o, i) => <OutcomeRow key={i} tone={o.tone} text={o.text} />)}
         </div>
-      </div>
+      </section>
 
-      {/* Megan's action items only */}
-      <h4 className="mb-4 text-base font-bold text-white">Your Action Items</h4>
+      <SectionHeader title="Your Action Items" />
       <div className="space-y-2">
-        {meganItems.map((item, i) => {
-          const p = PRIORITY_LABEL[item.priority] || PRIORITY_LABEL['when-ready'];
-          return (
-            <div key={i} className="flex items-center gap-3 rounded-xl border border-slate-700/30 bg-slate-800/30 px-4 py-3">
-              <div className={`h-2 w-2 shrink-0 rounded-full ${p.dot}`} />
-              <p className="flex-1 text-sm text-slate-300">{item.action}</p>
-              <span className={`text-xs font-medium ${p.color}`}>
-                {item.priority.replace('-', ' ')}
-              </span>
-            </div>
-          );
-        })}
+        {meganItems.map((item, i) => <ActionRow key={i} item={item} />)}
       </div>
     </div>
   );

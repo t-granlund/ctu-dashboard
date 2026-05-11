@@ -1,28 +1,30 @@
 import { azureBilling } from '../../data/msp-data';
+import { Eyebrow, SectionHeader, StatusPill } from './atoms';
 
 function BillingAccountCard({ account }) {
   return (
-    <div className="rounded-xl border border-slate-700/30 bg-slate-800/20 p-4">
-      <div className="mb-2 flex items-center justify-between">
-        <p className="text-sm font-medium text-white">{account.name}</p>
-        <span className="text-[10px] font-semibold text-slate-500">{account.type}</span>
-      </div>
-      <div className="space-y-1 text-xs text-slate-400">
+    <article className="rounded-2xl border border-slate-800 bg-slate-900/40 p-4">
+      <header className="mb-2 flex items-center justify-between gap-3">
+        <p className="text-sm font-bold text-white">{account.name}</p>
+        <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400">{account.type}</span>
+      </header>
+      <div className="space-y-1 text-xs leading-5 text-slate-300">
         <p>{account.address}</p>
-        <p className="font-mono text-slate-500">{account.email}</p>
+        <p className="font-mono text-slate-400">{account.email}</p>
       </div>
-      <p className="mt-2 text-xs text-slate-500 italic">{account.note}</p>
-    </div>
+      <p className="mt-2 text-xs italic leading-5 text-slate-400">{account.note}</p>
+    </article>
   );
 }
 
 export default function BillingLandscape() {
   return (
     <div>
-      <h4 className="mb-2 text-base font-semibold text-white">Billing Accounts</h4>
-      <p className="mb-4 text-sm text-slate-500">
-        {azureBilling.summary}
-      </p>
+      <SectionHeader
+        eyebrow="Billing landscape"
+        title="Billing Accounts"
+        sub={azureBilling.summary}
+      />
 
       <div className="mb-8 grid gap-3 lg:grid-cols-3">
         {azureBilling.billingAccounts.map((acct, i) => (
@@ -30,34 +32,28 @@ export default function BillingLandscape() {
         ))}
       </div>
 
-      {/* Subscriptions — simplified */}
-      <h4 className="mb-2 text-base font-semibold text-white">
-        Azure Subscriptions
-      </h4>
-      <p className="mb-4 text-xs text-slate-500">
+      <Eyebrow>Azure subscriptions</Eyebrow>
+      <p className="mt-1 mb-4 text-xs text-slate-400 tabular-nums">
         {azureBilling.subscriptions.length} subscriptions · Est. total: {azureBilling.totalEstimated}
       </p>
 
-      <div className="space-y-1.5">
+      <ul className="space-y-1.5">
         {azureBilling.subscriptions.map((sub) => {
+          // Detect the original warning sentinel emoji but render a real
+          // StatusPill instead of leaking it through the row.
           const isWarning = sub.purpose.includes('⚠️');
+          const cleanPurpose = sub.purpose.replace(/⚠️\s?/g, '').trim();
           return (
-            <div
-              key={sub.id}
-              className={`flex items-center gap-4 rounded-lg px-4 py-2.5 text-sm ${
-                isWarning ? 'bg-yellow-950/10 border border-yellow-500/10' : 'bg-slate-800/20'
-              }`}
-            >
-              <span className="w-48 shrink-0 font-medium text-slate-300 truncate">{sub.name}</span>
-              <span className="rounded bg-slate-700/40 px-1.5 py-0.5 text-[10px] font-bold text-slate-400">
-                {sub.tenant}
-              </span>
-              <span className="flex-1 text-xs text-slate-500">{sub.purpose}</span>
-              <span className="font-mono text-xs text-slate-500">{sub.estCost}</span>
-            </div>
+            <li key={sub.id} className="flex flex-wrap items-center gap-3 rounded-2xl border border-slate-800 bg-slate-900/40 px-4 py-2.5 text-sm">
+              <span className="w-48 shrink-0 truncate font-bold text-slate-100">{sub.name}</span>
+              <StatusPill tone="info">{sub.tenant}</StatusPill>
+              {isWarning && <StatusPill tone="warn">Watch</StatusPill>}
+              <span className="flex-1 text-xs text-slate-300">{cleanPurpose}</span>
+              <span className="font-mono text-xs text-slate-400 tabular-nums">{sub.estCost}</span>
+            </li>
           );
         })}
-      </div>
+      </ul>
     </div>
   );
 }
