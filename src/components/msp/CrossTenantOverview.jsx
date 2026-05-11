@@ -6,17 +6,14 @@ import {
   DECISIONS_PENDING, NEXT_HORIZON, REFERENCE_DCE,
   computeDomainIndex,
 } from '../../data/cross-tenant-program';
+import { Eyebrow, SectionHeader, ActionLink } from './atoms';
 
-// ─── Atoms ────────────────────────────────────────────────────────────
-// Visual rules:
-//   • Pure dark slate base, single cyan accent reserved for DCE marker.
-//   • Status uses position + glyph + sequential hue (3-channel encoding).
-//   • Inline color on glyphs to escape the global accent flatten.
-//   • Type scale strictly 32 / 20 / 14 / 12. No more.
-//   • Tables for matrix data, cards for narrative — Tufte/Few rule.
-// ──────────────────────────────────────────────────────────────────────
+// ─── Atoms specific to the matrix ─────────────────────────────────────
+// Status uses three-channel encoding (position + glyph fill + sequential
+// hue) so it processes pre-attentively and survives grayscale.
+// ─────────────────────────────────────────────────────────────────
 
-function StatusGlyph({ status, size = 18, srLabel }) {
+export function StatusGlyph({ status, size = 18, srLabel }) {
   const meta = STATUS_META[status] ?? STATUS_META.na;
   return (
     <span
@@ -30,22 +27,6 @@ function StatusGlyph({ status, size = 18, srLabel }) {
   );
 }
 
-function Eyebrow({ children }) {
-  return (
-    <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400">{children}</p>
-  );
-}
-
-function SectionHeader({ eyebrow, title, sub }) {
-  return (
-    <header className="mb-5">
-      {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-      <h3 className="mt-1 text-xl font-bold text-white">{title}</h3>
-      {sub && <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-300">{sub}</p>}
-    </header>
-  );
-}
-
 // ─── Page header ──────────────────────────────────────────────────────
 
 function ProgramHeader() {
@@ -56,14 +37,7 @@ function ProgramHeader() {
         <h2 className="text-[32px] font-black leading-[1.1] tracking-tight text-white">
           Where every tenant stands against the Delta Crown reference.
         </h2>
-        <a
-          href="https://delta-crown-org.github.io/DeltaSetup/"
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex min-h-6 items-center text-sm font-bold text-slate-100 underline decoration-slate-500 underline-offset-4 hover:decoration-slate-200"
-        >
-          DeltaSetup live site ↗
-        </a>
+        <ActionLink href="https://delta-crown-org.github.io/DeltaSetup/" target="_blank">DeltaSetup live site</ActionLink>
       </div>
     </header>
   );
@@ -276,9 +250,7 @@ function ReferenceCard() {
             What “golden” means in each domain. The bar every other tenant inherits.
           </p>
         </div>
-        <a href={r.link} target="_blank" rel="noreferrer" className="inline-flex min-h-6 items-center text-sm font-bold text-slate-100 underline decoration-slate-500 underline-offset-4 hover:decoration-slate-200">
-          Live reference site ↗
-        </a>
+        <ActionLink href={r.link} target="_blank">Live reference site</ActionLink>
       </header>
       <dl className="grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-[10rem_1fr]">
         {r.pillars.map((p) => (
