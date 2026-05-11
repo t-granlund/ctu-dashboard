@@ -60,10 +60,17 @@ export function ActionLink({ href, target = '_self', children }) {
 }
 
 // Minimal table primitive: header row in slate-400 caps, divided rows,
-// align-top cells. Caller controls columns & content.
+// align-top cells. Caller controls columns & content. The wrapper is
+// keyboard-focusable so scrollable tables stay usable without a mouse
+// (axe scrollable-region-focusable).
 export function MiniTable({ caption, columns, children, className = '' }) {
   return (
-    <div className={`overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/40 ${className}`}>
+    <div
+      tabIndex={0}
+      role="region"
+      aria-label={`${caption} table scroll area`}
+      className={`overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/40 ${className}`}
+    >
       <table className="min-w-full text-left text-sm">
         <caption className="sr-only">{caption}</caption>
         <thead>
@@ -98,5 +105,36 @@ export function SeverityDot({ severity, label }) {
       <span aria-hidden="true" style={{ background: color }} className="h-2 w-2 rounded-full" />
       {label ?? severity}
     </span>
+  );
+}
+
+// Status pill: neutral surface, ordinal dot, small uppercase label.
+// Used wherever the old design painted whole pills in green/amber/violet/blue.
+// Single accent color is reserved for the DCE star elsewhere; pills get only
+// a leading dot in the sequential ordinal palette.
+const STATUS_PILL_DOT = {
+  ok:      '#34d399', // green
+  warn:    '#fbbf24', // amber
+  blocked: '#fb7185', // rose
+  info:    '#94a3b8', // slate
+  pending: '#94a3b8', // slate (alias)
+};
+
+export function StatusPill({ tone = 'info', children }) {
+  const dot = STATUS_PILL_DOT[tone] ?? STATUS_PILL_DOT.info;
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-700 bg-slate-950/60 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-200">
+      <span aria-hidden="true" style={{ background: dot }} className="inline-block h-1.5 w-1.5 rounded-full" />
+      {children}
+    </span>
+  );
+}
+
+// Quote pull: monochrome blockquote for operating rules, principles.
+export function PullQuote({ children }) {
+  return (
+    <blockquote className="border-l-2 border-slate-600 pl-4 text-sm leading-6 italic text-slate-100">
+      {children}
+    </blockquote>
   );
 }

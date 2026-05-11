@@ -50,7 +50,10 @@ export function ProgressiveList({
 }
 
 export function ScanFirstGrid({ eyebrow = 'Scan first', title, summary, items, tone = 'cyan' }) {
+  // Neutral tone used by all the redesigned MSP-portal sections. Colored
+  // tones kept for the still-untouched older components.
   const tones = {
+    neutral: 'border-slate-800 bg-slate-900/40 text-slate-400',
     cyan: 'border-cyan-400/30 bg-cyan-500/10 text-cyan-300',
     green: 'border-green-400/30 bg-green-500/10 text-green-300',
     amber: 'border-amber-400/30 bg-amber-500/10 text-amber-300',
@@ -59,18 +62,18 @@ export function ScanFirstGrid({ eyebrow = 'Scan first', title, summary, items, t
   const toneClass = tones[tone] ?? tones.cyan;
 
   return (
-    <div className={`rounded-3xl border p-5 ${toneClass}`}>
+    <div className={`rounded-2xl border p-5 ${toneClass}`}>
       <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.25em]">{eyebrow}</p>
-          <h4 className="text-xl font-black text-white">{title}</h4>
+          <p className="text-xs font-bold uppercase tracking-[0.18em]">{eyebrow}</p>
+          <h4 className="text-xl font-bold text-white">{title}</h4>
         </div>
         {summary && <p className="max-w-2xl text-sm leading-6 text-slate-300">{summary}</p>}
       </div>
       <div className="grid gap-3 lg:grid-cols-3">
         {items.map((item, index) => (
-          <div key={item.title} className="rounded-2xl border border-slate-700/60 bg-slate-950/55 p-4">
-            <p className="mb-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
+          <div key={item.title} className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4">
+            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">
               {item.eyebrow ?? `Focus ${index + 1}`}
             </p>
             <p className="text-sm font-bold leading-6 text-white">{item.title}</p>
