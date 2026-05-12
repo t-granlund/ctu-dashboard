@@ -90,7 +90,6 @@ export default function MeganOverviewGuide() {
 
       <div className="mb-6">
         <ScanFirstGrid
-          tone="neutral"
           eyebrow="Scan first"
           title="What matters before the wall of detail"
           summary={guide.operatingModel.takeaway}

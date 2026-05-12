@@ -1,13 +1,15 @@
 const NAV_ITEMS = [
   { id: 'overview',    label: 'Executive Overview',  icon: '📊' },
-  { id: 'msp-review',  label: 'MSP Portal',           icon: '🤝' },
-  { id: 'findings',    label: 'Findings Explorer',   icon: '🔍' },
-  { id: 'tenants',     label: 'Tenant Deep Dives',   icon: '🏢' },
-  { id: 'guests',      label: 'Guest Inventory',     icon: '👥' },
-  { id: 'unknown',     label: 'Unknown Tenants',     icon: '⚠️' },
-  { id: 'compliance',  label: 'Compliance Matrix',   icon: '✅' },
-  { id: 'roadmap',     label: 'Roadmap & Gates',     icon: '🗺️' },
-  { id: 'positive',    label: "What's Working",      icon: '🌟' },
+  { id: 'msp-review',           label: 'MSP Portal',       icon: '🤝' },
+  { id: 'msp-action-register',  label: 'MSP Actions',      icon: '☑️' },
+  { id: 'msp-decisions',        label: 'MSP Decisions',    icon: '🧭' },
+  { id: 'findings',             label: 'Findings Explorer', icon: '🔍' },
+  { id: 'tenants',             label: 'Tenant Deep Dives', icon: '🏢' },
+  { id: 'guests',              label: 'Guest Inventory',   icon: '👥' },
+  { id: 'unknown',             label: 'Unknown Tenants',   icon: '⚠️' },
+  { id: 'compliance',          label: 'Compliance Matrix', icon: '✅' },
+  { id: 'roadmap',             label: 'Roadmap & Gates',   icon: '🗺️' },
+  { id: 'positive',            label: "What's Working",    icon: '🌟' },
 ];
 
 export default function Sidebar({ active, onNavigate }) {

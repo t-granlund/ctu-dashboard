@@ -7,6 +7,8 @@ import SourceTruthReview from './msp/SourceTruthReview';
 import PostCallSummary from './msp/PostCallSummary';
 import LifecycleWorkflow from './msp/LifecycleWorkflow';
 import ConfirmedContext from './msp/ConfirmedContext';
+import MspActionRegister from './msp/MspActionRegister';
+import MspDecisionRegister from './msp/MspDecisionRegister';
 import MeganResponseForm from './msp/MeganResponseForm';
 import AppRiverDeepDive from './msp/AppRiverDeepDive';
 import TenantFootprint from './msp/TenantFootprint';
@@ -58,6 +60,8 @@ export default function MSPWalkthrough() {
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold text-slate-200">
           {[
             ['May 7 working brief', '#section-may7-update'],
+            ['Action register', '#msp-action-register'],
+            ['Decisions', '#msp-decisions'],
             ['Lifecycle workflow', '#msp-lifecycle-workflow'],
             ['Megan questions', '#section-questions'],
             ['MSP escalation', '#psh-msp-escalation-view'],
@@ -73,6 +77,8 @@ export default function MSPWalkthrough() {
 
       <div className="space-y-16">
         <MaySevenUpdate />
+        <MspActionRegister />
+        <MspDecisionRegister />
         <LifecycleWorkflow />
         <MeganResponseForm onExport={exportMarkdown} />
         <PshMspEscalationView />

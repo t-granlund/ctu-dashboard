@@ -1,92 +1,27 @@
-import { useState } from 'react';
 import { maySevenUpdate } from '../../data/may-seven-update';
 import MeganWarRoomOverview from './MeganWarRoomOverview';
 import FirefliesDecision from './FirefliesDecision';
-import { Eyebrow, SectionHeader, MetaPair, SeverityDot } from './atoms';
+import { Eyebrow, SectionHeader, MetaPair, StatusPill } from './atoms';
 
-const SEVERITY_LABEL = { high: 'High', medium: 'Med', low: 'Low' };
-
-function buildActionRegister(update) {
-  return [
-    ...update.stillOwedByMegan.map((item) => ({ ...item, owner: 'Megan' })),
-    ...update.stillOwedByTyler.map((item) => ({ ...item, owner: 'Tyler' })),
-  ];
-}
-
-function ActionRow({ item }) {
+function RegisterLinks() {
   return (
-    <tr className="align-top">
-      <td className="px-5 py-3">
-        <SeverityDot severity={item.severity} label={SEVERITY_LABEL[item.severity] ?? item.severity} />
-      </td>
-      <td className="px-5 py-3">
-        <p className="text-sm font-bold leading-5 text-white">{item.text}</p>
-        <p className="mt-1 text-xs leading-5 text-slate-300">{item.decision}</p>
-      </td>
-      <td className="px-5 py-3 text-xs font-bold text-slate-200">{item.owner}</td>
-      <td className="px-5 py-3 text-xs font-bold uppercase tracking-[0.14em] tabular-nums text-slate-200">{item.target}</td>
-    </tr>
-  );
-}
-
-function ActionCard({ item }) {
-  return (
-    <article className="rounded-2xl border border-slate-800 bg-slate-900/40 p-4">
-      <div className="mb-2 flex items-center justify-between">
-        <SeverityDot severity={item.severity} label={SEVERITY_LABEL[item.severity] ?? item.severity} />
-        <span className="text-[11px] font-bold uppercase tracking-[0.14em] tabular-nums text-slate-300">{item.target}</span>
-      </div>
-      <p className="text-sm font-bold leading-5 text-white">{item.text}</p>
-      <p className="mt-1 text-xs leading-5 text-slate-300">{item.decision}</p>
-      <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-400">Owner · {item.owner}</p>
-    </article>
-  );
-}
-
-function ActionRegister({ items }) {
-  const [showAll, setShowAll] = useState(false);
-  const visible = showAll ? items : items.slice(0, 6);
-  const hidden = items.length - visible.length;
-
-  return (
-    <section className="mb-8 rounded-2xl border border-slate-800 bg-slate-900/40 p-6">
-      <SectionHeader
-        eyebrow="Working surface"
-        title="Action register"
-        sub="Top items first. Each row carries a real decision and a target."
-      />
-
-      <div tabIndex={0} aria-label="May 7 action register table scroll area" className="hidden overflow-x-auto rounded-2xl border border-slate-800 md:block">
-        <table className="min-w-full text-left text-sm">
-          <caption className="sr-only">May 7 action register</caption>
-          <thead>
-            <tr className="border-b border-slate-800 text-xs uppercase tracking-[0.14em] text-slate-400">
-              <th scope="col" className="w-[6rem] px-5 py-3 font-bold">Priority</th>
-              <th scope="col" className="px-5 py-3 font-bold">Item · Decision needed</th>
-              <th scope="col" className="w-[6rem] px-5 py-3 font-bold">Owner</th>
-              <th scope="col" className="w-[6rem] px-5 py-3 font-bold">Target</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-800/70">
-            {visible.map((item) => <ActionRow key={`${item.owner}-${item.text}`} item={item} />)}
-          </tbody>
-        </table>
-      </div>
-
-      <div className="space-y-3 md:hidden">
-        {visible.map((item) => <ActionCard key={`${item.owner}-${item.text}`} item={item} />)}
-      </div>
-
-      {items.length > 6 && (
-        <button
-          type="button"
-          aria-expanded={showAll}
-          onClick={() => setShowAll((value) => !value)}
-          className="mt-4 inline-flex min-h-10 items-center rounded-full border border-slate-700 bg-slate-900 px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-slate-200 hover:bg-slate-800"
-        >
-          {showAll ? 'Show top items only' : `Show ${hidden} more action${hidden === 1 ? '' : 's'}`}
-        </button>
-      )}
+    <section className="mb-8 grid gap-4 md:grid-cols-2">
+      <a href="#msp-action-register" className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5 transition hover:border-slate-600">
+        <Eyebrow>Working surface</Eyebrow>
+        <h3 className="mt-1 text-base font-bold text-white">Open the full Action Register</h3>
+        <p className="mt-2 text-sm leading-6 text-slate-300">
+          Owed-by-Megan and owed-by-Tyler work now lives as its own dashboard view instead of stretching the May 7 brief.
+        </p>
+        <span className="mt-3 inline-flex"><StatusPill tone="info">13 actions →</StatusPill></span>
+      </a>
+      <a href="#msp-decisions" className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5 transition hover:border-slate-600">
+        <Eyebrow>Decision register</Eyebrow>
+        <h3 className="mt-1 text-base font-bold text-white">Open Decisions & Horizon</h3>
+        <p className="mt-2 text-sm leading-6 text-slate-300">
+          The hero shows a five-item slice; this view carries the open decisions, agenda context, and structural dates.
+        </p>
+        <span className="mt-3 inline-flex"><StatusPill tone="info">7 decisions →</StatusPill></span>
+      </a>
     </section>
   );
 }
@@ -156,7 +91,7 @@ export default function MaySevenUpdate() {
     <div id="section-may7-update" className="scroll-mt-24">
       <MeganWarRoomOverview />
       <StatusStrip update={u} />
-      <ActionRegister items={buildActionRegister(u)} />
+      <RegisterLinks />
       <FirefliesDecision />
       <DeltaCrownSnapshot snapshot={u.deltaCrownStatus} />
     </div>

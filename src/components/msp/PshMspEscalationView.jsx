@@ -68,7 +68,6 @@ export default function PshMspEscalationView() {
 
       <div className="mb-6">
         <ScanFirstGrid
-          tone="neutral"
           eyebrow="Scan first"
           title="Why this matters in one screen"
           summary="Three operating outcomes. Routing rules and engineering shape live below for whoever wants the receipts."

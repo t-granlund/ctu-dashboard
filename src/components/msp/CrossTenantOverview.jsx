@@ -204,7 +204,7 @@ function DecisionsPending() {
         ))}
       </ol>
       {DECISIONS_PENDING.length > top.length && (
-        <a href="#section-may7-update" className="flex min-h-10 items-center border-t border-slate-800 px-5 py-3 text-xs font-bold uppercase tracking-[0.14em] text-slate-300 hover:text-white">
+        <a href="#msp-decisions" className="flex min-h-10 items-center border-t border-slate-800 px-5 py-3 text-xs font-bold uppercase tracking-[0.14em] text-slate-300 hover:text-white">
           See all {DECISIONS_PENDING.length} →
         </a>
       )}

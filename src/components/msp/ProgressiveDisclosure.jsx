@@ -49,20 +49,9 @@ export function ProgressiveList({
   );
 }
 
-export function ScanFirstGrid({ eyebrow = 'Scan first', title, summary, items, tone = 'cyan' }) {
-  // Neutral tone used by all the redesigned MSP-portal sections. Colored
-  // tones kept for the still-untouched older components.
-  const tones = {
-    neutral: 'border-slate-800 bg-slate-900/40 text-slate-400',
-    cyan: 'border-cyan-400/30 bg-cyan-500/10 text-cyan-300',
-    green: 'border-green-400/30 bg-green-500/10 text-green-300',
-    amber: 'border-amber-400/30 bg-amber-500/10 text-amber-300',
-    fuchsia: 'border-fuchsia-400/30 bg-fuchsia-500/10 text-fuchsia-300',
-  };
-  const toneClass = tones[tone] ?? tones.cyan;
-
+export function ScanFirstGrid({ eyebrow = 'Scan first', title, summary, items }) {
   return (
-    <div className={`rounded-2xl border p-5 ${toneClass}`}>
+    <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5 text-slate-400">
       <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em]">{eyebrow}</p>

@@ -88,7 +88,6 @@ export default function SourceTruthReview() {
 
       <div className="mb-6">
         <ScanFirstGrid
-          tone="neutral"
           eyebrow="Scan first"
           title="Source-truth reading order"
           summary="Use this section as provenance, not bedtime reading. Start with verdict, dependencies, and call framing; expand repo detail only when someone asks “where did that come from?”"

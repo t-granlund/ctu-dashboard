@@ -13,8 +13,8 @@ import MSPWalkthrough from './components/MSPWalkthrough';
 import ThemeToggle from './components/ThemeToggle';
 
 const SECTIONS = [
-  'overview', 'msp-review', 'findings', 'tenants', 'guests',
-  'unknown', 'compliance', 'roadmap', 'positive',
+  'overview', 'msp-review', 'msp-action-register', 'msp-decisions',
+  'findings', 'tenants', 'guests', 'unknown', 'compliance', 'roadmap', 'positive',
 ];
 const THEME_KEY = 'ctu-dashboard-theme';
 
