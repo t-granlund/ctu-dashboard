@@ -1,0 +1,24 @@
+{
+  "TenantKey": "FN",
+  "TenantName": "Frenchies Modern Nail Care",
+  "TenantId": "98723287-044b-4bbb-9294-19857d4128a0",
+  "Mode": "EXECUTE",
+  "Status": "CHANGED",
+  "Validated": true,
+  "Before": {
+    "allowInvitesFrom": "adminsGuestInvitersAndAllMembers",
+    "allowEmailVerifiedUsersToJoinOrganization": true
+  },
+  "Target": {
+    "allowInvitesFrom": "adminsAndGuestInviters",
+    "allowEmailVerifiedUsersToJoinOrganization": false
+  },
+  "After": {
+    "allowInvitesFrom": "adminsAndGuestInviters",
+    "allowEmailVerifiedUsersToJoinOrganization": false
+  },
+  "UxImpact": "No existing users, guests, memberships, sign-ins, Teams access, Conditional Access policies, or resources changed. Only future guest invitation/self-join behavior affected.",
+  "SnapshotBefore": "/Users/tygranlund/dev/03-personal/Cross-Tenant-Utility/scripts/remediation/../../reports/snapshots/2026-05-12_172825/B1_FN_authorizationPolicy_before.json",
+  "SnapshotAfter": "/Users/tygranlund/dev/03-personal/Cross-Tenant-Utility/scripts/remediation/../../reports/snapshots/2026-05-12_172825/B1_FN_authorizationPolicy_after.json",
+  "Timestamp": "2026-05-12T17:28:57Z"
+}

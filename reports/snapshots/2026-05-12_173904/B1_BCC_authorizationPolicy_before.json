@@ -1,0 +1,26 @@
+{
+  "guestUserRoleId": "10dae51f-b6af-4016-8d66-8c2a99b929b3",
+  "blockMsolPowerShell": false,
+  "allowedToUseSSPR": true,
+  "displayName": "Authorization Policy",
+  "allowUserConsentForRiskyApps": null,
+  "defaultUserRolePermissions": {
+    "allowedToCreateTenants": false,
+    "allowedToReadOtherUsers": true,
+    "allowedToCreateApps": true,
+    "allowedToReadBitlockerKeysForOwnedDevice": true,
+    "permissionGrantPoliciesAssigned": [
+      "ManagePermissionGrantsForOwnedResource.microsoft-dynamically-managed-permissions-for-chat",
+      "ManagePermissionGrantsForOwnedResource.microsoft-dynamically-managed-permissions-for-team",
+      "ManagePermissionGrantsForSelf.microsoft-user-default-recommended",
+      "ManagePermissionGrantsForSelf.microsoft-user-default-allow-consent-apps"
+    ],
+    "allowedToCreateSecurityGroups": true
+  },
+  "allowedToSignUpEmailBasedSubscriptions": true,
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#policies/authorizationPolicy/$entity",
+  "allowEmailVerifiedUsersToJoinOrganization": true,
+  "id": "authorizationPolicy",
+  "description": "Used to manage authorization related settings across the company.",
+  "allowInvitesFrom": "adminsGuestInvitersAndAllMembers"
+}

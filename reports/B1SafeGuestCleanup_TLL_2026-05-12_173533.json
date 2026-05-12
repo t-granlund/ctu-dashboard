@@ -1,0 +1,24 @@
+{
+  "TenantKey": "TLL",
+  "TenantName": "The Lash Lounge",
+  "TenantId": "3c7d2bf3-b597-4766-b5cb-2b489c2904d6",
+  "Mode": "EXECUTE",
+  "Status": "CHANGED",
+  "Validated": true,
+  "Before": {
+    "allowInvitesFrom": "everyone",
+    "allowEmailVerifiedUsersToJoinOrganization": true
+  },
+  "Target": {
+    "allowInvitesFrom": "adminsAndGuestInviters",
+    "allowEmailVerifiedUsersToJoinOrganization": false
+  },
+  "After": {
+    "allowInvitesFrom": "adminsAndGuestInviters",
+    "allowEmailVerifiedUsersToJoinOrganization": false
+  },
+  "UxImpact": "No existing users, guests, memberships, sign-ins, Teams access, Conditional Access policies, or resources changed. Only future guest invitation/self-join behavior affected.",
+  "SnapshotBefore": "/Users/tygranlund/dev/03-personal/Cross-Tenant-Utility/scripts/remediation/../../reports/snapshots/2026-05-12_173533/B1_TLL_authorizationPolicy_before.json",
+  "SnapshotAfter": "/Users/tygranlund/dev/03-personal/Cross-Tenant-Utility/scripts/remediation/../../reports/snapshots/2026-05-12_173533/B1_TLL_authorizationPolicy_after.json",
+  "Timestamp": "2026-05-12T17:36:15Z"
+}
