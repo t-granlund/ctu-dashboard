@@ -1,4 +1,5 @@
 const NAV_ITEMS = [
+  { id: 'insurance-evidence', label: 'Insurance Evidence', icon: '🛡️' },
   { id: 'overview',    label: 'Executive Overview',  icon: '📊' },
   { id: 'msp-review',           label: 'MSP Portal',       icon: '🤝' },
   { id: 'msp-action-register',  label: 'MSP Actions',      icon: '☑️' },
@@ -43,10 +44,10 @@ export default function Sidebar({ active, onNavigate }) {
       {/* Footer */}
       <div className="border-t border-slate-800 px-5 py-4">
         <p className="text-[10px] uppercase tracking-widest text-slate-600">
-          Phase 1 Audit · v1.1
+          Round-Table Review · v1.2
         </p>
         <p className="mt-0.5 text-[10px] text-slate-700">
-          Post-Call · MSP Portal Live
+          Phase 2 Ready · Insurance & Governance Track
         </p>
       </div>
     </aside>

@@ -57,6 +57,8 @@
 | CTU-026 | All guest accounts from untrusted domains (not in config.trustedDomains) MUST be reviewed and documented | GuestInventory module — domain trust validation | Phase 2 | P2-High | Guest inventory CSV flags all untrusted-domain guests; each is reviewed and either approved or scheduled for removal | TC-029 | ⬜ |
 | CTU-027 | Guest accounts with no sign-in activity for >90 days MUST be flagged for review | baseline.json — stale guest threshold | Phase 4 | P2-High | `guests_{tenant}.csv` output includes `isStale = true` column for guests exceeding 90-day threshold | TC-030, TC-031 | ⬜ |
 | CTU-028 | Guest accounts that have never signed in AND were created >90 days ago MUST be flagged as abandoned | GuestInventory module — never-signed-in check | Phase 2 | P2-High | Inventory report flags never-signed-in guests older than threshold with `status = "abandoned"` | TC-032 | ⬜ |
+| CTU-029a | AppRiver service principals MUST be disabled across HTT, FN, TLL (3 SPs × 3 tenants = 9 total) — migration to PAX8 complete | AppRiver migration confirmation (Apr 13 call); `reports/appriver-disable_2026-04-10_165012.json` | Phase 2 | P1-Critical | All 9 AppRiver SPs `accountEnabled = false` via Graph API; dashboard data layer updated to `enabled: false` | TC-032a | ✅ |
+| CTU-029b | Franworth partner policy and guest accounts MUST be removed from TLL and HTT | `reports/franworth-removal-executed.json`; comprehensive audit G1-2 gate | Phase 2 | P1-Critical | TLL partner policy for `248c9920` removed; 15 TLL + 4 HTT guest accounts disabled; audit-data.js Franworth entry marked `resolved: true` | TC-032b | ✅ |
 
 ---
 
@@ -203,7 +205,7 @@
 | P1-Critical | 42 | Default policy, partner scoping, MFA enforcement, no privileged guests, brand groups, cross-project non-regression, audit read-only, gates, **execution sequencing, rollback capability, emergency access, spoke-side policies, sync re-provision** |
 | P2-High | 32 | Identity sync, Teams federation, stale guests, CA controls, attributes, monitoring, script standards, **credential deprecation, before-state capture, MTO evaluation** |
 | P3-Medium | 2 | Device compliance trust, minor policy settings |
-| **Total** | **76** | **13 sections across Phases 0–5 + cross-project integration + ADR-001 findings** |
+| | **Total** | **78** | **13 sections across Phases 0–5 + cross-project integration + ADR-001 findings** |
 
 ---
 
@@ -224,8 +226,8 @@
 | TC-101 — TC-107 | Cross-Project Integration | 7 |
 | TC-110 — TC-114 | Stakeholder Gates | 5 |
 | TC-120 — TC-131 | ADR-001 Architecture & Code Review | 12 |
-| **Total** | | **108 test cases** |
+| **Total** | | **110 test cases** |
 
 ---
 
-*RTM Version 1.1 — Updated with ADR-001 findings — Tyler Granlund, IT Director*
+*RTM Version 1.2 — Updated with ADR-001 findings + AppRiver/Franworth completion backfill (2026-05-12) — Tyler Granlund, IT Director*

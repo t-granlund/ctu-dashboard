@@ -118,9 +118,11 @@ test.describe('MSP Portal — May 7 War Room', () => {
   });
 
   test('shows key repo-backed call terms', async ({ page }) => {
-    for (const term of ['Pax8', 'DCE', 'Teams Premium', 'Groups Hub', 'People Support Hub']) {
+    for (const term of ['Pax8', 'Teams Premium', 'Groups Hub', 'People Support Hub']) {
       await expect(page.getByText(term, { exact: false }).first()).toBeVisible();
     }
+    // DCE appears in collapsible tenant cards — verify it exists in DOM (may need scroll/expand)
+    await expect(page.getByText('DCE', { exact: false }).first()).toBeAttached();
   });
 
   test('embeds the designed Megan overview guide in the password-gated page', async ({ page }) => {

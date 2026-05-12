@@ -187,6 +187,68 @@
     color: #0f172a !important;
   }
 
+  /* ── Severity color preservation ──────────────────────────
+     The flattening above destroys semantic color encoding:
+     critical=red, pass=green, warning=amber all become #0f172a.
+     These higher-specificity overrides restore light-mode tints
+     for elements that encode severity. */
+  html[data-theme="light"] .text-red-400,
+  html[data-theme="light"] .text-red-500,
+  html[data-theme="light"] .text-rose-400,
+  html[data-theme="light"] .text-rose-500 {
+    color: #dc2626 !important;
+  }
+  html[data-theme="light"] .text-green-400,
+  html[data-theme="light"] .text-green-500,
+  html[data-theme="light"] .text-emerald-400,
+  html[data-theme="light"] .text-emerald-500 {
+    color: #16a34a !important;
+  }
+  html[data-theme="light"] .text-amber-400,
+  html[data-theme="light"] .text-amber-500,
+  html[data-theme="light"] .text-yellow-400,
+  html[data-theme="light"] .text-yellow-500 {
+    color: #d97706 !important;
+  }
+  html[data-theme="light"] .text-cyan-400,
+  html[data-theme="light"] .text-cyan-500 {
+    color: #0891b2 !important;
+  }
+  html[data-theme="light"] .text-fuchsia-400,
+  html[data-theme="light"] .text-fuchsia-500 {
+    color: #c026d3 !important;
+  }
+  html[data-theme="light"] .text-violet-400,
+  html[data-theme="light"] .text-violet-500 {
+    color: #7c3aed !important;
+  }
+
+  /* Background severity tints — restore light-mode colored panels */
+  html[data-theme="light"] [class*="bg-green-500/10"],
+  html[data-theme="light"] [class*="bg-green-500/15"] {
+    background-color: #f0fdf4 !important;
+  }
+  html[data-theme="light"] [class*="bg-amber-500/10"],
+  html[data-theme="light"] [class*="bg-amber-500/15"] {
+    background-color: #fffbeb !important;
+  }
+  html[data-theme="light"] [class*="bg-rose-500/10"],
+  html[data-theme="light"] [class*="bg-rose-500/15"] {
+    background-color: #fff1f2 !important;
+  }
+  html[data-theme="light"] [class*="bg-cyan-500/10"],
+  html[data-theme="light"] [class*="bg-cyan-500/15"] {
+    background-color: #ecfeff !important;
+  }
+  html[data-theme="light"] [class*="bg-fuchsia-500/10"],
+  html[data-theme="light"] [class*="bg-fuchsia-500/15"] {
+    background-color: #fdf4ff !important;
+  }
+  html[data-theme="light"] [class*="bg-violet-500/10"],
+  html[data-theme="light"] [class*="bg-violet-500/15"] {
+    background-color: #f5f3ff !important;
+  }
+
   html[data-theme="light"] a,
   html[data-theme="light"] button:not([class*="bg-"]) {
     color: #0f172a !important;

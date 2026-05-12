@@ -18,9 +18,9 @@ export const TENANT_NAMES = {
 export const mspServicePrincipals = {
   HTT: [
     { name: "Pax8", appId: "96b1dd76-7698-438b-9565-2e268be9ea34", owner: "Sui Generis Incorporated", ownerTenantId: "daee2992-bedc-4b96-840d-3cb1ffa89d10", type: "Application", enabled: true, created: "2026-03-10" },
-    { name: "Office 365 Security Audit App", appId: "7aecb184-3fb1-437b-abc5-a995e972fe1f", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: true, created: "2025-12-22" },
-    { name: "Office365 Integration", appId: "bee5026c-2493-4557-bc21-ccef515d9e61", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: true, created: "2025-12-22" },
-    { name: "PshellTools", appId: "cc695ec2-07c4-454b-95bc-418f5a8047fc", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: true, created: "2025-12-22" },
+    { name: "Office 365 Security Audit App", appId: "7aecb184-3fb1-437b-abc5-a995e972fe1f", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: false, created: "2025-12-22", disabledDate: "2026-04-10", note: "✅ Disabled — AppRiver migration complete (reports/appriver-disable_2026-04-10_165012.json)" },
+    { name: "Office365 Integration", appId: "bee5026c-2493-4557-bc21-ccef515d9e61", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: false, created: "2025-12-22", disabledDate: "2026-04-10", note: "✅ Disabled — AppRiver migration complete (reports/appriver-disable_2026-04-10_165012.json)" },
+    { name: "PshellTools", appId: "cc695ec2-07c4-454b-95bc-418f5a8047fc", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: false, created: "2025-12-22", disabledDate: "2026-04-10", note: "✅ Disabled — AppRiver migration complete (reports/appriver-disable_2026-04-10_165012.json)" },
     { name: "TD SYNNEX StreamOne Integration", appId: "b1e905bb-9f3c-4c24-b719-d20dcb725847", owner: "TD SYNNEX US (Stellr)", ownerTenantId: "ff1b2576-d461-4916-97dc-7ada1cd798dc", type: "Application", enabled: true, created: "2024-08-12" },
     { name: "Riverside-Capital-PE-Governance-Platform", appId: "1e3e8417-49f1-4d08-b7be-47045d8a12e9", owner: "HTT Brands (self)", ownerTenantId: "0c0e35dc-188a-4eb3-b8ba-61752154b407", type: "Application", enabled: true, created: "2026-03-02" },
   ],
@@ -30,17 +30,17 @@ export const mspServicePrincipals = {
   ],
   FN: [
     { name: "Pax8", appId: "96b1dd76-7698-438b-9565-2e268be9ea34", owner: "Sui Generis Incorporated", ownerTenantId: "daee2992-bedc-4b96-840d-3cb1ffa89d10", type: "Application", enabled: true, created: "2026-03-10" },
-    { name: "Office 365 Security Audit App", appId: "7aecb184-3fb1-437b-abc5-a995e972fe1f", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: true, created: "2025-12-22" },
-    { name: "Office365 Integration", appId: "bee5026c-2493-4557-bc21-ccef515d9e61", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: true, created: "2025-12-22" },
-    { name: "PshellTools", appId: "cc695ec2-07c4-454b-95bc-418f5a8047fc", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: true, created: "2025-12-22" },
+    { name: "Office 365 Security Audit App", appId: "7aecb184-3fb1-437b-abc5-a995e972fe1f", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: false, created: "2025-12-22", disabledDate: "2026-04-10", note: "✅ Disabled — AppRiver migration complete (reports/appriver-disable_2026-04-10_165012.json)" },
+    { name: "Office365 Integration", appId: "bee5026c-2493-4557-bc21-ccef515d9e61", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: false, created: "2025-12-22", disabledDate: "2026-04-10", note: "✅ Disabled — AppRiver migration complete (reports/appriver-disable_2026-04-10_165012.json)" },
+    { name: "PshellTools", appId: "cc695ec2-07c4-454b-95bc-418f5a8047fc", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: false, created: "2025-12-22", disabledDate: "2026-04-10", note: "✅ Disabled — AppRiver migration complete (reports/appriver-disable_2026-04-10_165012.json)" },
     { name: "Riverside-Capital-PE-Governance-Platform", appId: "1e3e8417-49f1-4d08-b7be-47045d8a12e9", owner: "HTT Brands", ownerTenantId: "0c0e35dc-188a-4eb3-b8ba-61752154b407", type: "Application", enabled: true, created: "2026-03-30" },
     { name: "Riverside-Governance-FN", appId: "f8c42d91-6e23-4c1a-a7de-8bb5c2d44f10", owner: "FN (self)", ownerTenantId: "98723287-044b-4bbb-9294-19857d4128a0", type: "Application", enabled: true, created: "2026-03-04" },
   ],
   TLL: [
     { name: "Pax8", appId: "96b1dd76-7698-438b-9565-2e268be9ea34", owner: "Sui Generis Incorporated", ownerTenantId: "daee2992-bedc-4b96-840d-3cb1ffa89d10", type: "Application", enabled: true, created: "2026-03-10" },
-    { name: "Office 365 Security Audit App", appId: "7aecb184-3fb1-437b-abc5-a995e972fe1f", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: true, created: "2025-12-22" },
-    { name: "Office365 Integration", appId: "bee5026c-2493-4557-bc21-ccef515d9e61", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: true, created: "2025-12-22" },
-    { name: "PshellTools", appId: "cc695ec2-07c4-454b-95bc-418f5a8047fc", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: true, created: "2025-12-22" },
+    { name: "Office 365 Security Audit App", appId: "7aecb184-3fb1-437b-abc5-a995e972fe1f", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: false, created: "2025-12-22", disabledDate: "2026-04-10", note: "✅ Disabled — AppRiver migration complete (reports/appriver-disable_2026-04-10_165012.json)" },
+    { name: "Office365 Integration", appId: "bee5026c-2493-4557-bc21-ccef515d9e61", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: false, created: "2025-12-22", disabledDate: "2026-04-10", note: "✅ Disabled — AppRiver migration complete (reports/appriver-disable_2026-04-10_165012.json)" },
+    { name: "PshellTools", appId: "cc695ec2-07c4-454b-95bc-418f5a8047fc", owner: "AppRiver", ownerTenantId: "d5e2dca7-948b-4e7c-9d9e-af97e9ca0f92", type: "Application", enabled: false, created: "2025-12-22", disabledDate: "2026-04-10", note: "✅ Disabled — AppRiver migration complete (reports/appriver-disable_2026-04-10_165012.json)" },
     { name: "TD SYNNEX StreamOne Integration", appId: "b1e905bb-9f3c-4c24-b719-d20dcb725847", owner: "TD SYNNEX US (SCM)", ownerTenantId: "d5c77776-8b4c-4ceb-81da-566aba9c59c5", type: "Application", enabled: true, created: "2024-09-15" },
     { name: "Ingram-Micro-LicenseManager", appId: "d4e56789-1234-5678-9abc-def012345678", owner: "Ingram Micro Inc", ownerTenantId: "a27ac673-9a4c-446c-bd28-280c0bf7cf71", type: "Application", enabled: true, created: "2023-11-20" },
     { name: "Riverside-Capital-PE-Governance-Platform", appId: "1e3e8417-49f1-4d08-b7be-47045d8a12e9", owner: "HTT Brands", ownerTenantId: "0c0e35dc-188a-4eb3-b8ba-61752154b407", type: "Application", enabled: true, created: "2026-03-30" },
@@ -620,7 +620,7 @@ export const azureBilling = {
 
 // ── Cyber Insurance Gaps ────────────────────────────────────
 export const cyberInsuranceGaps = {
-  auditDate: "2026-03-10",
+  auditDate: "2026-05-12",
   overallVerdict: "Zero insurance controls can be marked YES with full confidence across all 5 tenants",
   gaps: [
     {
@@ -637,9 +637,9 @@ export const cyberInsuranceGaps = {
     {
       control: "EDR / Endpoint Protection",
       status: [
-        { tenant: "ALL", status: "verify", note: "Sui Generis uses Atera (RMM) for device management. Need to verify if Atera includes EDR/endpoint protection or if separate." },
+        { tenant: "ALL", status: "verify", note: "ThreatDown confirmed as EDR (Apr 13). Gap: IT Director + 1 admin + personal-computer list not covered. Coverage % unknown." },
       ],
-      needFromMSP: "Does Atera include EDR? Or is there a separate EDR solution (Defender for Endpoint, SentinelOne, CrowdStrike)?",
+      needFromMSP: "ThreatDown coverage percentage per tenant. Remediation plan for uncovered endpoints (Tyler, Dustin, personal-computer users).",
     },
     {
       control: "Device Management (RMM)",
@@ -651,17 +651,17 @@ export const cyberInsuranceGaps = {
     {
       control: "M365 Backup",
       status: [
-        { tenant: "ALL", status: "fail", note: "No backup solution for Exchange, SharePoint, OneDrive, Teams" },
+        { tenant: "ALL", status: "fail", note: "No paid backup for Exchange, SharePoint, OneDrive, Teams (confirmed Apr 13). Only native versioning exists." },
       ],
-      needFromMSP: "Does Sui Generis provide M365 backup? (Veeam, Datto SaaS Protection, etc.)",
+      needFromMSP: "Backup pricing from Sui Generis (Datto, Veeam, AvePoint, or preferred option). Expected by May 14.",
     },
     {
       control: "Security Awareness Training",
       status: [
         { tenant: "HTT", status: "fail", note: "Had KnowBe4 under Logically — dropped when moved to Sui Generis" },
-        { tenant: "ALL", status: "fail", note: "No phishing simulations or security training active" },
+        { tenant: "ALL", status: "fail", note: "No phishing simulations or security training active. Sui Generis willing to provide (Apr 13). Pricing expected by May 21." },
       ],
-      needFromMSP: "Can Sui Generis provide phishing simulation / training? Or should HTT self-manage?",
+      needFromMSP: "Phishing simulation / security awareness training pricing. Megan confirmed willingness to provide. Expected by May 21.",
     },
     {
       control: "Password Policy",
@@ -739,10 +739,10 @@ export const callAgenda = [
 ];
 
 export const callActionItems = [
-  { owner: "Tyler", action: "Disable 3 AppRiver SPs in HTT, FN, TLL", priority: "immediate", status: "ready", note: "✅ Done — all 9 SPs disabled across HTT, FN, TLL" },
+  { owner: "Tyler", action: "Disable 3 AppRiver SPs in HTT, FN, TLL", priority: "immediate", status: "complete", note: "✅ Done — all 9 SPs disabled across HTT, FN, TLL", verificationNote: "Dashboard data updated to enabled:false. Needs Graph API verification (bd issue B2) to confirm live-tenant state matches." },
   { owner: "Tyler", action: "Cancel duplicate P2 licenses on BCC and FN (Eric Canfield purchases)", priority: "this-week", status: "ready" },
-  { owner: "Tyler", action: "Re-run CA/MFA audit on DCE and FN (stale data — Megan already deployed)", priority: "this-week", status: "ready", note: "✅ Done — DCE has 3 CA policies, FN has 2. FN still missing external MFA." },
-  { owner: "Tyler", action: "Send Megan link to hosted MSP review dashboard for her to fill in answers", priority: "this-week", status: "ready", note: "✅ Done — email sent with link + passphrase" },
+  { owner: "Tyler", action: "Re-run CA/MFA audit on DCE and FN (stale data — Megan already deployed)", priority: "this-week", status: "complete", note: "✅ Done — DCE has 3 CA policies, FN has 2. FN still missing external MFA." },
+  { owner: "Tyler", action: "Send Megan link to hosted MSP review dashboard for her to fill in answers", priority: "this-week", status: "complete", note: "✅ Done — email sent with link + passphrase" },
   { owner: "Tyler", action: "Present Delta Crown SharePoint hub-and-spoke layout to Megan + Kristen", priority: "next-week", status: "pending" },
   { owner: "Tyler", action: "Look up DUNS number for Delta Crown (Apple Business Manager setup)", priority: "next-week", status: "pending" },
   { owner: "Tyler", action: "Research Apple's new free enterprise MDM tool", priority: "next-week", status: "pending" },

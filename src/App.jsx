@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import PasswordGate from './components/PasswordGate';
 import Sidebar from './components/Sidebar';
+import InsuranceEvidence from './components/InsuranceEvidence';
 import ExecutiveOverview from './components/ExecutiveOverview';
 import FindingsExplorer from './components/FindingsExplorer';
 import TenantDeepDive from './components/TenantDeepDive';
@@ -101,7 +102,7 @@ export default function App() {
           <header className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-slate-600">
-                Cross-Tenant Utility · Phase 1 Audit Report
+                Cross-Tenant Utility · Round-Table Review
               </p>
               <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-white lg:text-3xl">
                 Identity Governance Dashboard
@@ -114,6 +115,7 @@ export default function App() {
           </header>
 
           <div className="space-y-20">
+            <InsuranceEvidence />
             <ExecutiveOverview />
             <MSPWalkthrough />
             <FindingsExplorer />
@@ -126,7 +128,7 @@ export default function App() {
           </div>
 
           <footer className="mt-20 border-t border-slate-800 py-8 text-center text-xs text-slate-600">
-            <p>CTU Dashboard v1.0 · Phase 1 Audit Snapshot · HTT Brands</p>
+            CTU Dashboard v1.2 · Round-Table Review · HTT Brands
             <p className="mt-1">
               For Tyler Granlund (IT Director) &amp; Dustin Boyd (IT Operations &amp; Support Lead)
             </p>
