@@ -5,6 +5,7 @@
 
 # Audit reports contain sensitive tenant data
 reports/
+enterprise-apps/
 
 # KQL queries may be generated locally
 monitoring/kql/
