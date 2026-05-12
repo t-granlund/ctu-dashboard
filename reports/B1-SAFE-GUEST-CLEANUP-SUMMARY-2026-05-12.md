@@ -28,7 +28,7 @@ No Conditional Access, MFA enforcement, Teams federation, SharePoint, Exchange, 
 | FN | `adminsGuestInvitersAndAllMembers` | `adminsAndGuestInviters` | `True` | `False` | ✅ | Fully remediated |
 | HTT | `everyone` | `adminsAndGuestInviters` | `True` | `False` | ✅ | Fully remediated |
 | TLL | `everyone` | `adminsAndGuestInviters` | `True` | `False` | ✅ | Fully remediated |
-| BCC | `adminsGuestInvitersAndAllMembers` | `adminsGuestInvitersAndAllMembers` | `True` | `False` | ⚠️ Partial | Self-join disabled. Invite restriction did not tighten to target; retry auth timed out twice. |
+| BCC | `adminsGuestInvitersAndAllMembers` | `adminsAndGuestInviters` | `True` | `False` | ✅ | Fully remediated after follow-up auth/run. |
 
 ---
 
@@ -63,17 +63,13 @@ Before/after snapshots were written under `reports/snapshots/2026-05-12_*`.
 
 ## Follow-Up
 
-BCC remains partially remediated:
+The safe B1 subset is now complete across all 5 tenants.
 
-- ✅ `allowEmailVerifiedUsersToJoinOrganization = false`
-- ⚠️ `allowInvitesFrom = adminsGuestInvitersAndAllMembers`
+Remaining Phase 2 quick wins were intentionally not executed in this pass because they need separate user-experience and operational impact review:
 
-This is still safer than the original `everyone` setting, but it does not match the CTU target of `adminsAndGuestInviters`.
+- QW2 — guest role hardening
+- QW4 — Teams consumer access disabled
+- QW5 — Teams trial tenant federation disabled
+- QW6 — external-user MFA CA policy in report-only
 
-Recommended follow-up:
-
-```powershell
-pwsh ./scripts/remediation/Invoke-B1SafeGuestCleanup.ps1 -TenantKey BCC -Execute
-```
-
-Run when Tyler is ready to complete BCC device-code authentication within the 120-second window.
+These should be handled in a separate change window with explicit pre/post validation.

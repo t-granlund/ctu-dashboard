@@ -1,0 +1,24 @@
+{
+  "TenantKey": "BCC",
+  "TenantName": "Bishops Cuts/Color",
+  "TenantId": "b5380912-79ec-452d-a6ca-6d897b19b294",
+  "Mode": "EXECUTE",
+  "Status": "CHANGED",
+  "Validated": true,
+  "Before": {
+    "allowInvitesFrom": "adminsGuestInvitersAndAllMembers",
+    "allowEmailVerifiedUsersToJoinOrganization": false
+  },
+  "Target": {
+    "allowInvitesFrom": "adminsAndGuestInviters",
+    "allowEmailVerifiedUsersToJoinOrganization": false
+  },
+  "After": {
+    "allowInvitesFrom": "adminsAndGuestInviters",
+    "allowEmailVerifiedUsersToJoinOrganization": false
+  },
+  "UxImpact": "No existing users, guests, memberships, sign-ins, Teams access, Conditional Access policies, or resources changed. Only future guest invitation/self-join behavior affected.",
+  "SnapshotBefore": "/Users/tygranlund/dev/03-personal/Cross-Tenant-Utility/scripts/remediation/../../reports/snapshots/2026-05-12_180216/B1_BCC_authorizationPolicy_before.json",
+  "SnapshotAfter": "/Users/tygranlund/dev/03-personal/Cross-Tenant-Utility/scripts/remediation/../../reports/snapshots/2026-05-12_180216/B1_BCC_authorizationPolicy_after.json",
+  "Timestamp": "2026-05-12T18:02:46Z"
+}
